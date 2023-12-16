@@ -49,6 +49,16 @@ public class InterfaceCliente extends JPanel implements ActionListener {
         btnLoja.addActionListener(this);
         add(btnLoja);
 
+        tabelaCliente=new TabelaCliente();
+        tabelaCliente.setBounds(panelPlaylists.getX()+panelPlaylists.getWidth()+resizeWidth(25),panelPlaylists.getY(),resizeWidth(465),panelPlaylists.getHeight());
+        add(tabelaCliente);
+
+        Font font3=new Font("SansSerif",Font.BOLD,13);
+        lblTabela=new JLabel("Biblioteca de músicas:");
+        lblTabela.setFont(font3);
+        lblTabela.setBounds(tabelaCliente.getX(),lblUser.getY(),resizeWidth(140),lblUser.getHeight());
+        add(lblTabela);
+
         Font font2=new Font("SansSerif",Font.BOLD | Font.ITALIC,13);
         radioBtnMusicas=new JRadioButton("Músicas");
         radioBtnPlaylists=new JRadioButton("Playlists");
@@ -56,7 +66,7 @@ public class InterfaceCliente extends JPanel implements ActionListener {
         radioBtnPlaylists.setFont(font2);
         radioBtnMusicas.setOpaque(false);
         radioBtnPlaylists.setOpaque(false);
-        radioBtnMusicas.setBounds(panelPlaylists.getX()+panelPlaylists.getWidth()+resizeWidth(40),panelPlaylists.getY()+panelPlaylists.getHeight()+resizeHeight(5),resizeWidth(80),resizeHeight(25));
+        radioBtnMusicas.setBounds(lblTabela.getX()+resizeWidth(70),lblTabela.getY(),resizeWidth(80),resizeHeight(25));
         radioBtnPlaylists.setBounds(radioBtnMusicas.getX()+radioBtnMusicas.getWidth()+resizeWidth(10),radioBtnMusicas.getY(),resizeWidth(80),resizeHeight(25));
         radioBtnMusicas.setSelected(true);
         add(radioBtnMusicas);
@@ -87,19 +97,7 @@ public class InterfaceCliente extends JPanel implements ActionListener {
         add(btnCarregar);
         btnCarregar.addActionListener(this);
 
-        tabelaCliente=new TabelaCliente();
-        tabelaCliente.setBounds(panelPlaylists.getX()+panelPlaylists.getWidth()+resizeWidth(25),panelPlaylists.getY(),resizeWidth(465),panelPlaylists.getHeight());
-        add(tabelaCliente);
-
-        Font font3=new Font("SansSerif",Font.BOLD,13);
-        lblTabela=new JLabel("Biblioteca de músicas:");
-        lblTabela.setFont(font3);
-        lblTabela.setBounds(tabelaCliente.getX(),lblUser.getY(),resizeWidth(200),lblUser.getHeight());
-        add(lblTabela);
-
-
         panelPlaylists.getBtnBiblioteca().addActionListener(this);
-
     }
 
     private int resizeWidth(int width ){
@@ -190,11 +188,13 @@ public class InterfaceCliente extends JPanel implements ActionListener {
             radioBtnPlaylists.setVisible(true);
             radioBtnMusicas.setVisible(true);
             lblTabela.setText("Loja:");
+            lblTabela.setBounds(lblTabela.getX(),lblTabela.getY(),resizeWidth(60),lblUser.getHeight());
         }
         else if(clicked==panelPlaylists.getBtnBiblioteca()){
             radioBtnMusicas.setVisible(false);
             radioBtnPlaylists.setVisible(false);
             lblTabela.setText("Biblioteca de músicas:");
+            lblTabela.setBounds(lblTabela.getX(),lblTabela.getY(),resizeWidth(140),lblUser.getHeight());
         }
     }
 
