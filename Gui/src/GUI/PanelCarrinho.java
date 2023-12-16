@@ -12,12 +12,8 @@ public class PanelCarrinho extends JPanel {
     private JPanel filtros;
 
     public PanelCarrinho(){
-        float[] cor =new float[3];
-        cor=Color.RGBtoHSB(155,223,243,cor);
-        setBackground(Color.getHSBColor(cor[0],cor[1],cor[2]));
-
+        mudarCorRGB(this,155,223,243);
         setLayout(null);
-
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
         setSize(resizeWidth(200),resizeHeight(400));
 
@@ -73,5 +69,10 @@ public class PanelCarrinho extends JPanel {
         int heightAtualizada;
         heightAtualizada=(int)(height*ecra.getHeight())/864;
         return heightAtualizada;
+    }
+
+    private void mudarCorRGB(Component componente,int red,int green,int blue){ float[] cor = new float[3];
+        cor = Color.RGBtoHSB(red, green, blue, cor);
+        componente.setBackground(Color.getHSBColor(cor[0], cor[1], cor[2]));
     }
 }

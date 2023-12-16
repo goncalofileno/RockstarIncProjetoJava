@@ -19,11 +19,7 @@ public class LoginPin extends JPanel implements MouseListener, ActionListener {
     private Border border;
 
     public LoginPin(){
-        float[] cor =new float[3];
-        cor=Color.RGBtoHSB(50,126,154,cor);
-        setBackground(Color.getHSBColor(cor[0],cor[1],cor[2]));
-
-
+        mudarCorRGB(this,50,126,154);
         setLayout(null);
         Font font=new Font("SansSerif",Font.BOLD,13);
         lblPin=new JLabel("Pin:");
@@ -46,15 +42,13 @@ public class LoginPin extends JPanel implements MouseListener, ActionListener {
         btnValidar=new JButton("Validar");
         btnValidar.setFont(font);
         btnValidar.setBounds(resizeWidth(80),resizeHeight(100),resizeWidth(90),resizeHeight(40));
-        float[] cor2 =new float[3];
-        cor2=Color.RGBtoHSB(170,210,220,cor2);
-        btnValidar.setBackground(Color.getHSBColor(cor2[0],cor2[1],cor2[2]));
+        mudarCorRGB(btnValidar,170,210,220);
         btnValidar.addMouseListener(this);
         add(btnValidar);
 
         checkPin=new JCheckBox();
         checkPin.setBounds(pin.getX()+pin.getWidth()+resizeWidth(5),pin.getY(),resizeWidth(20),resizeHeight(20));
-        checkPin.setBackground(Color.getHSBColor(cor[0],cor[1],cor[2]));
+        mudarCorRGB(checkPin,50,126,154);
         checkPin.addActionListener(this);
         add(checkPin);
 
@@ -123,5 +117,10 @@ public class LoginPin extends JPanel implements MouseListener, ActionListener {
         int heightAtualizada;
         heightAtualizada=(int)(height*ecra.getHeight())/864;
         return heightAtualizada;
+    }
+
+    private void mudarCorRGB(Component componente,int red,int green,int blue){ float[] cor = new float[3];
+        cor = Color.RGBtoHSB(red, green, blue, cor);
+        componente.setBackground(Color.getHSBColor(cor[0], cor[1], cor[2]));
     }
 }

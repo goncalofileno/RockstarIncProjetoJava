@@ -30,9 +30,7 @@ public class LoginPanel extends JPanel implements MouseListener, ActionListener 
         lblEmpresa.setBounds(resizeWidth(175),resizeHeight(10),resizeWidth(200),resizeHeight(50));
         add(lblEmpresa);
 
-        float[] cor =new float[3];
-        cor=Color.RGBtoHSB(51,153,153,cor);
-        setBackground(Color.getHSBColor(cor[0],cor[1],cor[2]));
+        mudarCorRGB(this,51,153,153);
 
         Font font=new Font("SansSerif",Font.BOLD,13);
         lblUsername=new JLabel("Username: ");
@@ -68,7 +66,7 @@ public class LoginPanel extends JPanel implements MouseListener, ActionListener 
         add(txtPass);
 
         checkPass.setBounds(txtPass.getX()+ txtPass.getWidth()+resizeWidth(5), txtPass.getY(),resizeWidth(20),resizeWidth(20));
-        checkPass.setBackground(Color.getHSBColor(cor[0],cor[1],cor[2]));
+        mudarCorRGB(checkPass,51,153,153);
         checkPass.addActionListener(this);
         add(checkPass);
 
@@ -78,15 +76,13 @@ public class LoginPanel extends JPanel implements MouseListener, ActionListener 
         btnLogin=new JButton("Login");
         btnLogin.setFont(font);
         btnLogin.setBounds(resizeWidth(140),resizeHeight(210),resizeWidth(90),resizeHeight(40));
-        float[] cor2 =new float[3];
-        cor2=Color.RGBtoHSB(170,210,220,cor2);
-        btnLogin.setBackground(Color.getHSBColor(cor2[0],cor2[1],cor2[2]));
+        mudarCorRGB(btnLogin,170,210,220);
         btnLogin.addMouseListener(this);
 
         btnRegisto=new JButton("Registo");
         btnRegisto.setFont(font);
         btnRegisto.setBounds(btnLogin.getX()+btnLogin.getWidth()+resizeWidth(30),btnLogin.getY(),btnLogin.getWidth(),btnLogin.getHeight());
-        btnRegisto.setBackground(Color.getHSBColor(cor2[0],cor2[1],cor2[2]));
+        mudarCorRGB(btnRegisto,170,210,220);
         btnRegisto.addMouseListener(this);
 
         add(btnLogin);
@@ -137,46 +133,37 @@ public class LoginPanel extends JPanel implements MouseListener, ActionListener 
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        float[] cor2 =new float[3];
-        cor2=Color.RGBtoHSB(170,210,220,cor2);
-
         Object clicked=e.getSource();
 
         if (clicked==btnLogin){
-            btnLogin.setBackground(Color.getHSBColor(cor2[0],cor2[1],cor2[2]));
+            mudarCorRGB(btnLogin,170,210,220);
         }
         else if (clicked==btnRegisto){
-            btnRegisto.setBackground(Color.getHSBColor(cor2[0],cor2[1],cor2[2]));
+            mudarCorRGB(btnRegisto,170,210,220);
         }
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        float[] cor3 =new float[3];
-        cor3=Color.RGBtoHSB(100,130,140,cor3);
-
         Object clicked=e.getSource();
 
         if (clicked==btnLogin){
-            btnLogin.setBackground(Color.getHSBColor(cor3[0],cor3[1],cor3[2]));
+            mudarCorRGB(btnLogin,100,130,140);
         }
         else if (clicked==btnRegisto){
-            btnRegisto.setBackground(Color.getHSBColor(cor3[0],cor3[1],cor3[2]));
+            mudarCorRGB(btnRegisto,100,130,140);
         }
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        float[] cor2 =new float[3];
-        cor2=Color.RGBtoHSB(170,210,220,cor2);
-
         Object clicked=e.getSource();
 
         if (clicked==btnLogin){
-            btnLogin.setBackground(Color.getHSBColor(cor2[0],cor2[1],cor2[2]));
+            mudarCorRGB(btnLogin,170,210,220);
         }
         else if (clicked==btnRegisto){
-            btnRegisto.setBackground(Color.getHSBColor(cor2[0],cor2[1],cor2[2]));
+            mudarCorRGB(btnRegisto,170,210,220);
         }
 
     }
@@ -212,9 +199,11 @@ public class LoginPanel extends JPanel implements MouseListener, ActionListener 
         heightAtualizada=(int)(height*ecra.getHeight())/864;
         return heightAtualizada;
     }
+
+    private void mudarCorRGB(Component componente,int red,int green,int blue){ float[] cor = new float[3];
+        cor = Color.RGBtoHSB(red, green, blue, cor);
+        componente.setBackground(Color.getHSBColor(cor[0], cor[1], cor[2]));
+    }
 }
 
- /*String [] genero={"Pop","Rock","Pop latino"};
-        cmbox=new JComboBox(genero);
-        cmbox.setBounds(5,5,100,100);
-        add(cmbox);*/
+

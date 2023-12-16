@@ -17,14 +17,10 @@ public class Registo extends JPanel implements ActionListener, MouseListener {
     private ButtonGroup grpRadioBtn;
 
     public Registo(){
-        float[] cor =new float[3];
-        cor=Color.RGBtoHSB(51,153,153,cor);
-        setBackground(Color.getHSBColor(cor[0],cor[1],cor[2]));
-
-        Font font=new Font("SansSerif",Font.BOLD,13);
+        mudarCorRGB(this,51,153,153);
         setLayout(null);
 
-
+        Font font=new Font("SansSerif",Font.BOLD,13);
         lblUsername=new JLabel("Username: ");
         lblUsername.setFont(font);
         lblUsername.setBounds(resizeWidth(100),resizeHeight(70),resizeWidth(90),resizeHeight(20));
@@ -80,9 +76,7 @@ public class Registo extends JPanel implements ActionListener, MouseListener {
         btnValidar=new JButton("Validar");
         btnValidar.setFont(font);
         btnValidar.setBounds(resizeWidth(205),txtPin.getY()+txtPin.getHeight()+resizeHeight(25),resizeWidth(90),resizeHeight(40));
-        float[] cor2 =new float[3];
-        cor2=Color.RGBtoHSB(170,210,220,cor2);
-        btnValidar.setBackground(Color.getHSBColor(cor2[0],cor2[1],cor2[2]));
+        mudarCorRGB(btnValidar,170,210,220);
         btnValidar.addMouseListener(this);
 
         ////////////////////////////Teste/////////////////////////////
@@ -102,13 +96,13 @@ public class Registo extends JPanel implements ActionListener, MouseListener {
         radioBtnCliente.setFont(font);
         radioBtnCliente.setBounds(resizeWidth(200),resizeHeight(20),resizeWidth(100),resizeHeight(20));
         radioBtnCliente.setSelected(true);
-        radioBtnCliente.setBackground(Color.getHSBColor(cor[0],cor[1],cor[2]));
+        mudarCorRGB(radioBtnCliente,51,153,153);
         radioBtnCliente.addActionListener(this);
 
         radioBtnArtista=new JRadioButton("Artista");
         radioBtnArtista.setFont(font);
         radioBtnArtista.setBounds(radioBtnCliente.getX()+radioBtnCliente.getWidth()+resizeWidth(20),radioBtnCliente.getY(),radioBtnCliente.getWidth(),radioBtnCliente.getHeight());
-        radioBtnArtista.setBackground(Color.getHSBColor(cor[0],cor[1],cor[2]));
+        mudarCorRGB(radioBtnArtista,51,153,153);
         radioBtnArtista.addActionListener(this);
 
         grpRadioBtn=new ButtonGroup();
@@ -123,7 +117,7 @@ public class Registo extends JPanel implements ActionListener, MouseListener {
         btnVoltarAtras=new JButton("Voltar");
         btnVoltarAtras.setFont(font3);
         btnVoltarAtras.setBounds(resizeWidth(15),txtPin.getY()+txtPin.getHeight()+resizeHeight(55),resizeWidth(70),resizeHeight(28));
-        btnVoltarAtras.setBackground(Color.getHSBColor(cor2[0],cor2[1],cor2[2]));
+        mudarCorRGB(btnVoltarAtras,170,210,220);
         btnVoltarAtras.addMouseListener(this);
         add(btnVoltarAtras);
 
@@ -168,46 +162,37 @@ public class Registo extends JPanel implements ActionListener, MouseListener {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        float[] cor2 =new float[3];
-        cor2=Color.RGBtoHSB(170,210,220,cor2);
-
         Object clicked=e.getSource();
 
         if (clicked==btnValidar) {
-            btnValidar.setBackground(Color.getHSBColor(cor2[0], cor2[1], cor2[2]));
+            mudarCorRGB(btnValidar,170,210,220);
         }
         else if(clicked==btnVoltarAtras){
-            btnVoltarAtras.setBackground(Color.getHSBColor(cor2[0], cor2[1], cor2[2]));
+            mudarCorRGB(btnVoltarAtras,170,210,220);
         }
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        float[] cor2 =new float[3];
-        cor2=Color.RGBtoHSB(100,130,140,cor2);
-
         Object clicked=e.getSource();
 
         if (clicked==btnValidar) {
-            btnValidar.setBackground(Color.getHSBColor(cor2[0], cor2[1], cor2[2]));
+            mudarCorRGB(btnValidar,100,130,140);
         }
         else if(clicked==btnVoltarAtras){
-            btnVoltarAtras.setBackground(Color.getHSBColor(cor2[0], cor2[1], cor2[2]));
+            mudarCorRGB(btnVoltarAtras,100,130,140);
         }
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        float[] cor2 =new float[3];
-        cor2=Color.RGBtoHSB(170,210,220,cor2);
-
         Object clicked=e.getSource();
 
         if (clicked==btnValidar) {
-            btnValidar.setBackground(Color.getHSBColor(cor2[0], cor2[1], cor2[2]));
+            mudarCorRGB(btnValidar,170,210,220);
         }
         else if(clicked==btnVoltarAtras){
-            btnVoltarAtras.setBackground(Color.getHSBColor(cor2[0], cor2[1], cor2[2]));
+            mudarCorRGB(btnVoltarAtras,170,210,220);
         }
     }
 
@@ -239,5 +224,10 @@ public class Registo extends JPanel implements ActionListener, MouseListener {
         int heightAtualizada;
         heightAtualizada=(int)(height*ecra.getHeight())/864;
         return heightAtualizada;
+    }
+
+    private void mudarCorRGB(Component componente,int red,int green,int blue){ float[] cor = new float[3];
+        cor = Color.RGBtoHSB(red, green, blue, cor);
+        componente.setBackground(Color.getHSBColor(cor[0], cor[1], cor[2]));
     }
 }
