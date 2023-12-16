@@ -11,11 +11,13 @@ public class InterfaceCliente extends JPanel implements ActionListener {
     private PanelCarrinho panelCarrinho;
     private PesquisaPanel filtros;
     private JLabel lblUser,lblSaldo,lblTabela;
-    private JButton btnLoja, btnCarregar;
+    private JButton btnLoja, btnCarregar,btnCancelar,btnCarregar2;
     private JRadioButton radioBtnMusicas,radioBtnPlaylists;
     private ButtonGroup grupoRadioBtn;
     private JButton btnRemoverPlaylist;
     private TabelaCliente tabelaCliente;
+    private JDialog dlgCarregamento;
+    private JPanel panelCarregamento;
 
     public InterfaceCliente(){
         mudarCorRGB(this,51,153,153);
@@ -98,6 +100,61 @@ public class InterfaceCliente extends JPanel implements ActionListener {
         btnCarregar.addActionListener(this);
 
         panelPlaylists.getBtnBiblioteca().addActionListener(this);
+
+        //////////////////////////////// FRAME CARREGAMENTO////////////////////////////////////
+        dlgCarregamento =new JDialog();
+        dlgCarregamento.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        dlgCarregamento.setLayout(null);
+        dlgCarregamento.setBounds(resizeWidth(1000),resizeHeight(150),resizeWidth(240),resizeHeight(180));
+        dlgCarregamento.setResizable(false);
+
+        panelCarregamento=new JPanel();
+        panelCarregamento.setLayout(null);
+
+        JLabel lblCarregarSaldo=new JLabel("Carregar Saldo");
+        lblCarregarSaldo.setFont(font);
+
+        JLabel lblValor=new JLabel("Valor :");
+        lblValor.setFont(font);
+        JTextField txtValor=new JTextField(20);
+        txtValor.setFont(font);
+
+        btnCancelar=new JButton("Cancelar");
+        btnCancelar.setFont(font);
+
+        btnCarregar2=new JButton("Carregar");
+        btnCarregar2.setFont(font);
+
+        lblCarregarSaldo.setBounds(resizeWidth(20),resizeHeight(5),resizeWidth(100),resizeHeight(25));
+        panelCarregamento.add(lblCarregarSaldo);
+
+        lblValor.setBounds(lblCarregarSaldo.getX(),lblCarregarSaldo.getY()+lblCarregarSaldo.getHeight()+resizeHeight(20),resizeWidth(40),resizeHeight(25));
+        panelCarregamento.add(lblValor);
+
+        txtValor.setBounds(lblValor.getX()+lblValor.getWidth()+resizeWidth(1),lblValor.getY()+resizeHeight(1),resizeWidth(50),resizeHeight(21));
+        panelCarregamento.add(txtValor);
+
+        btnCancelar.setBounds(lblValor.getX(),lblValor.getY()+lblValor.getHeight()+resizeHeight(20),resizeWidth(85),resizeHeight(25));
+        panelCarregamento.add(btnCancelar);
+
+        btnCarregar2.setBounds(btnCancelar.getX()+btnCancelar.getWidth()+resizeWidth(15),btnCancelar.getY(),btnCancelar.getWidth(),btnCancelar.getHeight());
+        panelCarregamento.add(btnCarregar2);
+
+        mudarCorRGB(panelCarregamento,51,153,153);
+
+        panelCarregamento.setBounds(resizeWidth(0),resizeHeight(0), dlgCarregamento.getWidth(), dlgCarregamento.getHeight());
+
+        btnCancelar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dlgCarregamento.dispatchEvent(new WindowEvent(dlgCarregamento,WindowEvent.WINDOW_CLOSING));
+            }
+        });
+
+        dlgCarregamento.setVisible(false);
+        dlgCarregamento.add(panelCarregamento);
+
+        ////////////////////////////////////////////////////////////////////////
     }
 
     private int resizeWidth(int width ){
@@ -118,8 +175,6 @@ public class InterfaceCliente extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Object clicked=e.getSource();
 
-        Font font=new Font("SansSerif",Font.BOLD,12);
-
         if (clicked==radioBtnMusicas){
             for (int i=0;i<50;i++) {
                 tabelaCliente.getModel().setValueAt("Musica "+(i+1),i , 0);
@@ -131,58 +186,7 @@ public class InterfaceCliente extends JPanel implements ActionListener {
             }
         }
         else if(clicked==btnCarregar){
-            JDialog frmCarregamento=new JDialog();
-            frmCarregamento.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-            frmCarregamento.setLayout(null);
-            frmCarregamento.setBounds(resizeWidth(1000),resizeHeight(150),resizeWidth(240),resizeHeight(180));
-            frmCarregamento.setResizable(false);
-            frmCarregamento.setVisible(true);
-
-            JPanel panelCarregamento=new JPanel();
-
-            panelCarregamento.setLayout(null);
-
-            JLabel lblCarregarSaldo=new JLabel("Carregar Saldo");
-            lblCarregarSaldo.setFont(font);
-
-            JLabel lblValor=new JLabel("Valor :");
-            lblValor.setFont(font);
-            JTextField txtValor=new JTextField(20);
-            txtValor.setFont(font);
-
-            JButton btnCancelar=new JButton("Cancelar");
-            btnCancelar.setFont(font);
-            btnCancelar.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    frmCarregamento.dispatchEvent(new WindowEvent(frmCarregamento,WindowEvent.WINDOW_CLOSING));
-                }
-            });
-
-
-
-            JButton btnCarregar=new JButton("Carregar");
-            btnCarregar.setFont(font);
-
-            lblCarregarSaldo.setBounds(resizeWidth(20),resizeHeight(5),resizeWidth(100),resizeHeight(25));
-            panelCarregamento.add(lblCarregarSaldo);
-
-            lblValor.setBounds(lblCarregarSaldo.getX(),lblCarregarSaldo.getY()+lblCarregarSaldo.getHeight()+resizeHeight(20),resizeWidth(40),resizeHeight(25));
-            panelCarregamento.add(lblValor);
-
-            txtValor.setBounds(lblValor.getX()+lblValor.getWidth()+resizeWidth(1),lblValor.getY()+resizeHeight(1),resizeWidth(50),resizeHeight(21));
-            panelCarregamento.add(txtValor);
-
-            btnCancelar.setBounds(lblValor.getX(),lblValor.getY()+lblValor.getHeight()+resizeHeight(20),resizeWidth(85),resizeHeight(25));
-            panelCarregamento.add(btnCancelar);
-
-            btnCarregar.setBounds(btnCancelar.getX()+btnCancelar.getWidth()+resizeWidth(15),btnCancelar.getY(),btnCancelar.getWidth(),btnCancelar.getHeight());
-            panelCarregamento.add(btnCarregar);
-
-            mudarCorRGB(panelCarregamento,51,153,153);
-
-            panelCarregamento.setBounds(resizeWidth(0),resizeHeight(0),frmCarregamento.getWidth(),frmCarregamento.getHeight());
-            frmCarregamento.add(panelCarregamento);
+            dlgCarregamento.setVisible(true);
         }
         else if(clicked==btnLoja){
             radioBtnPlaylists.setVisible(true);
