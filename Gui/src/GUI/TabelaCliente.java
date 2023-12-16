@@ -40,10 +40,8 @@ public class TabelaCliente extends JPanel{
         // Criar a tabela com o modelo
         JTable table = new JTable(model);
 
-        float[] cor = new float[3];
-        cor = Color.RGBtoHSB(200, 240, 250, cor);
-        table.setBackground(Color.getHSBColor(cor[0], cor[1], cor[2]));
-        setBackground(Color.getHSBColor(cor[0], cor[1], cor[2]));
+        mudarCorRGB(this,200,240,250);
+        mudarCorRGB(table,200,240,250);
         Font font=new Font("SansSerif",Font.BOLD,12);
         table.setFont(font);
 
@@ -113,6 +111,11 @@ public class TabelaCliente extends JPanel{
         int heightAtualizada;
         heightAtualizada = (int) (height * ecra.getHeight()) / 864;
         return heightAtualizada;
+    }
+
+    private void mudarCorRGB(Component componente,int red,int green,int blue){ float[] cor = new float[3];
+        cor = Color.RGBtoHSB(red, green, blue, cor);
+        componente.setBackground(Color.getHSBColor(cor[0], cor[1], cor[2]));
     }
 }
 

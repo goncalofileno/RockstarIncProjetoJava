@@ -1,8 +1,5 @@
 package GUI;
 
-import GUI.ClientePlaylists;
-import GUI.Filtros;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,8 +9,8 @@ import java.awt.event.WindowEvent;
 public class InterfaceCliente extends JPanel implements ActionListener {
     private ClientePlaylists panelPlaylists;
     private PanelCarrinho panelCarrinho;
-    private Filtros filtros;
-    private JLabel lblUser,lblSaldo;
+    private PesquisaPanel filtros;
+    private JLabel lblUser,lblSaldo,lblTabela;
     private JButton btnLoja, btnCarregar;
     private JRadioButton radioBtnMusicas,radioBtnPlaylists;
     private ButtonGroup grupoRadioBtn;
@@ -21,9 +18,7 @@ public class InterfaceCliente extends JPanel implements ActionListener {
     private TabelaCliente tabelaCliente;
 
     public InterfaceCliente(){
-        float[] cor =new float[3];
-        cor=Color.RGBtoHSB(51,153,153,cor);
-        setBackground(Color.getHSBColor(cor[0],cor[1],cor[2]));
+        mudarCorRGB(this,51,153,153);
 
         setLayout(null);
 
@@ -37,7 +32,7 @@ public class InterfaceCliente extends JPanel implements ActionListener {
 
         setVisible(true);
 
-        filtros=new Filtros();
+        filtros=new PesquisaPanel();
         filtros.setBounds(panelCarrinho.getX(),panelCarrinho.getY()+panelCarrinho.getHeight()+resizeHeight(20),panelCarrinho.getWidth(),resizeHeight(100));
         add(filtros);
 
@@ -51,7 +46,18 @@ public class InterfaceCliente extends JPanel implements ActionListener {
         btnLoja.setFont(font);
         btnLoja.setBounds(panelPlaylists.getX()+panelPlaylists.getBtnBiblioteca().getX(),panelPlaylists.getY()+panelPlaylists.getHeight()+resizeHeight(15),resizeWidth(110),resizeHeight(30));
         btnLoja.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        btnLoja.addActionListener(this);
         add(btnLoja);
+
+        tabelaCliente=new TabelaCliente();
+        tabelaCliente.setBounds(panelPlaylists.getX()+panelPlaylists.getWidth()+resizeWidth(25),panelPlaylists.getY(),resizeWidth(465),panelPlaylists.getHeight());
+        add(tabelaCliente);
+
+        Font font3=new Font("SansSerif",Font.BOLD,13);
+        lblTabela=new JLabel("Biblioteca de músicas:");
+        lblTabela.setFont(font3);
+        lblTabela.setBounds(tabelaCliente.getX(),lblUser.getY(),resizeWidth(140),lblUser.getHeight());
+        add(lblTabela);
 
         Font font2=new Font("SansSerif",Font.BOLD | Font.ITALIC,13);
         radioBtnMusicas=new JRadioButton("Músicas");
@@ -60,7 +66,7 @@ public class InterfaceCliente extends JPanel implements ActionListener {
         radioBtnPlaylists.setFont(font2);
         radioBtnMusicas.setOpaque(false);
         radioBtnPlaylists.setOpaque(false);
-        radioBtnMusicas.setBounds(panelPlaylists.getX()+panelPlaylists.getWidth()+resizeWidth(40),panelPlaylists.getY()+panelPlaylists.getHeight()+resizeHeight(5),resizeWidth(80),resizeHeight(25));
+        radioBtnMusicas.setBounds(lblTabela.getX()+resizeWidth(70),lblTabela.getY(),resizeWidth(80),resizeHeight(25));
         radioBtnPlaylists.setBounds(radioBtnMusicas.getX()+radioBtnMusicas.getWidth()+resizeWidth(10),radioBtnMusicas.getY(),resizeWidth(80),resizeHeight(25));
         radioBtnMusicas.setSelected(true);
         add(radioBtnMusicas);
@@ -91,13 +97,7 @@ public class InterfaceCliente extends JPanel implements ActionListener {
         add(btnCarregar);
         btnCarregar.addActionListener(this);
 
-        tabelaCliente=new TabelaCliente();
-        tabelaCliente.setBounds(panelPlaylists.getX()+panelPlaylists.getWidth()+resizeWidth(25),panelPlaylists.getY(),resizeWidth(465),panelPlaylists.getHeight());
-        add(tabelaCliente);
-
-        btnLoja.addActionListener(this);
         panelPlaylists.getBtnBiblioteca().addActionListener(this);
-
     }
 
     private int resizeWidth(int width ){
@@ -118,6 +118,8 @@ public class InterfaceCliente extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Object clicked=e.getSource();
 
+        Font font=new Font("SansSerif",Font.BOLD,12);
+
         if (clicked==radioBtnMusicas){
             for (int i=0;i<50;i++) {
                 tabelaCliente.getModel().setValueAt("Musica "+(i+1),i , 0);
@@ -136,12 +138,9 @@ public class InterfaceCliente extends JPanel implements ActionListener {
             frmCarregamento.setResizable(false);
             frmCarregamento.setVisible(true);
 
-
             JPanel panelCarregamento=new JPanel();
 
             panelCarregamento.setLayout(null);
-
-            Font font=new Font("SansSerif",Font.BOLD,12);
 
             JLabel lblCarregarSaldo=new JLabel("Carregar Saldo");
             lblCarregarSaldo.setFont(font);
@@ -180,10 +179,7 @@ public class InterfaceCliente extends JPanel implements ActionListener {
             btnCarregar.setBounds(btnCancelar.getX()+btnCancelar.getWidth()+resizeWidth(15),btnCancelar.getY(),btnCancelar.getWidth(),btnCancelar.getHeight());
             panelCarregamento.add(btnCarregar);
 
-
-            float[] cor =new float[3];
-            cor=Color.RGBtoHSB(51,153,153,cor);
-            panelCarregamento.setBackground(Color.getHSBColor(cor[0],cor[1],cor[2]));
+            mudarCorRGB(panelCarregamento,51,153,153);
 
             panelCarregamento.setBounds(resizeWidth(0),resizeHeight(0),frmCarregamento.getWidth(),frmCarregamento.getHeight());
             frmCarregamento.add(panelCarregamento);
@@ -191,14 +187,23 @@ public class InterfaceCliente extends JPanel implements ActionListener {
         else if(clicked==btnLoja){
             radioBtnPlaylists.setVisible(true);
             radioBtnMusicas.setVisible(true);
+            lblTabela.setText("Loja:");
+            lblTabela.setBounds(lblTabela.getX(),lblTabela.getY(),resizeWidth(60),lblUser.getHeight());
         }
         else if(clicked==panelPlaylists.getBtnBiblioteca()){
             radioBtnMusicas.setVisible(false);
             radioBtnPlaylists.setVisible(false);
+            lblTabela.setText("Biblioteca de músicas:");
+            lblTabela.setBounds(lblTabela.getX(),lblTabela.getY(),resizeWidth(140),lblUser.getHeight());
         }
     }
 
     public JButton getBtnCarregar() {
         return btnCarregar;
+    }
+
+    private void mudarCorRGB(Component componente,int red,int green,int blue){ float[] cor = new float[3];
+        cor = Color.RGBtoHSB(red, green, blue, cor);
+        componente.setBackground(Color.getHSBColor(cor[0], cor[1], cor[2]));
     }
 }

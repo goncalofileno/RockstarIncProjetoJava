@@ -17,9 +17,7 @@ public class ClientePlaylists extends JPanel implements MouseListener {
         setSize(resizeWidth(200), resizeHeight(300));
         setLayout(null);
 
-        float[] cor = new float[3];
-        cor = Color.RGBtoHSB(155, 223, 243, cor);
-        setBackground(Color.getHSBColor(cor[0], cor[1], cor[2]));
+        mudarCorRGB(this,155,223,243);
 
         Font font = new Font("SansSerif", Font.BOLD, 12);
         lblPlaylists = new JLabel("Playlists:");
@@ -66,15 +64,11 @@ public class ClientePlaylists extends JPanel implements MouseListener {
         panelPlaylists.setLayout(new BoxLayout(panelPlaylists,BoxLayout.Y_AXIS));
 
         for (int i = 0; i < btnListaPlaylists.length; i++) {
-            float[] cor2 = new float[3];
-            cor2 = Color.RGBtoHSB(238, 238, 238, cor2);
-            setBackground(Color.getHSBColor(cor[0], cor[1], cor[2]));
 
             btnListaPlaylists[i] = new JButton(list[i]);
             btnListaPlaylists[i].setFont(font2);
             btnListaPlaylists[i].setBorderPainted(false);
-            btnListaPlaylists[i].setBackground(Color.getHSBColor(cor2[0], cor2[1], cor2[2]));
-
+            mudarCorRGB(btnListaPlaylists[i],238,238,238);
             btnListaPlaylists[i].addMouseListener(this);
 
             panelPlaylists.add(btnListaPlaylists[i]);
@@ -141,5 +135,9 @@ public class ClientePlaylists extends JPanel implements MouseListener {
 
     }
 
+    private void mudarCorRGB(Component componente,int red,int green,int blue){ float[] cor = new float[3];
+        cor = Color.RGBtoHSB(red, green, blue, cor);
+        componente.setBackground(Color.getHSBColor(cor[0], cor[1], cor[2]));
+    }
 }
 

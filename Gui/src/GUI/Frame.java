@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 public class Frame extends JFrame implements ActionListener{
     private LoginPanel panelLogin;
-    JButton[] btnListaPlaylists;
     private InterfaceCliente panelCliente;
     private Registo panelRegisto;
     private ArrayList<Cliente> clientes=new ArrayList<>();
