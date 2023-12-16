@@ -1,8 +1,5 @@
 package GUI;
 
-import GUI.ClientePlaylists;
-import GUI.Filtros;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,7 +9,7 @@ import java.awt.event.WindowEvent;
 public class InterfaceCliente extends JPanel implements ActionListener {
     private ClientePlaylists panelPlaylists;
     private PanelCarrinho panelCarrinho;
-    private Filtros filtros;
+    private PesquisaPanel filtros;
     private JLabel lblUser,lblSaldo;
     private JButton btnLoja, btnCarregar;
     private JRadioButton radioBtnMusicas,radioBtnPlaylists;
@@ -37,7 +34,7 @@ public class InterfaceCliente extends JPanel implements ActionListener {
 
         setVisible(true);
 
-        filtros=new Filtros();
+        filtros=new PesquisaPanel();
         filtros.setBounds(panelCarrinho.getX(),panelCarrinho.getY()+panelCarrinho.getHeight()+resizeHeight(20),panelCarrinho.getWidth(),resizeHeight(100));
         add(filtros);
 
