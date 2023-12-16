@@ -12,12 +12,13 @@ public class Frame extends JFrame implements ActionListener{
     private LoginPanel panelLogin;
     private InterfaceCliente panelCliente;
     private Registo panelRegisto;
+    private LoginPin teste;
+    private JFrame frmArtista;
     private ArrayList<Cliente> clientes=new ArrayList<>();
 
     public Frame(){
         super("Rockstar");
 
-        Dimension ecra=Toolkit.getDefaultToolkit().getScreenSize();
         setLayout(null);
         setSize((resizeWidth(500)),resizeHeight(350));
         setLocationRelativeTo(null);
@@ -29,6 +30,19 @@ public class Frame extends JFrame implements ActionListener{
         panelLogin.setBounds(0,0,getWidth(),getHeight());
         add(panelLogin);
 
+        /////////////////////////////////////////// JFrame do Pin do Artista////////////////////////
+        frmArtista =new JFrame("PIN");
+        frmArtista.setSize(resizeWidth(250),resizeHeight(200));
+        frmArtista.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        frmArtista.setLayout(null);
+        frmArtista.setResizable(false);
+        frmArtista.setVisible(false);
+
+        teste=new LoginPin();
+        teste.setBounds(0,0, frmArtista.getWidth(), frmArtista.getHeight());
+        frmArtista.add(teste);
+
+        ///////////////////////////////////////////////////////////////////////////////
         panelRegisto.getBtnVoltarAtras().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -83,19 +97,8 @@ public class Frame extends JFrame implements ActionListener{
         panelLogin.getTestePin().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame frmArtista=new JFrame("Login Artista");
-                frmArtista.setSize(resizeWidth(250),resizeHeight(200));
-                frmArtista.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-                frmArtista.setLayout(null);
                 frmArtista.setLocationRelativeTo(null);
-                frmArtista.setResizable(false);
                 frmArtista.setVisible(true);
-
-                LoginPin teste=new LoginPin();
-                teste.setBounds(0,0,frmArtista.getWidth(),frmArtista.getHeight());
-                frmArtista.add(teste);
-
-                teste.setVisible(true);
             }
         });
         /////////////////////////////////////////////////////////////////////////////////////////////

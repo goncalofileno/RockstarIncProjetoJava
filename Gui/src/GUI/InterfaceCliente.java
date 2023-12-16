@@ -11,13 +11,12 @@ public class InterfaceCliente extends JPanel implements ActionListener {
     private PanelCarrinho panelCarrinho;
     private PesquisaPanel filtros;
     private JLabel lblUser,lblSaldo,lblTabela;
-
     private JButton btnLoja, btnCarregar,btnCancelar,btnCarregar2;
     private JRadioButton radioBtnMusicas,radioBtnPlaylists;
     private ButtonGroup grupoRadioBtn;
     private JButton btnRemoverPlaylist;
     private TabelaCliente tabelaCliente;
-    private JDialog dlgCarregamento;
+    private JFrame frmCarregamento;
     private JPanel panelCarregamento;
 
     public InterfaceCliente(){
@@ -102,12 +101,12 @@ public class InterfaceCliente extends JPanel implements ActionListener {
 
         panelPlaylists.getBtnBiblioteca().addActionListener(this);
 
-        //////////////////////////////// FRAME CARREGAMENTO////////////////////////////////////
-        dlgCarregamento =new JDialog();
-        dlgCarregamento.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        dlgCarregamento.setLayout(null);
-        dlgCarregamento.setBounds(resizeWidth(1000),resizeHeight(150),resizeWidth(240),resizeHeight(180));
-        dlgCarregamento.setResizable(false);
+        //////////////////////////////// JFrame CARREGAMENTO////////////////////////////////////
+        frmCarregamento =new JFrame();
+        frmCarregamento.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        frmCarregamento.setLayout(null);
+        frmCarregamento.setBounds(resizeWidth(1000),resizeHeight(150),resizeWidth(240),resizeHeight(180));
+        frmCarregamento.setResizable(false);
 
         panelCarregamento=new JPanel();
         panelCarregamento.setLayout(null);
@@ -143,17 +142,17 @@ public class InterfaceCliente extends JPanel implements ActionListener {
 
         mudarCorRGB(panelCarregamento,51,153,153);
 
-        panelCarregamento.setBounds(resizeWidth(0),resizeHeight(0), dlgCarregamento.getWidth(), dlgCarregamento.getHeight());
+        panelCarregamento.setBounds(resizeWidth(0),resizeHeight(0), frmCarregamento.getWidth(), frmCarregamento.getHeight());
 
         btnCancelar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dlgCarregamento.dispatchEvent(new WindowEvent(dlgCarregamento,WindowEvent.WINDOW_CLOSING));
+                frmCarregamento.dispatchEvent(new WindowEvent(frmCarregamento,WindowEvent.WINDOW_CLOSING));
             }
         });
 
-        dlgCarregamento.setVisible(false);
-        dlgCarregamento.add(panelCarregamento);
+        frmCarregamento.setVisible(false);
+        frmCarregamento.add(panelCarregamento);
 
         ////////////////////////////////////////////////////////////////////////
 
@@ -188,8 +187,8 @@ public class InterfaceCliente extends JPanel implements ActionListener {
             }
         }
         else if(clicked==btnCarregar){
-            dlgCarregamento.setBounds(resizeWidth(1000),resizeHeight(150),resizeWidth(240),resizeHeight(180));
-            dlgCarregamento.setVisible(true);
+            frmCarregamento.setBounds(resizeWidth(1000),resizeHeight(150),resizeWidth(240),resizeHeight(180));
+            frmCarregamento.setVisible(true);
         }
         else if(clicked==btnLoja){
             radioBtnPlaylists.setVisible(true);
