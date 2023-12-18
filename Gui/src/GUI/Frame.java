@@ -68,13 +68,13 @@ public class Frame extends JFrame implements ActionListener{
             public void actionPerformed(ActionEvent e) {
                 boolean verificado=false;
                 for (int i=0;i<clientes.size();i++){
-                    String pass=new String(panelLogin.getTxtPass().getPassword());
-                    System.out.println(clientes.get(i).getNome()+" "+clientes.get(i).getPass());
-                    System.out.println(panelLogin.getTxtUsername().getText()+" "+pass);
-                    if (clientes.get(i).getNome().equals(panelLogin.getTxtUsername().getText()) && clientes.get(i).getPass().equals(pass) && !verificado){
-                        JOptionPane.showMessageDialog(panelLogin,"A conta existe");
-                        verificado=true;
-                    }
+                    //String pass=new String(panelLogin.getTxt//ass().getPassword());
+                    //System.out.println(clientes.get(i).getNome()+" "+clientes.get(i).getPass());
+                    //System.out.println(panelLogin.getTxtUsername().getText()+" "+pass);
+                   // if (clientes.get(i).getNome().equals(panelLogin.getTxtUsername().getText()) && clientes.get(i).getPass().equals(pass) && !verificado){
+                   //     JOptionPane.showMessageDialog(panelLogin,"A conta existe");
+                   //     verificado=true;
+                   // }
                 }
                 if (verificado==false){
                     JOptionPane.showMessageDialog(panelLogin,"A conta não existe");
@@ -85,7 +85,7 @@ public class Frame extends JFrame implements ActionListener{
         panelRegisto.getBtnValidar().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                clientes.add(new Cliente(panelRegisto.getTxtNome().getText(),panelRegisto.getTxtPass().getText()));
+                //clientes.add(new Cliente(panelRegisto.getTxtNome().getText(),panelRegisto.getTxtPass().getText()));
             }
         });
 

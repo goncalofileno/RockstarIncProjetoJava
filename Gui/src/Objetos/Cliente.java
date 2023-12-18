@@ -1,18 +1,14 @@
 package Objetos;
 
-public class Cliente {
-    private String nome,pass;
+import java.util.ArrayList;
 
-    public Cliente(String nome, String pass) {
-        this.nome = nome;
-        this.pass = pass;
-    }
+public class Cliente extends Utilizador{
+    private ArrayList<Musica> carrinhoDeCompras;
+    private ArrayList<Playlist> playlistsProprias;
+    private ArrayList<Compra> comprasEfetuadas;
+    private double saldo;
 
-    public String getNome() {
-        return nome;
-    }
-
-    public String getPass() {
-        return pass;
+    public Cliente(String username, String pass, String nome) {
+        super(username, pass, nome);
     }
 }

@@ -83,7 +83,7 @@ public class Registo extends JPanel implements ActionListener, MouseListener {
         btnValidar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Cliente cliente=new Cliente(lblNome.getText(),lblPass.getText());
+                //Cliente cliente=new Cliente(lblNome.getText(),lblPass.getText());
 
             }
         });
