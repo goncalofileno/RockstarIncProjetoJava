@@ -12,7 +12,16 @@ public class Artista extends Utilizador {
         this.pin = pin;
     }
 
+
+
     public String getPin() {
         return pin;
+    }
+
+    public boolean verificarLoginPin(Artista artista, String pin) {
+        if (artista.getPin().equals(pin)) {
+            return true;
+        }
+        return false;
     }
 }

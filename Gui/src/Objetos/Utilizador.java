@@ -20,4 +20,11 @@ public abstract class Utilizador {
     public String getPass() {
         return pass;
     }
+
+    public boolean verificaLoginPass(Utilizador utilizador, String pass) {
+        if (utilizador.getPass().equals(pass)) {
+            return true;
+        } else
+            return false;
+    }
 }

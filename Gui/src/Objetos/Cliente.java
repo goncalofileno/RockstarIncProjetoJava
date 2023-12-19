@@ -15,6 +15,7 @@ public class Cliente extends Utilizador{
         comprasEfetuadas=new ArrayList<>();
     }
 
+    //Getters
     public ArrayList<Musica> getCarrinhoDeCompras() {
         return carrinhoDeCompras;
     }

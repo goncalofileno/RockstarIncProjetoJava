@@ -189,7 +189,7 @@ public class LoginPanel extends JPanel implements MouseListener, ActionListener 
             else {
                 String pass = new String(txtPass.getPassword());
                 utilizadorAtual= rockstar.verificarUtilizador(txtUsername.getText());
-                if (rockstar.verificaLoginPass(utilizadorAtual,pass)){
+                if (utilizadorAtual.verificaLoginPass(utilizadorAtual,pass)){
                     if (utilizadorAtual instanceof Cliente){
                         setPanelClienteVisible();
                     }

@@ -74,11 +74,9 @@ public class Musica {
     public void setEstadoAtividade(boolean estadoAtividade) {
         this.estadoAtividade = estadoAtividade;
     }
-
     public void setVendas(int vendas) {
         this.vendas = this.vendas + vendas;
     }
-
     public void setFaturacao(double faturacao) {
         this.faturacao = this.faturacao + faturacao;
     }

@@ -24,7 +24,7 @@ public class Compra {
             total = total + musica.getPrecoMusica();
         }
         this.valorCompra = total;
-        
+
         cliente.setComprasEfetuadas(this);
     }
 
