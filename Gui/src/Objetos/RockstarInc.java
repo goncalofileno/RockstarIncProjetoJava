@@ -1,6 +1,7 @@
 package Objetos;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class RockstarInc {
     private ArrayList<Artista> artistasList;
@@ -20,12 +21,12 @@ public class RockstarInc {
 
     public Utilizador verificarUtilizador(String username) {
         for (Artista artista : artistasList) {
-            if (artista.getUsername().equals(username)) {
+            if (Objects.equals(artista.getUsername(), username)) {
                 return artista;
             }
         }
         for (Cliente cliente : clientesList) {
-            if (cliente.getUsername().equals(username)) {
+            if (Objects.equals(cliente.getUsername(), username)) {
                 return cliente;
             }
         }
@@ -56,15 +57,10 @@ public class RockstarInc {
         for (Cliente cliente:clientesList){
             if (cliente.getUsername().equals(username)){
                 return true;
-<<<<<<< Updated upstream
-=======
             }
         }
         return false;
     }
->>>>>>> Stashed changes
-
-     */
            /*     public boolean verificaLoginParaCliente (String username, String pass){
                     for (Cliente cliente : clientesList) {
                         if (cliente.getUsername().equals(username)) {
@@ -77,12 +73,6 @@ public class RockstarInc {
                     }
                     return false;
                 }*/
-
-
-
-
-<<<<<<< Updated upstream
-=======
     public boolean verificarLoginPin(Artista artista,String pin){
         if (artista.getPin().equals(pin)){
             return true;
@@ -97,6 +87,5 @@ public class RockstarInc {
     public void addCliente(String username, String pass, String nome){
         clientesList.add(new Cliente(username, pass,  nome));
     }
->>>>>>> Stashed changes
 }
 
