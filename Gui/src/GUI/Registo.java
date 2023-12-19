@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import Objetos.Cliente;
+import Objetos.RockstarInc;
 
 public class Registo extends JPanel implements ActionListener, MouseListener {
     private JLabel lblRegisto, lblUsername,lblPass,lblNome,lblPin;
@@ -15,8 +16,11 @@ public class Registo extends JPanel implements ActionListener, MouseListener {
     private JButton btnValidar, btnVoltarAtras;
     private JRadioButton radioBtnArtista, radioBtnCliente;
     private ButtonGroup grpRadioBtn;
+    private RockstarInc rockstar;
 
     public Registo(){
+        rockstar=new RockstarInc();
+
         mudarCorRGB(this,51,153,153);
         setLayout(null);
 
@@ -78,6 +82,7 @@ public class Registo extends JPanel implements ActionListener, MouseListener {
         btnValidar.setBounds(resizeWidth(205),txtPin.getY()+txtPin.getHeight()+resizeHeight(25),resizeWidth(90),resizeHeight(40));
         mudarCorRGB(btnValidar,170,210,220);
         btnValidar.addMouseListener(this);
+        btnValidar.addActionListener(this);
 
         ////////////////////////////Teste/////////////////////////////
         btnValidar.addActionListener(new ActionListener() {
@@ -140,13 +145,26 @@ public class Registo extends JPanel implements ActionListener, MouseListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (radioBtnCliente.isSelected()){
-            lblPin.setVisible(false);
-            txtPin.setVisible(false);
+        Object clicked=e.getSource();
+
+        if (clicked==radioBtnArtista) {
+            if (radioBtnCliente.isSelected()) {
+                lblPin.setVisible(false);
+                txtPin.setVisible(false);
+            } else {
+                lblPin.setVisible(true);
+                txtPin.setVisible(true);
+            }
         }
-        else {
-            lblPin.setVisible(true);
-            txtPin.setVisible(true);
+        else if (clicked==btnValidar){
+            if (radioBtnCliente.isSelected()){
+                rockstar.addCliente(txtUsername.getText(),txtPass.getText(),txtNome.getText());
+                JOptionPane.showMessageDialog(this,"Cliente add com sucesso");
+            }
+            else {
+                rockstar.addArtista(txtUsername.getText(),txtPass.getText(),txtNome.getText(),txtPin.getText());
+                JOptionPane.showMessageDialog(this,"aRTISTA add com sucesso");
+            }
         }
     }
 
