@@ -1,10 +1,8 @@
 package GUI;
 
 import Objetos.Artista;
-import Objetos.RockstarInc;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,8 +11,7 @@ import java.awt.event.MouseListener;
 
 public class LoginPin extends JPanel implements MouseListener, ActionListener {
     private JLabel lblPin;
-    private JTextField txtPin;
-    private JPasswordField pin;
+    private JPasswordField txtPin;
     private JButton btnValidar;
     private JCheckBox checkPin;
     private Artista artista;
@@ -30,11 +27,11 @@ public class LoginPin extends JPanel implements MouseListener, ActionListener {
         lblPin.setBounds(resizeWidth(45),resizeHeight(45),resizeWidth(30),resizeHeight(20));
         add(lblPin);
 
-        pin=new JPasswordField(18);
-        pin.setFont(font);
-        pin.setBounds(lblPin.getX()+lblPin.getWidth()+resizeWidth(2),lblPin.getY(),resizeWidth(100),resizeHeight(20));
-        pin.setHorizontalAlignment(JPasswordField.CENTER);
-        add(pin);
+        txtPin =new JPasswordField(18);
+        txtPin.setFont(font);
+        txtPin.setBounds(lblPin.getX()+lblPin.getWidth()+resizeWidth(2),lblPin.getY(),resizeWidth(100),resizeHeight(20));
+        txtPin.setHorizontalAlignment(JPasswordField.CENTER);
+        add(txtPin);
 
         /*txtPin=new JTextField(18);
         txtPin.setFont(font);
@@ -47,10 +44,11 @@ public class LoginPin extends JPanel implements MouseListener, ActionListener {
         btnValidar.setBounds(resizeWidth(80),resizeHeight(100),resizeWidth(90),resizeHeight(40));
         mudarCorRGB(btnValidar,170,210,220);
         btnValidar.addMouseListener(this);
+        btnValidar.addActionListener(this);
         add(btnValidar);
 
         checkPin=new JCheckBox();
-        checkPin.setBounds(pin.getX()+pin.getWidth()+resizeWidth(5),pin.getY(),resizeWidth(20),resizeHeight(20));
+        checkPin.setBounds(txtPin.getX()+ txtPin.getWidth()+resizeWidth(5), txtPin.getY(),resizeWidth(20),resizeHeight(20));
         mudarCorRGB(checkPin,50,126,154);
         checkPin.addActionListener(this);
         add(checkPin);
@@ -104,14 +102,15 @@ public class LoginPin extends JPanel implements MouseListener, ActionListener {
         Object clicked=e.getSource();
 
         if (checkPin.isSelected()){
-            pin.setEchoChar((char)0);
+            txtPin.setEchoChar((char)0);
         }
         else {
-            pin.setEchoChar('•');
+            txtPin.setEchoChar('•');
         }
         if (clicked==btnValidar){
-            if (artista.verificarLoginPin(artista,txtPin.getText())){
-
+            String pin=new String(txtPin.getPassword());
+            if (artista.verificarLoginPin(artista,pin)){
+                JOptionPane.showMessageDialog(this,"Pin correto");
             }
             else JOptionPane.showMessageDialog(this,"O PIN introduzido está incorreto");
         }

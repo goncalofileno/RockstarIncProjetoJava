@@ -25,9 +25,8 @@ public class Frame extends JFrame implements ActionListener{
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        rockstar=new RockstarInc();
         panelLogin=new LoginPanel(rockstar,this);
-        panelRegisto=new Registo();
+        panelRegisto=new Registo(rockstar,panelLogin);
         panelRegisto.setBounds(0,0,getWidth(),getWidth());
         panelLogin.setBounds(0,0,getWidth(),getHeight());
         add(panelLogin);
@@ -61,7 +60,6 @@ public class Frame extends JFrame implements ActionListener{
                 panelLogin.setVisible(false);
                 add(panelRegisto);
                 panelRegisto.setVisible(true);
-                remove(panelLogin);
             }
         });
 
@@ -94,35 +92,8 @@ public class Frame extends JFrame implements ActionListener{
         setResizable(false);
         setVisible(true);
 
-        //////////////////////Teste do Painel Pin Artista///////////////////////////////////////////////
-
-        panelLogin.getTestePin().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-               // frmArtista.setLocationRelativeTo(null);
-                //frmArtista.setVisible(true);
-            }
-        });
-        /////////////////////////////////////////////////////////////////////////////////////////////
 
         panelCliente=new InterfaceCliente();
-
-
-        ///////////////TESTE CLIENTE////////////////////////////////
-        panelLogin.testeCliente.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                //setSize(resizeWidth(950),resizeHeight(650));
-                //setLocationRelativeTo(null);
-                //panelCliente.setBounds(0,0,getWidth(),getHeight());
-                //add(panelCliente);
-                //panelCliente.setVisible(true);
-                //panelLogin.setVisible(false);
-            }
-        });
-
-        ///////////////////////////////////////////////////////////
     }
 
     @Override

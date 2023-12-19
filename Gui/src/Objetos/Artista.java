@@ -20,6 +20,7 @@ public class Artista extends Utilizador {
 
     public boolean verificarLoginPin(Artista artista, String pin) {
         if (artista.getPin().equals(pin)) {
+            System.out.println("3º-"+pin);
             return true;
         }
         return false;

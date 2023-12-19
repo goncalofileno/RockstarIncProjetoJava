@@ -95,9 +95,9 @@ public class Musica {
         return genero;
     }
 
-    public double getPrecoMusica(){
-        return listaPrecos.getLast().getValor();
-    }
+   // public double getPrecoMusica(){
+   //     return listaPrecos.getLast().getValor();
+   //}
 
     public ArrayList<Preco> getListaPrecos() {
         return listaPrecos;

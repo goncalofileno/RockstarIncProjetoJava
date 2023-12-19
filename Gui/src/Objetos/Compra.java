@@ -20,9 +20,9 @@ public class Compra {
 
         double total = 0;
 
-        for(Musica musica: listaMusicas){
-            total = total + musica.getPrecoMusica();
-        }
+        //for(Musica musica: listaMusicas){
+       //   //  total = total + musica.getPrecoMusica();
+        //}
         this.valorCompra = total;
 
         cliente.setComprasEfetuadas(this);

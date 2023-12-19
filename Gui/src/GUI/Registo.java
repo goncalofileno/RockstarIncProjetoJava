@@ -17,9 +17,11 @@ public class Registo extends JPanel implements ActionListener, MouseListener {
     private JRadioButton radioBtnArtista, radioBtnCliente;
     private ButtonGroup grpRadioBtn;
     private RockstarInc rockstar;
+    private LoginPanel panelLogin;
 
-    public Registo(){
-        rockstar=new RockstarInc();
+    public Registo(RockstarInc rockstar, LoginPanel panelLogin){
+        this.rockstar=rockstar;
+        this.panelLogin=panelLogin;
 
         mudarCorRGB(this,51,153,153);
         setLayout(null);
@@ -84,17 +86,6 @@ public class Registo extends JPanel implements ActionListener, MouseListener {
         btnValidar.addMouseListener(this);
         btnValidar.addActionListener(this);
 
-        ////////////////////////////Teste/////////////////////////////
-        btnValidar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //Cliente cliente=new Cliente(lblNome.getText(),lblPass.getText());
-
-            }
-        });
-        ///////////////////////////////////////////////////////////////
-
-
         add(btnValidar);
 
         radioBtnCliente=new JRadioButton("Cliente");
@@ -157,14 +148,38 @@ public class Registo extends JPanel implements ActionListener, MouseListener {
             }
         }
         else if (clicked==btnValidar){
-            if (radioBtnCliente.isSelected()){
-                rockstar.addCliente(txtUsername.getText(),txtPass.getText(),txtNome.getText());
-                JOptionPane.showMessageDialog(this,"Cliente add com sucesso");
+            if (rockstar.verificarUsername(txtUsername.getText())) {
+                if (rockstar.verificarPass(txtPass.getText())) {
+                    if (txtNome.getText().length() > 1) {
+                        if (radioBtnCliente.isSelected()) {
+                            rockstar.addCliente(txtUsername.getText(), txtPass.getText(), txtNome.getText());
+                            JOptionPane.showMessageDialog(this, "Cliente add com sucesso");
+                            panelLogin.setVisible(true);
+                            txtUsername.setText("");
+                            txtPass.setText("");
+                            txtNome.setText("");
+                            this.setVisible(false);
+
+                        } else {
+                            if (rockstar.verificarPin(txtPin.getText())) {
+                                rockstar.addArtista(txtUsername.getText(), txtPass.getText(), txtNome.getText(), txtPin.getText());
+                                JOptionPane.showMessageDialog(this, "Artista add com sucesso");
+                                panelLogin.setVisible(true);
+                                txtUsername.setText("");
+                                txtPass.setText("");
+                                txtNome.setText("");
+                                txtPin.setText("");
+                                this.setVisible(false);
+                            }
+                            else JOptionPane.showMessageDialog(this,"O pin deve conter 4 dígitos");
+                        }
+                    }
+                    else JOptionPane.showMessageDialog(this,"O nome inserido é inválido");
+                }
+                else JOptionPane.showMessageDialog(this,"A password inserida tem de ter mais que 4 caracteres");
             }
-            else {
-                rockstar.addArtista(txtUsername.getText(),txtPass.getText(),txtNome.getText(),txtPin.getText());
-                JOptionPane.showMessageDialog(this,"aRTISTA add com sucesso");
-            }
+            else JOptionPane.showMessageDialog(this,"O username inserido é inválido");
+
         }
     }
 

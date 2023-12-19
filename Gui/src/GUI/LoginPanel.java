@@ -13,7 +13,6 @@ public class LoginPanel extends JPanel implements MouseListener, ActionListener 
     private JTextField txtUsername;
     private JPasswordField txtPass;
     private JButton btnLogin,btnRegisto;
-    public JButton testePin,testeCliente;
     private JCheckBox checkPass;
     private RockstarInc rockstar;
     private InterfaceCliente panelCliente;
@@ -24,14 +23,7 @@ public class LoginPanel extends JPanel implements MouseListener, ActionListener 
     public LoginPanel(RockstarInc rockstar, JFrame frame){
         this.rockstar=rockstar;
         this.frame=frame;
-        //////////////////////TESTE INTERFACE CLIENTE//////////////////////////////////////////
-        Font font4=new Font("SansSerif",Font.TYPE1_FONT,9);
-        testeCliente=new JButton("TesteCliente");
-        testeCliente.setFont(font4);
-        testeCliente.setBounds(resizeWidth(20),resizeHeight(150),resizeWidth(100),resizeHeight(30));
-        add(testeCliente);
 
-        ////////////////////////////////////////////////////////////////////////////////////////
         Font font1=new Font("SansSererif",Font.BOLD | Font.ITALIC,35);
         lblEmpresa=new JLabel("Rockstar");
         lblEmpresa.setFont(font1);
@@ -98,11 +90,6 @@ public class LoginPanel extends JPanel implements MouseListener, ActionListener 
         add(btnLogin);
         add(btnRegisto);
 
-        Font font3=new Font("SansSerif",Font.TYPE1_FONT,10);
-        testePin=new JButton("TestePin");
-        testePin.setFont(font3);
-        testePin.setBounds(resizeWidth(20),resizeHeight(250),resizeWidth(80),resizeHeight(20));
-        add(testePin);
 
         //Criar icon para a Rockstar//////////////////////////////////////////
         JLabel imagem=new JLabel();
@@ -123,20 +110,14 @@ public class LoginPanel extends JPanel implements MouseListener, ActionListener 
     public JPasswordField getTxtPass() {
         return txtPass;
     }
-
     public JButton getRegisto() {
         return btnRegisto;
-    }
-
-    public JButton getTestePin(){
-        return testePin;
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
         //JOptionPane.showMessageDialog(this,"Login sem sucesso");
     }
-
     @Override
     public void mousePressed(MouseEvent e) {
     }
@@ -181,9 +162,10 @@ public class LoginPanel extends JPanel implements MouseListener, ActionListener 
     @Override
     public void actionPerformed(ActionEvent e) {
         Object clicked=e.getSource();
-
         if (clicked==btnLogin) {
-            if (rockstar.verificarUtilizador(txtUsername.getText())==null){
+            String username=new String(txtUsername.getText());
+
+            if (rockstar.verificarUtilizador(username)==null){
                 JOptionPane.showMessageDialog(this,"Os dados introduzidos não estão corretos");
             }
             else {
@@ -199,6 +181,7 @@ public class LoginPanel extends JPanel implements MouseListener, ActionListener 
                 }
                 else {
                     JOptionPane.showMessageDialog(this,"Os dados introduzidos não estão corretos");
+                    System.out.println("2");
                 }
             }
         }
@@ -213,7 +196,7 @@ public class LoginPanel extends JPanel implements MouseListener, ActionListener 
     private void setPanelClienteVisible(){
         panelCliente=new InterfaceCliente();
         frame.setSize(resizeWidth(950),resizeHeight(650));
-        panelCliente.setBounds(0,0,getWidth(),getHeight());
+        panelCliente.setBounds(0,0,frame.getWidth(),frame.getHeight());
         frame.setLocationRelativeTo(null);
         frame.add(panelCliente);
         panelCliente.setVisible(true);
@@ -225,6 +208,7 @@ public class LoginPanel extends JPanel implements MouseListener, ActionListener 
         framePinArtista.setSize(resizeWidth(250),resizeHeight(200));
         framePinArtista.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         framePinArtista.setLayout(null);
+        framePinArtista.setLocationRelativeTo(null);
         framePinArtista.setResizable(false);
         loginPin=new LoginPin(artista);
         loginPin.setBounds(0,0, framePinArtista.getWidth(), frame.getHeight());
