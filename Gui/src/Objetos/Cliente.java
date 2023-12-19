@@ -10,6 +10,9 @@ public class Cliente extends Utilizador{
 
     public Cliente(String username, String pass, String nome) {
         super(username, pass, nome);
+        carrinhoDeCompras=new ArrayList<>();
+        playlistsProprias=new ArrayList<>();
+        comprasEfetuadas=new ArrayList<>();
     }
 
     public ArrayList<Musica> getCarrinhoDeCompras() {

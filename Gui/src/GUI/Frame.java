@@ -1,6 +1,7 @@
 package GUI;
 
 import Objetos.Cliente;
+import Objetos.RockstarInc;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,33 +15,34 @@ public class Frame extends JFrame implements ActionListener{
     private Registo panelRegisto;
     private LoginPin teste;
     private JFrame frmArtista;
-    private ArrayList<Cliente> clientes=new ArrayList<>();
+    private RockstarInc rockstar;
 
     public Frame(){
         super("Rockstar");
-
+        rockstar=new RockstarInc();
         setLayout(null);
         setSize((resizeWidth(500)),resizeHeight(350));
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        panelLogin=new LoginPanel();
+        rockstar=new RockstarInc();
+        panelLogin=new LoginPanel(rockstar,this);
         panelRegisto=new Registo();
         panelRegisto.setBounds(0,0,getWidth(),getWidth());
         panelLogin.setBounds(0,0,getWidth(),getHeight());
         add(panelLogin);
 
         /////////////////////////////////////////// JFrame do Pin do Artista////////////////////////
-        frmArtista =new JFrame("PIN");
-        frmArtista.setSize(resizeWidth(250),resizeHeight(200));
-        frmArtista.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        frmArtista.setLayout(null);
-        frmArtista.setResizable(false);
-        frmArtista.setVisible(false);
+        //frmArtista =new JFrame("PIN");
+        //frmArtista.setSize(resizeWidth(250),resizeHeight(200));
+        //frmArtista.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        //frmArtista.setLayout(null);
+        //frmArtista.setResizable(false);
+        //frmArtista.setVisible(false);
 
-        teste=new LoginPin();
-        teste.setBounds(0,0, frmArtista.getWidth(), frmArtista.getHeight());
-        frmArtista.add(teste);
+        //teste=new LoginPin();
+        //teste.setBounds(0,0, frmArtista.getWidth(), frmArtista.getHeight());
+        //frmArtista.add(teste);
 
         ///////////////////////////////////////////////////////////////////////////////
         panelRegisto.getBtnVoltarAtras().addActionListener(new ActionListener() {
@@ -67,7 +69,7 @@ public class Frame extends JFrame implements ActionListener{
             @Override
             public void actionPerformed(ActionEvent e) {
                 boolean verificado=false;
-                for (int i=0;i<clientes.size();i++){
+                //for (int i=0;i<clientes.size();i++){
                     //String pass=new String(panelLogin.getTxt//ass().getPassword());
                     //System.out.println(clientes.get(i).getNome()+" "+clientes.get(i).getPass());
                     //System.out.println(panelLogin.getTxtUsername().getText()+" "+pass);
@@ -75,10 +77,10 @@ public class Frame extends JFrame implements ActionListener{
                    //     JOptionPane.showMessageDialog(panelLogin,"A conta existe");
                    //     verificado=true;
                    // }
-                }
-                if (verificado==false){
-                    JOptionPane.showMessageDialog(panelLogin,"A conta não existe");
-                }
+               // }
+                //if (verificado==false){
+                  //  JOptionPane.showMessageDialog(panelLogin,"A conta não existe");
+                //}
             }
         });
 
@@ -97,8 +99,8 @@ public class Frame extends JFrame implements ActionListener{
         panelLogin.getTestePin().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frmArtista.setLocationRelativeTo(null);
-                frmArtista.setVisible(true);
+               // frmArtista.setLocationRelativeTo(null);
+                //frmArtista.setVisible(true);
             }
         });
         /////////////////////////////////////////////////////////////////////////////////////////////
@@ -111,12 +113,12 @@ public class Frame extends JFrame implements ActionListener{
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                setSize(resizeWidth(950),resizeHeight(650));
-                panelCliente.setBounds(0,0,getWidth(),getHeight());
-                setLocationRelativeTo(null);
-                add(panelCliente);
-                panelCliente.setVisible(true);
-                panelLogin.setVisible(false);
+                //setSize(resizeWidth(950),resizeHeight(650));
+                //setLocationRelativeTo(null);
+                //panelCliente.setBounds(0,0,getWidth(),getHeight());
+                //add(panelCliente);
+                //panelCliente.setVisible(true);
+                //panelLogin.setVisible(false);
             }
         });
 

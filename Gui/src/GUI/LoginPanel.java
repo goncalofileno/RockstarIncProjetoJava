@@ -1,5 +1,8 @@
 package GUI;
 
+import Objetos.*;
+
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -12,9 +15,15 @@ public class LoginPanel extends JPanel implements MouseListener, ActionListener 
     private JButton btnLogin,btnRegisto;
     public JButton testePin,testeCliente;
     private JCheckBox checkPass;
+    private RockstarInc rockstar;
+    private InterfaceCliente panelCliente;
+    private JFrame frame,framePinArtista;
+    private LoginPin loginPin;
+    private Utilizador utilizadorAtual;
 
-    public LoginPanel(){
-
+    public LoginPanel(RockstarInc rockstar, JFrame frame){
+        this.rockstar=rockstar;
+        this.frame=frame;
         //////////////////////TESTE INTERFACE CLIENTE//////////////////////////////////////////
         Font font4=new Font("SansSerif",Font.TYPE1_FONT,9);
         testeCliente=new JButton("TesteCliente");
@@ -78,6 +87,7 @@ public class LoginPanel extends JPanel implements MouseListener, ActionListener 
         btnLogin.setBounds(resizeWidth(140),resizeHeight(210),resizeWidth(90),resizeHeight(40));
         mudarCorRGB(btnLogin,170,210,220);
         btnLogin.addMouseListener(this);
+        btnLogin.addActionListener(this);
 
         btnRegisto=new JButton("Registo");
         btnRegisto.setFont(font);
@@ -170,12 +180,56 @@ public class LoginPanel extends JPanel implements MouseListener, ActionListener 
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (checkPass.isSelected()){
-            txtPass.setEchoChar((char)0);
+        Object clicked=e.getSource();
+
+        if (clicked==btnLogin) {
+            if (rockstar.verificarUtilizador(txtUsername.getText())==null){
+                JOptionPane.showMessageDialog(this,"Os dados introduzidos não estão corretos");
+            }
+            else {
+                String pass = new String(txtPass.getPassword());
+                utilizadorAtual= rockstar.verificarUtilizador(txtUsername.getText());
+                if (rockstar.verificaLoginPass(utilizadorAtual,pass)){
+                    if (utilizadorAtual instanceof Cliente){
+                        setPanelClienteVisible();
+                    }
+                    else {
+                        setFramePinArtistaVisible((Artista)utilizadorAtual);
+                    }
+                }
+                else {
+                    JOptionPane.showMessageDialog(this,"Os dados introduzidos não estão corretos");
+                }
+            }
         }
-        else {
-            txtPass.setEchoChar('•');
+        else if (clicked==checkPass) {
+            if (checkPass.isSelected()) {
+                txtPass.setEchoChar((char) 0);
+            } else {
+                txtPass.setEchoChar('•');
+            }
         }
+    }
+    private void setPanelClienteVisible(){
+        panelCliente=new InterfaceCliente();
+        frame.setSize(resizeWidth(950),resizeHeight(650));
+        panelCliente.setBounds(0,0,getWidth(),getHeight());
+        frame.setLocationRelativeTo(null);
+        frame.add(panelCliente);
+        panelCliente.setVisible(true);
+        this.setVisible(false);
+    }
+
+    private void setFramePinArtistaVisible(Artista artista){
+        framePinArtista =new JFrame("PIN");
+        framePinArtista.setSize(resizeWidth(250),resizeHeight(200));
+        framePinArtista.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        framePinArtista.setLayout(null);
+        framePinArtista.setResizable(false);
+        loginPin=new LoginPin(rockstar,artista);
+        loginPin.setBounds(0,0, framePinArtista.getWidth(), frame.getHeight());
+        framePinArtista.add(loginPin);
+        framePinArtista.setVisible(true);
     }
 
     public JButton getBtnLogin() {

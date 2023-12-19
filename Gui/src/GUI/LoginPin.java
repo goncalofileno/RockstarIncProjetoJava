@@ -1,5 +1,8 @@
 package GUI;
 
+import Objetos.Artista;
+import Objetos.RockstarInc;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -15,10 +18,14 @@ public class LoginPin extends JPanel implements MouseListener, ActionListener {
     private JButton btnValidar;
 
     private JCheckBox checkPin;
-
     private Border border;
+    private RockstarInc rockstar;
+    private Artista artista;
 
-    public LoginPin(){
+    public LoginPin(RockstarInc rockstar, Artista artista){
+        this.artista=artista;
+        this.rockstar=rockstar;
+
         mudarCorRGB(this,50,126,154);
         setLayout(null);
         Font font=new Font("SansSerif",Font.BOLD,13);
@@ -95,14 +102,28 @@ public class LoginPin extends JPanel implements MouseListener, ActionListener {
 
     }
 
+
     @Override
     public void actionPerformed(ActionEvent e) {
+        Object clicked=e.getSource();
+
         if (checkPin.isSelected()){
             pin.setEchoChar((char)0);
         }
         else {
             pin.setEchoChar('•');
         }
+        if (clicked==btnValidar){
+            if (rockstar.verificarLoginPin(artista,txtPin.getText())){
+
+            }
+            else JOptionPane.showMessageDialog(this,"O PIN introduzido está incorreto");
+        }
+
+    }
+
+    public JTextField getTxtPin() {
+        return txtPin;
     }
 
     private int resizeWidth(int width ){

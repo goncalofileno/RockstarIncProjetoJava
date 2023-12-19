@@ -19,8 +19,23 @@ public class RockstarInc {
     }
 
 
+    public Utilizador verificarUtilizador(String username){
+        for (Artista artista:artistasList){
+            if (artista.getUsername().equals(username)){
+                return artista;
+            }
+        }
+        for (Cliente cliente:clientesList){
+            if (cliente.getUsername().equals(username)){
+                return cliente;
+            }
+        }
+        return null;
 
-    public boolean verificarExistenciaUser(String username){
+    }
+
+
+    /*public boolean verificarExistenciaUser(String username){
         for (Artista artista:artistasList){
             if (artista.getUsername().equals(username)){
                 return true;
@@ -32,17 +47,18 @@ public class RockstarInc {
             }
         }
         return false;
+    }*/
+
+    public boolean verificaLoginPass (Utilizador utilizador, String pass){
+        if (utilizador.getPass().equals(pass)){
+            return true;
+        }
+        else return false;
     }
 
-
-    public boolean verificaLoginParaCliente (String username, String pass){
-        for (Cliente cliente:clientesList){
-            if (cliente.getUsername().equals(username)){
-                if (cliente.getPass().equals(pass)){
-                    utilizadorAtual=cliente;
-                    return true;
-                }
-            }
+    public boolean verificarLoginPin(Artista artista,String pin){
+        if (artista.getPin().equals(pin)){
+            return true;
         }
         return false;
     }
