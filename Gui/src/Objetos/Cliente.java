@@ -14,6 +14,7 @@ public class Cliente extends Utilizador{
         carrinhoDeCompras=new ArrayList<>();
         playlistsProprias=new ArrayList<>();
         comprasEfetuadas=new ArrayList<>();
+        biblioteca=new ArrayList<>();
     }
 
     //Getters
@@ -37,5 +38,9 @@ public class Cliente extends Utilizador{
 
     public void addBiblioteca(Musica musica){
         biblioteca.add(musica);
+    }
+
+    public ArrayList<Playlist> getPlaylistsProprias() {
+        return playlistsProprias;
     }
 }

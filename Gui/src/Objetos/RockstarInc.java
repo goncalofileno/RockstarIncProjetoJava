@@ -153,6 +153,9 @@ public class RockstarInc {
     public ArrayList<Artista> getArtistasList() {
         return artistasList;
     }
+    public void addPlaylist(Playlist playlist){
+        playlistsList.add(playlist);
+    }
 
 
 

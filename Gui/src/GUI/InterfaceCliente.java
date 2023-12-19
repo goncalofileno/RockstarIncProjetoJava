@@ -1,5 +1,9 @@
 package GUI;
 
+import Objetos.Cliente;
+import Objetos.RockstarInc;
+import Objetos.Utilizador;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -18,13 +22,17 @@ public class InterfaceCliente extends JPanel implements ActionListener {
     private TabelaCliente tabelaCliente;
     private JFrame frmCarregamento;
     private JPanel panelCarregamento;
+    private RockstarInc rockstar;
+    private Cliente utilizadorAtual;
 
-    public InterfaceCliente(){
+    public InterfaceCliente(RockstarInc rockstar, Cliente utilizadorAtual){
+        this.rockstar=rockstar;
+        this.utilizadorAtual=utilizadorAtual;
+
         mudarCorRGB(this,51,153,153);
-
         setLayout(null);
 
-        panelPlaylists=new ClientePlaylists();
+        panelPlaylists=new ClientePlaylists(rockstar,utilizadorAtual);
         panelPlaylists.setBounds(resizeWidth(10),resizeHeight(50),resizeWidth(200),resizeHeight(500));
         add(panelPlaylists);
 
@@ -38,12 +46,13 @@ public class InterfaceCliente extends JPanel implements ActionListener {
         filtros.setBounds(panelCarrinho.getX(),panelCarrinho.getY()+panelCarrinho.getHeight()+resizeHeight(20),panelCarrinho.getWidth(),resizeHeight(100));
         add(filtros);
 
-        Font font=new Font("SansSerif",Font.BOLD,12);
-        lblUser=new JLabel("Cliente: Username");
-        lblUser.setFont(font);
-        lblUser.setBounds(panelPlaylists.getX()+resizeWidth(10),resizeHeight(20),resizeWidth(125),resizeHeight(20));
+        Font font4=new Font("SansSerif",Font.BOLD ,13);
+        lblUser=new JLabel("Cliente: "+utilizadorAtual.getUsername());
+        lblUser.setFont(font4);
+        lblUser.setBounds(panelPlaylists.getX()+resizeWidth(10),resizeHeight(20),resizeWidth(150),resizeHeight(20));
         add(lblUser);
 
+        Font font=new Font("SansSerif",Font.BOLD ,12);
         btnLoja=new JButton("Loja");
         btnLoja.setFont(font);
         btnLoja.setBounds(panelPlaylists.getX()+panelPlaylists.getBtnBiblioteca().getX(),panelPlaylists.getY()+panelPlaylists.getHeight()+resizeHeight(15),resizeWidth(110),resizeHeight(30));

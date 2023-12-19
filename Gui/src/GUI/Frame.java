@@ -91,9 +91,6 @@ public class Frame extends JFrame implements ActionListener{
 
         setResizable(false);
         setVisible(true);
-
-
-        panelCliente=new InterfaceCliente();
     }
 
     @Override

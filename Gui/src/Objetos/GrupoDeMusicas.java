@@ -15,4 +15,8 @@ public abstract class GrupoDeMusicas {
         this.nome = nome;
         musicas=new ArrayList<>();
     }
+
+    public String getNome() {
+        return nome;
+    }
 }

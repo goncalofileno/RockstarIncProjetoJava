@@ -1,18 +1,30 @@
 package GUI;
 
+import Objetos.Cliente;
+import Objetos.Playlist;
+import Objetos.RockstarInc;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
-public class ClientePlaylists extends JPanel implements MouseListener {
-    private String[] list;
+public class ClientePlaylists extends JPanel implements MouseListener, ActionListener {
+    private ArrayList<Playlist> playlists;
     private JButton[] btnListaPlaylists;
     private JPanel panelPlaylists;
     private JScrollPane scrollPanePlaylists;
     private JLabel lblPlaylists;
     private JButton btnCriarPlaylist, btnCriadorAI, btnBiblioteca;
+    private Cliente utilizadorAtual;
+    private CriarPlaylistPanel panelCriarPlaylist;
+    private JFrame frameCriarPlaylist;
 
-    public ClientePlaylists() {
+    private RockstarInc rockstar;
+
+    public ClientePlaylists(RockstarInc rockstar,Cliente utilizadorAtual) {
+        this.utilizadorAtual=utilizadorAtual;
+
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
         setSize(resizeWidth(200), resizeHeight(300));
         setLayout(null);
@@ -29,7 +41,9 @@ public class ClientePlaylists extends JPanel implements MouseListener {
         btnCriarPlaylist = new JButton("Criar Playlist");
         btnCriarPlaylist.setFont(font1);
         btnCriarPlaylist.setBounds(lblPlaylists.getX(), resizeHeight(250), resizeWidth(120), resizeHeight(25));
+        btnCriarPlaylist.addActionListener(this);
         add(btnCriarPlaylist);
+
 
         btnCriadorAI = new JButton("Criar Playlist AI");
         btnCriadorAI.setFont(font1);
@@ -44,36 +58,37 @@ public class ClientePlaylists extends JPanel implements MouseListener {
 
         ////////////////////// Playlists Ficticias///////////////////////////////////
 
-        list = new String[10];
-        list[0] = "Playlist 1";
-        list[1] = "Playlist 2";
-        list[2] = "Playlist 3";
-        list[3] = "Playlist 4";
-        list[4] = "Playlist 5";
-        list[5] = "Playlist 6";
-        list[6] = "Playlist 7";
-        list[7] = "Playlist 8";
-        list[8] = "Playlist 9";
-        list[9] = "Playlist 10";
+        playlists = utilizadorAtual.getPlaylistsProprias();
 
         panelPlaylists = new JPanel();
 
-        btnListaPlaylists = new JButton[list.length];
+        btnListaPlaylists = new JButton[playlists.size()];
 
         //BoxLayout é bom quando queremos organizar os elementos numa só direcçao, neste caso vamos adiciona-los na direcçao vertical
         panelPlaylists.setLayout(new BoxLayout(panelPlaylists,BoxLayout.Y_AXIS));
 
         for (int i = 0; i < btnListaPlaylists.length; i++) {
 
-            btnListaPlaylists[i] = new JButton(list[i]);
+            btnListaPlaylists[i] = new JButton(playlists.get(i).getNome());
             btnListaPlaylists[i].setFont(font2);
             btnListaPlaylists[i].setBorderPainted(false);
             mudarCorRGB(btnListaPlaylists[i],238,238,238);
             btnListaPlaylists[i].addMouseListener(this);
 
             panelPlaylists.add(btnListaPlaylists[i]);
-
         }
+
+        frameCriarPlaylist=new JFrame();
+        panelCriarPlaylist=new CriarPlaylistPanel(rockstar,utilizadorAtual,frameCriarPlaylist,panelPlaylists);
+        frameCriarPlaylist.setLayout(null);
+        frameCriarPlaylist.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        frameCriarPlaylist.setSize(resizeWidth(300),resizeHeight(250));
+        frameCriarPlaylist.setLocationRelativeTo(null);
+        frameCriarPlaylist.setResizable(false);
+
+        frameCriarPlaylist.setVisible(false);
+        panelCriarPlaylist.setBounds(0,0,frameCriarPlaylist.getWidth(),frameCriarPlaylist.getHeight());
+        frameCriarPlaylist.add(panelCriarPlaylist);
 
         scrollPanePlaylists = new JScrollPane(panelPlaylists);
         scrollPanePlaylists.setBounds(resizeWidth(10), lblPlaylists.getY() + resizeHeight(30), resizeWidth(175), resizeHeight(150));
@@ -121,23 +136,27 @@ public class ClientePlaylists extends JPanel implements MouseListener {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-
-
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-
     }
-
     private void mudarCorRGB(Component componente,int red,int green,int blue){ float[] cor = new float[3];
         cor = Color.RGBtoHSB(red, green, blue, cor);
         componente.setBackground(Color.getHSBColor(cor[0], cor[1], cor[2]));
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Object clicked=e.getSource();
+
+        if (clicked==btnCriarPlaylist){
+            frameCriarPlaylist.setVisible(true);
+        }
     }
 }
 

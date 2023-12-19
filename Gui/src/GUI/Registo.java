@@ -138,16 +138,15 @@ public class Registo extends JPanel implements ActionListener, MouseListener {
     public void actionPerformed(ActionEvent e) {
         Object clicked=e.getSource();
 
-        if (clicked==radioBtnArtista) {
-            if (radioBtnCliente.isSelected()) {
-                lblPin.setVisible(false);
-                txtPin.setVisible(false);
-            } else {
-                lblPin.setVisible(true);
-                txtPin.setVisible(true);
-            }
+        if (radioBtnCliente.isSelected()) {
+            lblPin.setVisible(false);
+            txtPin.setVisible(false);
+        } else {
+            lblPin.setVisible(true);
+            txtPin.setVisible(true);
         }
-        else if (clicked==btnValidar){
+
+        if (clicked==btnValidar){
             if (rockstar.verificarUsername(txtUsername.getText())) {
                 if (rockstar.verificarPass(txtPass.getText())) {
                     if (txtNome.getText().length() > 1) {
@@ -160,7 +159,7 @@ public class Registo extends JPanel implements ActionListener, MouseListener {
                             txtNome.setText("");
                             this.setVisible(false);
 
-                        } else {
+                        } else if (radioBtnArtista.isSelected()){
                             if (rockstar.verificarPin(txtPin.getText())) {
                                 rockstar.addArtista(txtUsername.getText(), txtPass.getText(), txtNome.getText(), txtPin.getText());
                                 JOptionPane.showMessageDialog(this, "Artista add com sucesso");

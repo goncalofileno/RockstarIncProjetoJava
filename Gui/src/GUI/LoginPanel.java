@@ -173,7 +173,7 @@ public class LoginPanel extends JPanel implements MouseListener, ActionListener 
                 utilizadorAtual= rockstar.verificarUtilizador(txtUsername.getText());
                 if (utilizadorAtual.verificaLoginPass(utilizadorAtual,pass)){
                     if (utilizadorAtual instanceof Cliente){
-                        setPanelClienteVisible();
+                        setPanelClienteVisible(rockstar,(Cliente)utilizadorAtual);
                     }
                     else {
                         setFramePinArtistaVisible((Artista)utilizadorAtual);
@@ -193,8 +193,8 @@ public class LoginPanel extends JPanel implements MouseListener, ActionListener 
             }
         }
     }
-    private void setPanelClienteVisible(){
-        panelCliente=new InterfaceCliente();
+    private void setPanelClienteVisible(RockstarInc rockstar,Cliente cliente){
+        panelCliente=new InterfaceCliente(rockstar,cliente);
         frame.setSize(resizeWidth(950),resizeHeight(650));
         panelCliente.setBounds(0,0,frame.getWidth(),frame.getHeight());
         frame.setLocationRelativeTo(null);
