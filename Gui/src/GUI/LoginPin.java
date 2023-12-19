@@ -16,15 +16,11 @@ public class LoginPin extends JPanel implements MouseListener, ActionListener {
     private JTextField txtPin;
     private JPasswordField pin;
     private JButton btnValidar;
-
     private JCheckBox checkPin;
-    private Border border;
-    private RockstarInc rockstar;
     private Artista artista;
 
-    public LoginPin(RockstarInc rockstar, Artista artista){
+    public LoginPin(Artista artista){
         this.artista=artista;
-        this.rockstar=rockstar;
 
         mudarCorRGB(this,50,126,154);
         setLayout(null);

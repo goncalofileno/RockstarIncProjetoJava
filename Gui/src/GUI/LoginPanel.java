@@ -226,7 +226,7 @@ public class LoginPanel extends JPanel implements MouseListener, ActionListener 
         framePinArtista.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         framePinArtista.setLayout(null);
         framePinArtista.setResizable(false);
-        loginPin=new LoginPin(rockstar,artista);
+        loginPin=new LoginPin(artista);
         loginPin.setBounds(0,0, framePinArtista.getWidth(), frame.getHeight());
         framePinArtista.add(loginPin);
         framePinArtista.setVisible(true);
