@@ -17,18 +17,18 @@ public class Musica {
     private double faturacao;
 
     //Construtor que cria musicas sem album atribuido
-    public Musica(String titulo, Artista compositor, String genero, double valor, LocalDate dataPreco, LocalDate dataAdicionada, int vendas, double faturacao) {
+    public Musica(String titulo, Artista compositor, String genero, double valor) {
 
         this.titulo = titulo;
         this.compositor = compositor;
         this.genero = genero;
 
         listaPrecos = new ArrayList<>();
-        listaPrecos.add(new Preco(valor, dataPreco));
+        listaPrecos.add(new Preco(valor, LocalDate.now()));
 
         listaRatings = new ArrayList<>();
 
-        this.dataAdicionada = dataAdicionada;
+        this.dataAdicionada = LocalDate.now();
         this.estadoAtividade = true;
 
 
@@ -37,19 +37,19 @@ public class Musica {
     }
 
     //Construtor que cria musicas com album atribuido
-    public Musica(String titulo, Artista compositor, String genero, double valor, LocalDate dataPreco, LocalDate dataAdicionada, boolean estadoAtividade, Album album, int vendas, double faturacao) {
+    public Musica(String titulo, Artista compositor, String genero, double valor, Album album) {
         this.titulo = titulo;
         this.compositor = compositor;
         this.genero = genero;
 
 
         listaPrecos = new ArrayList<>();
-        listaPrecos.add(new Preco(valor, dataPreco));
+        listaPrecos.add(new Preco(valor, LocalDate.now()));
 
         listaRatings = new ArrayList<>();
 
-        this.dataAdicionada = dataAdicionada;
-        this.estadoAtividade = estadoAtividade;
+        this.dataAdicionada = LocalDate.now();
+        this.estadoAtividade = true;
 
         this.album = album;
         this.vendas = 0;
