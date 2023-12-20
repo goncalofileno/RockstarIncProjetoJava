@@ -23,7 +23,7 @@ public class TabelaCliente extends JPanel implements ActionListener {
     private RockstarInc rockstar;
     private Cliente utizadorAtual;
     private ClientePlaylists panelPlaylists;
-    private JButton btnBiblioteca;
+    private JButton btnBiblioteca,btnRemoverPlaylist;
     private InterfaceCliente interfaceCliente;
     private panelPlaylistAI panelPlaylistAI;
 
@@ -145,9 +145,7 @@ public class TabelaCliente extends JPanel implements ActionListener {
     }
 
     public void printMusicas(ArrayList<Musica> musicas){
-        for (int i=0;i<model.getRowCount();i++){
-            model.removeRow(i);
-        }
+        model.setRowCount(0);
         for (int i = 0; i < 50; i++) {
             model.addRow(new Object[]{"", "", ""});
         }
@@ -183,6 +181,11 @@ public class TabelaCliente extends JPanel implements ActionListener {
             if (clicked ==btnPlaylists.get(i)){
                 printMusicas(utizadorAtual.getPlaylistsProprias().get(i).getMusicas());
                 interfaceCliente.setLblTabela("Playlist: "+utizadorAtual.getPlaylistsProprias().get(i).getNome());
+            }
+        }
+        if(clicked==interfaceCliente.getBtnRemoverPlaylist()){
+            for (int i=0;i<model.getRowCount();i++){
+                model.removeRow(i);
             }
         }
     }

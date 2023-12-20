@@ -100,6 +100,7 @@ public class InterfaceCliente extends JPanel implements ActionListener {
         btnRemoverPlaylist.setFont(font);
         btnRemoverPlaylist.setBounds(panelCarrinho.getX()-resizeWidth(155),btnLoja.getY(),resizeWidth(140),resizeHeight(30));
         btnRemoverPlaylist.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        btnRemoverPlaylist.addActionListener(this);
         add(btnRemoverPlaylist);
 
         lblSaldo=new JLabel("Saldo: 20.00€");
@@ -216,6 +217,10 @@ public class InterfaceCliente extends JPanel implements ActionListener {
             lblTabela.setText("Biblioteca de músicas:");
             lblTabela.setBounds(lblTabela.getX(),lblTabela.getY(),resizeWidth(140),lblUser.getHeight());
         }
+        else if(clicked==btnRemoverPlaylist){
+                tabelaCliente.getModel().setRowCount(0);
+
+        }
     }
 
     public JButton getBtnCarregar() {
@@ -229,5 +234,9 @@ public class InterfaceCliente extends JPanel implements ActionListener {
 
     public void setLblTabela(String nome) {
         lblTabela.setText(nome);
+    }
+
+    public JButton getBtnRemoverPlaylist() {
+        return btnRemoverPlaylist;
     }
 }

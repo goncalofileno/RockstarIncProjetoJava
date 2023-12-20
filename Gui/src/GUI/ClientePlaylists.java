@@ -95,10 +95,13 @@ public class ClientePlaylists extends JPanel implements MouseListener, ActionLis
         framePlaylistAI.setSize(resizeWidth(320),resizeHeight(220));
         framePlaylistAI.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         framePlaylistAI.setResizable(false);
-        panelPlaylistAI=new panelPlaylistAI(utilizadorAtual,this, framePlaylistAI);
+        panelPlaylistAI=new panelPlaylistAI(utilizadorAtual,this, framePlaylistAI,rockstar);
         panelPlaylistAI.setBounds(0,0,framePlaylistAI.getWidth(),framePlaylistAI.getHeight());
-        framePlaylistAI.setVisible(false);
+
+        panelPlaylistAI.getBtnCancelar().addActionListener(this);
+        panelPlaylistAI.getBtnCriar().addActionListener(this);
         framePlaylistAI.add(panelPlaylistAI);
+        framePlaylistAI.setVisible(false);
 
         ////////////////////////////////////////////////////////////////////////////
 
@@ -194,6 +197,23 @@ public class ClientePlaylists extends JPanel implements MouseListener, ActionLis
         }
         else if(clicked==btnCriadorAI){
             framePlaylistAI.setVisible(true);
+        }
+        else if (clicked==panelPlaylistAI.getBtnCriar()){
+            String comboGenero=(String) panelPlaylistAI.getCmbGenero().getSelectedItem();
+            boolean selectedVisibilidade;
+            if (panelPlaylistAI.getCheckVisibilidade().isSelected()){
+                selectedVisibilidade=true;
+            }
+            else selectedVisibilidade=false;
+            Playlist playlistAI=utilizadorAtual.criaPlaylistAI(panelPlaylistAI.getTxtNomePlaylist().getText(),Integer.valueOf(panelPlaylistAI.getTxtNumeroMusicas().getText()),comboGenero,selectedVisibilidade);
+            utilizadorAtual.addPlaylist(playlistAI);
+            rockstar.addPlaylist(playlistAI);
+            printPlaylists(utilizadorAtual.getPlaylistsProprias());
+            tabelaCliente.setPanelPlaylists(this);
+            framePlaylistAI.dispatchEvent(new WindowEvent(framePlaylistAI,WindowEvent.WINDOW_CLOSING));
+        }
+        else if(clicked==panelPlaylistAI.getBtnCancelar()){
+            framePlaylistAI.dispatchEvent(new WindowEvent(framePlaylistAI,WindowEvent.WINDOW_CLOSING));
         }
     }
 

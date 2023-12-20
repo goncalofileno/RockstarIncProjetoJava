@@ -2,6 +2,7 @@ package GUI;
 
 import Objetos.Cliente;
 import Objetos.Playlist;
+import Objetos.RockstarInc;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,11 +22,13 @@ public class panelPlaylistAI extends JPanel implements ActionListener {
     private JFrame frame;
 
     private TabelaCliente tabelaCliente;
+    private RockstarInc rockstar;
 
-    public panelPlaylistAI(Cliente utilizadorAtual,ClientePlaylists panelPlaylists, JFrame frame) {
+    public panelPlaylistAI(Cliente utilizadorAtual, ClientePlaylists panelPlaylists, JFrame frame, RockstarInc rockstar) {
         this.panelPlaylists=panelPlaylists;
         this.utilizadorAtual=utilizadorAtual;
         this.frame=frame;
+        this.rockstar=rockstar;
 
 
         setLayout(null);
@@ -98,24 +101,50 @@ public class panelPlaylistAI extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Object clicked=e.getSource();
 
-        if (clicked==btnCriar){
+        /*if (clicked==btnCriar){
             String comboGenero=(String)cmbGenero.getSelectedItem();
             boolean selectedVisibilidade;
             if (checkVisibilidade.isSelected()){
                 selectedVisibilidade=true;
             }
             else selectedVisibilidade=false;
-            utilizadorAtual.addPlaylist(utilizadorAtual.criaPlaylistAI(txtNomePlaylist.getText(),Integer.valueOf(txtNumeroMusicas.getText()),comboGenero,selectedVisibilidade));
+            Playlist playlistAI=utilizadorAtual.criaPlaylistAI(txtNomePlaylist.getText(),Integer.valueOf(txtNumeroMusicas.getText()),comboGenero,selectedVisibilidade);
+            utilizadorAtual.addPlaylist(playlistAI);
+            rockstar.addPlaylist(playlistAI);
             tabelaCliente.setPanelPlaylists(panelPlaylists);
             panelPlaylists.printPlaylists(utilizadorAtual.getPlaylistsProprias());
             frame.dispatchEvent(new WindowEvent(frame,WindowEvent.WINDOW_CLOSING));
         }
         else if(clicked==btnCancelar){
             frame.dispatchEvent(new WindowEvent(frame,WindowEvent.WINDOW_CLOSING));
-        }
+        }*/
     }
 
     public void setTabelaCliente(TabelaCliente tabelaCliente) {
         this.tabelaCliente = tabelaCliente;
+    }
+
+    public JButton getBtnCancelar() {
+        return btnCancelar;
+    }
+
+    public JButton getBtnCriar() {
+        return btnCriar;
+    }
+
+    public JCheckBox getCheckVisibilidade() {
+        return checkVisibilidade;
+    }
+
+    public JComboBox getCmbGenero() {
+        return cmbGenero;
+    }
+
+    public JTextField getTxtNomePlaylist() {
+        return txtNomePlaylist;
+    }
+
+    public JTextField getTxtNumeroMusicas() {
+        return txtNumeroMusicas;
     }
 }
