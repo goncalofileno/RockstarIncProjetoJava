@@ -3,6 +3,7 @@ package GUI;
 import Objetos.Cliente;
 import Objetos.Playlist;
 import Objetos.RockstarInc;
+import Objetos.Utilizador;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,8 +11,7 @@ import java.awt.event.*;
 import java.util.ArrayList;
 
 public class ClientePlaylists extends JPanel implements MouseListener, ActionListener {
-    private ArrayList<Playlist> playlists;
-    private JButton[] btnListaPlaylists;
+    private ArrayList<JButton> btnListaPlaylists;
     private JPanel panelPlaylists;
     private JScrollPane scrollPanePlaylists;
     private JLabel lblPlaylists;
@@ -24,6 +24,7 @@ public class ClientePlaylists extends JPanel implements MouseListener, ActionLis
 
     public ClientePlaylists(RockstarInc rockstar,Cliente utilizadorAtual) {
         this.utilizadorAtual=utilizadorAtual;
+        this.rockstar=rockstar;
 
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
         setSize(resizeWidth(200), resizeHeight(300));
@@ -58,37 +59,30 @@ public class ClientePlaylists extends JPanel implements MouseListener, ActionLis
 
         ////////////////////// Playlists Ficticias///////////////////////////////////
 
-        playlists = utilizadorAtual.getPlaylistsProprias();
-
+        btnListaPlaylists=new ArrayList<>();
         panelPlaylists = new JPanel();
 
-        btnListaPlaylists = new JButton[playlists.size()];
 
         //BoxLayout é bom quando queremos organizar os elementos numa só direcçao, neste caso vamos adiciona-los na direcçao vertical
         panelPlaylists.setLayout(new BoxLayout(panelPlaylists,BoxLayout.Y_AXIS));
 
-        for (int i = 0; i < btnListaPlaylists.length; i++) {
+        printPlaylists(this.utilizadorAtual.getPlaylistsProprias());
 
-            btnListaPlaylists[i] = new JButton(playlists.get(i).getNome());
-            btnListaPlaylists[i].setFont(font2);
-            btnListaPlaylists[i].setBorderPainted(false);
-            mudarCorRGB(btnListaPlaylists[i],238,238,238);
-            btnListaPlaylists[i].addMouseListener(this);
-
-            panelPlaylists.add(btnListaPlaylists[i]);
-        }
-
+        ///////////////////////Criação da frame de criar playlist/////////////////////////////////////
         frameCriarPlaylist=new JFrame();
-        panelCriarPlaylist=new CriarPlaylistPanel(rockstar,utilizadorAtual,frameCriarPlaylist,panelPlaylists);
+        panelCriarPlaylist=new CriarPlaylistPanel(rockstar,utilizadorAtual,frameCriarPlaylist,this);
         frameCriarPlaylist.setLayout(null);
         frameCriarPlaylist.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frameCriarPlaylist.setSize(resizeWidth(300),resizeHeight(250));
         frameCriarPlaylist.setLocationRelativeTo(null);
         frameCriarPlaylist.setResizable(false);
+        panelCriarPlaylist.getBtnCriar().addActionListener(this);
+        panelCriarPlaylist.getBtnCancelar().addActionListener(this);
 
         frameCriarPlaylist.setVisible(false);
         panelCriarPlaylist.setBounds(0,0,frameCriarPlaylist.getWidth(),frameCriarPlaylist.getHeight());
         frameCriarPlaylist.add(panelCriarPlaylist);
+
 
         scrollPanePlaylists = new JScrollPane(panelPlaylists);
         scrollPanePlaylists.setBounds(resizeWidth(10), lblPlaylists.getY() + resizeHeight(30), resizeWidth(175), resizeHeight(150));
@@ -96,8 +90,6 @@ public class ClientePlaylists extends JPanel implements MouseListener, ActionLis
 
 
         add(scrollPanePlaylists);
-
-        ////////////////////// Playlists Ficticias////////////////////////////////
     }
 
     private int resizeWidth(int width) {
@@ -123,8 +115,8 @@ public class ClientePlaylists extends JPanel implements MouseListener, ActionLis
     public void mouseClicked(MouseEvent e) {
         Object clicked = e.getSource();
 
-        for (int i = 0; i < btnListaPlaylists.length; i++) {
-            if (clicked == btnListaPlaylists[i]) {
+        for (int i = 0; i < btnListaPlaylists.size(); i++) {
+            if (clicked == btnListaPlaylists.get(i)) {
                 System.out.println("Click na música "+(i+1));
             }
         }
@@ -156,6 +148,48 @@ public class ClientePlaylists extends JPanel implements MouseListener, ActionLis
 
         if (clicked==btnCriarPlaylist){
             frameCriarPlaylist.setVisible(true);
+        }
+        else if(clicked==panelCriarPlaylist.getBtnCriar()) {
+
+            if (panelCriarPlaylist.getCheckVisibilidade().isSelected()) {
+                Playlist playlist=new Playlist(panelCriarPlaylist.getTxtNome().getText(), true);
+                rockstar.addPlaylist(playlist);
+                utilizadorAtual.addPlaylist(playlist);
+                printPlaylists(utilizadorAtual.getPlaylistsProprias());
+                frameCriarPlaylist.dispatchEvent(new WindowEvent(frameCriarPlaylist,WindowEvent.WINDOW_CLOSING));
+                JOptionPane.showMessageDialog(frameCriarPlaylist,"A playlist "+playlist.getNome()+" foi criada");
+
+            }
+            else{
+                Playlist playlist=new Playlist(panelCriarPlaylist.getTxtNome().getText(), false);
+                rockstar.addPlaylist(playlist);
+                utilizadorAtual.addPlaylist(playlist);
+                printPlaylists(utilizadorAtual.getPlaylistsProprias());
+                frameCriarPlaylist.dispatchEvent(new WindowEvent(frameCriarPlaylist,WindowEvent.WINDOW_CLOSING));
+                JOptionPane.showMessageDialog(frameCriarPlaylist,"A playlist "+playlist.getNome()+" foi criada");
+            }
+        }
+        else if (clicked==panelCriarPlaylist.getBtnCancelar()){
+            frameCriarPlaylist.dispatchEvent(new WindowEvent(frameCriarPlaylist,WindowEvent.WINDOW_CLOSING));
+        }
+    }
+
+    public void printPlaylists(ArrayList<Playlist> playlists){
+        panelPlaylists.removeAll();
+        btnListaPlaylists.clear();
+        panelPlaylists.revalidate();
+
+        for (int i = 0; i < playlists.size(); i++) {
+
+            Font font = new Font("SansSerif", Font.BOLD, 12);
+            btnListaPlaylists.add(new JButton(playlists.get(i).getNome()));
+            btnListaPlaylists.get(i).setFont(font);
+            btnListaPlaylists.get(i).setBorderPainted(false);
+            mudarCorRGB(btnListaPlaylists.get(i),238,238,238);
+            btnListaPlaylists.get(i).addMouseListener(this);
+
+            System.out.println(playlists.get(i).getNome());
+            panelPlaylists.add(btnListaPlaylists.get(i));
         }
     }
 }

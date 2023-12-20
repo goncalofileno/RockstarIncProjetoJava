@@ -18,8 +18,8 @@ public class CriarPlaylistPanel extends JPanel implements ActionListener {
     private Cliente utilizadorAtual;
     private JButton btnCriar,btnCancelar;
     private JFrame frame;
-    private JPanel panelPlaylists;
-    public CriarPlaylistPanel(RockstarInc rockstar, Cliente utilizadorAtual,JFrame frame,JPanel panelPlaylists){
+    private ClientePlaylists panelPlaylists;
+    public CriarPlaylistPanel(RockstarInc rockstar, Cliente utilizadorAtual,JFrame frame,ClientePlaylists panelPlaylists){
         this.rockstar=rockstar;
         this.utilizadorAtual=utilizadorAtual;
         this.frame=frame;
@@ -63,7 +63,7 @@ public class CriarPlaylistPanel extends JPanel implements ActionListener {
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-        Object clicked=e.getSource();
+       /* Object clicked=e.getSource();
 
         if(clicked==btnCriar) {
             if (checkVisibilidade.isSelected()) {
@@ -72,9 +72,7 @@ public class CriarPlaylistPanel extends JPanel implements ActionListener {
                 utilizadorAtual.addPlaylist(playlist);
                 JOptionPane.showMessageDialog(this,"A playlist "+playlist.getNome()+" foi criada");
                 frame.dispatchEvent(new WindowEvent(frame,WindowEvent.WINDOW_CLOSING));
-                JButton btnListaPlaylists = new JButton(playlist.getNome());
-                btnListaPlaylists.setBorderPainted(false);
-                panelPlaylists.add(btnListaPlaylists);
+                panelPlaylists.printPlaylists(utilizadorAtual.getPlaylistsProprias());
 
             }
             else{
@@ -87,7 +85,23 @@ public class CriarPlaylistPanel extends JPanel implements ActionListener {
         }
         else if (clicked==btnCancelar){
             frame.dispatchEvent(new WindowEvent(frame,WindowEvent.WINDOW_CLOSING));
-        }
+        }*/
+    }
+
+    public JButton getBtnCriar() {
+        return btnCriar;
+    }
+
+    public JButton getBtnCancelar() {
+        return btnCancelar;
+    }
+
+    public JCheckBox getCheckVisibilidade() {
+        return checkVisibilidade;
+    }
+
+    public JTextField getTxtNome() {
+        return txtNome;
     }
 }
 
