@@ -94,9 +94,9 @@ public class Musica {
         return genero;
     }
 
-   // public double getPrecoMusica(){
-   //     return listaPrecos.getLast().getValor();
-   //}
+    public double getPrecoMusica(){
+       return listaPrecos.get(listaPrecos.size()-1).getValor();
+   }
 
     public ArrayList<Preco> getListaPrecos() {
         return listaPrecos;
@@ -107,7 +107,12 @@ public class Musica {
         for(Rating rating: listaRatings){
             totalRatings += rating.getAvaliacao();
         }
-        return (double) (totalRatings/listaRatings.size());
+        if (totalRatings>0) {
+            return (double) (totalRatings / listaRatings.size());
+        }
+        else {
+            return 0;
+        }
     }
 
     public int getVendas() {

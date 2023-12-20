@@ -54,4 +54,9 @@ public class Cliente extends Utilizador{
         }
         return playlistAI;
     }
+
+    public ArrayList<Musica> getBiblioteca() {
+        return biblioteca;
+    }
+
 }

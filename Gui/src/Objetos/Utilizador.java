@@ -27,4 +27,8 @@ public abstract class Utilizador {
         } else
             return false;
     }
+
+    public String getNome() {
+        return nome;
+    }
 }

@@ -1,5 +1,9 @@
 package GUI;
 
+import Objetos.Cliente;
+import Objetos.Musica;
+import Objetos.RockstarInc;
+
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
@@ -7,13 +11,37 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
-public class TabelaCliente extends JPanel{
+public class TabelaCliente extends JPanel implements ActionListener {
     private JButton btnTitulo,btnArtista,btnRating,btnPreco,btnVisibilidade;
     private DefaultTableModel model;
-    public TabelaCliente() {
+    private RockstarInc rockstar;
+    private Cliente utizadorAtual;
+    private ClientePlaylists panelPlaylists;
+    private JButton btnBiblioteca;
+    private InterfaceCliente interfaceCliente;
+
+    private ArrayList<JButton> btnPlaylists;
+    public TabelaCliente(RockstarInc rockstar, Cliente utilizadorAtual,ClientePlaylists panelPlaylists, InterfaceCliente interfaceCliente) {
+        this.rockstar=rockstar;
+        this.utizadorAtual=utilizadorAtual;
+        this.interfaceCliente=interfaceCliente;
+
+        setPanelPlaylists(panelPlaylists);
+        //this.panelPlaylists=panelPlaylists;
+        //this.btnPlaylists=panelPlaylists.getBtnListaPlaylists();
+        //for (int i=0;i<btnPlaylists.size();i++){
+        //    btnPlaylists.get(i).addActionListener(this);
+        //}
+
+        btnBiblioteca=panelPlaylists.getBtnBiblioteca();
+        btnBiblioteca.addActionListener(this);
+
         // Criar o modelo da tabela
         model = new DefaultTableModel(){
             @Override
@@ -28,8 +56,7 @@ public class TabelaCliente extends JPanel{
         model.addColumn("");
         model.addColumn("");
         model.addColumn("");
-        model.addColumn("");
-        model.addColumn("");
+        //model.addColumn("");
 
         // Adicionar dados à tabela (pode-se adicionar mais linhas conforme necessário)
 
@@ -46,9 +73,11 @@ public class TabelaCliente extends JPanel{
         table.setFont(font);
 
         // Configurar a coluna do checkbox
-        TableColumn checkboxColumn = table.getColumnModel().getColumn(4);
-        checkboxColumn.setCellRenderer(table.getDefaultRenderer(Boolean.class));
-        checkboxColumn.setCellEditor(table.getDefaultEditor(Boolean.class));
+        //TableColumn checkboxColumn = table.getColumnModel().getColumn(4);
+        //checkboxColumn.setCellRenderer(table.getDefaultRenderer(Boolean.class));
+        //checkboxColumn.setCellEditor(table.getDefaultEditor(Boolean.class));
+
+        printMusicas(utilizadorAtual.getBiblioteca());
 
         // Adicionar a tabela à janela
         JScrollPane scrollPane = new JScrollPane(table);
@@ -59,12 +88,8 @@ public class TabelaCliente extends JPanel{
         DefaultTableCellRenderer render = new DefaultTableCellRenderer();
         render.setHorizontalAlignment(JLabel.CENTER);
 
-        for (int i=0;i<table.getColumnCount()-1;i++) {
+        for (int i=0;i<table.getColumnCount();i++) {
             table.getColumnModel().getColumn(i).setCellRenderer(render);
-        }
-
-        for (int i=0;i<50;i++) {
-            model.setValueAt("Musica "+(i+1),i , 0);
         }
 
         table.getTableHeader().setResizingAllowed(false);
@@ -82,7 +107,7 @@ public class TabelaCliente extends JPanel{
         btnVisibilidade=new JButton("Visibilidade");
         btnVisibilidade.setFont(font2);
 
-        btnTitulo.setBounds(scrollPane.getX(),resizeHeight(0),resizeWidth(90),resizeHeight(25));
+        btnTitulo.setBounds(scrollPane.getX(),resizeHeight(0),resizeWidth(150),resizeHeight(25));
         btnArtista.setBounds(btnTitulo.getX()+btnTitulo.getWidth(),resizeHeight(0),btnTitulo.getWidth(),btnTitulo.getHeight());
         btnRating.setBounds(btnArtista.getX()+btnArtista.getWidth(),resizeHeight(0),btnTitulo.getWidth()-resizeWidth(1),btnTitulo.getHeight());
         btnPreco.setBounds(btnRating.getX()+btnRating.getWidth(),resizeHeight(0),btnTitulo.getWidth(),btnTitulo.getHeight());
@@ -91,8 +116,8 @@ public class TabelaCliente extends JPanel{
         add(btnTitulo);
         add(btnArtista);
         add(btnRating);
-        add(btnPreco);
-        add(btnVisibilidade);
+        //add(btnPreco);
+        //add(btnVisibilidade);
     }
 
     public DefaultTableModel getModel() {
@@ -117,6 +142,52 @@ public class TabelaCliente extends JPanel{
         cor = Color.RGBtoHSB(red, green, blue, cor);
         componente.setBackground(Color.getHSBColor(cor[0], cor[1], cor[2]));
     }
+
+    public void printMusicas(ArrayList<Musica> musicas){
+        for (int i=0;i<model.getRowCount();i++){
+            model.removeRow(i);
+        }
+        for (int i = 0; i < 50; i++) {
+            model.addRow(new Object[]{"", "", ""});
+        }
+        for (int i=0;i<musicas.size();i++) {
+            model.setValueAt(musicas.get(i).getTitulo(),i , 0);
+            model.setValueAt(musicas.get(i).getCompositor().getNome(),i , 1);
+            if (musicas.get(i).getRatingMedio()>0) {
+                model.setValueAt(musicas.get(i).getRatingMedio(), i, 2);
+            }
+            else {
+                model.setValueAt("Sem Rating", i, 2);
+            }
+        }
+    }
+
+    public void setPanelPlaylists(ClientePlaylists panelPlaylists) {
+        this.panelPlaylists = panelPlaylists;
+        this.btnPlaylists=panelPlaylists.getBtnListaPlaylists();
+        for (int i=0;i<btnPlaylists.size();i++){
+            this.btnPlaylists.get(i).addActionListener(this);
+        }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Object clicked=e.getSource();
+
+        if (clicked==btnBiblioteca){
+            printMusicas(utizadorAtual.getBiblioteca());
+            interfaceCliente.setLblTabela("Biblioteca de músicas:");
+
+        }
+        for (int i=0;i<btnPlaylists.size();i++) {
+            if (clicked ==btnPlaylists.get(i)){
+                printMusicas(utizadorAtual.getPlaylistsProprias().get(i).getMusicas());
+                interfaceCliente.setLblTabela("Playlist: "+utizadorAtual.getPlaylistsProprias().get(i).getNome());
+            }
+        }
+    }
+
+
 }
 
 

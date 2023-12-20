@@ -25,4 +25,6 @@ public class Artista extends Utilizador {
         }
         return false;
     }
+
+
 }

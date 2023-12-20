@@ -18,9 +18,10 @@ public class ClientePlaylists extends JPanel implements MouseListener, ActionLis
     private JButton btnCriarPlaylist, btnCriadorAI, btnBiblioteca;
     private Cliente utilizadorAtual;
     private CriarPlaylistPanel panelCriarPlaylist;
-    private JFrame frameCriarPlaylist;
-
+    private JFrame frameCriarPlaylist, framePlaylistAI;
+    private panelPlaylistAI panelPlaylistAI;
     private RockstarInc rockstar;
+    private TabelaCliente tabelaCliente;
 
     public ClientePlaylists(RockstarInc rockstar,Cliente utilizadorAtual) {
         this.utilizadorAtual=utilizadorAtual;
@@ -49,6 +50,7 @@ public class ClientePlaylists extends JPanel implements MouseListener, ActionLis
         btnCriadorAI = new JButton("Criar Playlist AI");
         btnCriadorAI.setFont(font1);
         btnCriadorAI.setBounds(btnCriarPlaylist.getX(), btnCriarPlaylist.getY() + resizeHeight(45), btnCriarPlaylist.getWidth(), btnCriarPlaylist.getHeight());
+        btnCriadorAI.addActionListener(this);
         add(btnCriadorAI);
 
         Font font2 = new Font("SansSerif", Font.BOLD, 12);
@@ -83,6 +85,22 @@ public class ClientePlaylists extends JPanel implements MouseListener, ActionLis
         panelCriarPlaylist.setBounds(0,0,frameCriarPlaylist.getWidth(),frameCriarPlaylist.getHeight());
         frameCriarPlaylist.add(panelCriarPlaylist);
 
+        ////////////////////////////////////////////////////////////
+
+        //////////////Criaçao da frame PlaylistAI/////////////////////////////////
+
+        framePlaylistAI=new JFrame("Playlist AI");
+        framePlaylistAI.setLayout(null);
+        framePlaylistAI.setLocationRelativeTo(null);
+        framePlaylistAI.setSize(resizeWidth(320),resizeHeight(220));
+        framePlaylistAI.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        framePlaylistAI.setResizable(false);
+        panelPlaylistAI=new panelPlaylistAI(utilizadorAtual,this);
+        panelPlaylistAI.setBounds(0,0,framePlaylistAI.getWidth(),framePlaylistAI.getHeight());
+        framePlaylistAI.setVisible(false);
+        framePlaylistAI.add(panelPlaylistAI);
+
+        ////////////////////////////////////////////////////////////////////////////
 
         scrollPanePlaylists = new JScrollPane(panelPlaylists);
         scrollPanePlaylists.setBounds(resizeWidth(10), lblPlaylists.getY() + resizeHeight(30), resizeWidth(175), resizeHeight(150));
@@ -157,6 +175,7 @@ public class ClientePlaylists extends JPanel implements MouseListener, ActionLis
                 utilizadorAtual.addPlaylist(playlist);
                 printPlaylists(utilizadorAtual.getPlaylistsProprias());
                 frameCriarPlaylist.dispatchEvent(new WindowEvent(frameCriarPlaylist,WindowEvent.WINDOW_CLOSING));
+                tabelaCliente.setPanelPlaylists(this);
                 JOptionPane.showMessageDialog(frameCriarPlaylist,"A playlist "+playlist.getNome()+" foi criada");
 
             }
@@ -166,11 +185,15 @@ public class ClientePlaylists extends JPanel implements MouseListener, ActionLis
                 utilizadorAtual.addPlaylist(playlist);
                 printPlaylists(utilizadorAtual.getPlaylistsProprias());
                 frameCriarPlaylist.dispatchEvent(new WindowEvent(frameCriarPlaylist,WindowEvent.WINDOW_CLOSING));
+                tabelaCliente.setPanelPlaylists(this);
                 JOptionPane.showMessageDialog(frameCriarPlaylist,"A playlist "+playlist.getNome()+" foi criada");
             }
         }
         else if (clicked==panelCriarPlaylist.getBtnCancelar()){
             frameCriarPlaylist.dispatchEvent(new WindowEvent(frameCriarPlaylist,WindowEvent.WINDOW_CLOSING));
+        }
+        else if(clicked==btnCriadorAI){
+            framePlaylistAI.setVisible(true);
         }
     }
 
@@ -191,6 +214,14 @@ public class ClientePlaylists extends JPanel implements MouseListener, ActionLis
             System.out.println(playlists.get(i).getNome());
             panelPlaylists.add(btnListaPlaylists.get(i));
         }
+    }
+
+    public ArrayList<JButton> getBtnListaPlaylists() {
+        return btnListaPlaylists;
+    }
+
+    public void setTabelaCliente(TabelaCliente tabelaCliente) {
+        this.tabelaCliente = tabelaCliente;
     }
 }
 

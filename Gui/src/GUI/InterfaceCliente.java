@@ -36,6 +36,11 @@ public class InterfaceCliente extends JPanel implements ActionListener {
         panelPlaylists.setBounds(resizeWidth(10),resizeHeight(50),resizeWidth(200),resizeHeight(500));
         add(panelPlaylists);
 
+        tabelaCliente=new TabelaCliente( rockstar, utilizadorAtual,panelPlaylists,this);
+        panelPlaylists.setTabelaCliente(tabelaCliente);
+        tabelaCliente.setBounds(panelPlaylists.getX()+panelPlaylists.getWidth()+resizeWidth(25),panelPlaylists.getY(),resizeWidth(465),panelPlaylists.getHeight());
+        add(tabelaCliente);
+
         panelCarrinho=new PanelCarrinho();
         panelCarrinho.setBounds(resizeWidth(725),panelPlaylists.getY(),resizeWidth(200),resizeHeight(270));
         add(panelCarrinho);
@@ -60,14 +65,10 @@ public class InterfaceCliente extends JPanel implements ActionListener {
         btnLoja.addActionListener(this);
         add(btnLoja);
 
-        tabelaCliente=new TabelaCliente();
-        tabelaCliente.setBounds(panelPlaylists.getX()+panelPlaylists.getWidth()+resizeWidth(25),panelPlaylists.getY(),resizeWidth(465),panelPlaylists.getHeight());
-        add(tabelaCliente);
-
         Font font3=new Font("SansSerif",Font.BOLD,13);
         lblTabela=new JLabel("Biblioteca de músicas:");
         lblTabela.setFont(font3);
-        lblTabela.setBounds(tabelaCliente.getX(),lblUser.getY(),resizeWidth(140),lblUser.getHeight());
+        lblTabela.setBounds(tabelaCliente.getX(),lblUser.getY(),resizeWidth(250),lblUser.getHeight());
         add(lblTabela);
 
         Font font2=new Font("SansSerif",Font.BOLD | Font.ITALIC,13);
@@ -220,5 +221,9 @@ public class InterfaceCliente extends JPanel implements ActionListener {
     private void mudarCorRGB(Component componente,int red,int green,int blue){ float[] cor = new float[3];
         cor = Color.RGBtoHSB(red, green, blue, cor);
         componente.setBackground(Color.getHSBColor(cor[0], cor[1], cor[2]));
+    }
+
+    public void setLblTabela(String nome) {
+        lblTabela.setText(nome);
     }
 }
