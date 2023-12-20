@@ -5,13 +5,16 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class RockstarInc {
+
+    ///////////////////////////////////ATRIBUTOS////////////////////////////////////////////////////////////////////////
     private ArrayList<Artista> artistasList;
     private ArrayList<Cliente> clientesList;
     private ArrayList<Playlist> playlistsList;
     private ArrayList<Album> albunsList;
     private ArrayList<Musica> musicasList;
     private Utilizador utilizadorAtual;
-
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////CONSTRUTORES//////////////////////////////////////////////////////////////
     public RockstarInc() {
         artistasList = new ArrayList<>();
         clientesList = new ArrayList<>();
@@ -19,7 +22,7 @@ public class RockstarInc {
         albunsList = new ArrayList<>();
         musicasList = new ArrayList<>();
 
-        //valores de testes
+        //////////////////////////////////////VALORES PARA TESTE DA APP/////////////////////////////////////////////////
         addCliente("admin","admin", "admin");
 
         Artista zecabra = new Artista("zecabra", "zecabra", "Zé Cabra", "1234");
@@ -52,6 +55,7 @@ public class RockstarInc {
         Musica chupo = new Musica("Eu chupo", rosinha, "Popular", 0.00);
         musicasList.add(chupo);
         Musica pacote = new Musica("Eu levo no pacote", rosinha, "Popular", 1.5);
+        musicasList.add(pacote);
 
         ArrayList musicaPopPopular = new ArrayList<Musica>();
         musicaPopPopular.add(aqui);
@@ -73,7 +77,24 @@ public class RockstarInc {
         clientesList.get(0).addBiblioteca(casar);
         clientesList.get(0).addBiblioteca(turbinada);
     }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////ADDERS////////////////////////////////////////////////////////////////////
+    public void addArtista(String username, String pass, String nome, String pin){
+        artistasList.add(new Artista(username,pass, nome, pin));
+    }
+    public void addCliente(String username, String pass, String nome){
+        clientesList.add(new Cliente(username, pass,  nome));
+    }
+    public void addPlaylist(Playlist playlist){
+        playlistsList.add(playlist);
+    }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////MÉTODOS DIVERSOS//////////////////////////////////////////////////////////
 
+    /**
+     *Método verifica a existencia de utilizador através de username e caso o utilizador exista devolve o objeto do mesmo,
+     * devolve NULL caso nao encontre.
+     */
     public Utilizador verificarUtilizador(String username) {
         for (int i=0;i<artistasList.size();i++) {
             System.out.println(artistasList.get(i).getUsername());
@@ -88,21 +109,6 @@ public class RockstarInc {
         }
         return null;
     }
-
-   /* public boolean verificarExistenciaUser(String username) {
-        for (Artista artista : artistasList) {
-            if (artista.getUsername().equals(username)) {
-                return true;
-            }
-        }
-        for (Cliente cliente : clientesList) {
-            if (cliente.getUsername().equals(username)) {
-                return true;
-            }
-        }
-        return false;
-    }*/
-
     public boolean verificarUsername(String username){
         if (!verificarExistenciaUser(username)){
             if (username.length()>4){
@@ -138,46 +144,7 @@ public class RockstarInc {
             }
             return false;
     }
-    public boolean verificarLoginPin(Artista artista,String pin){
-        if (artista.getPin().equals(pin)){
-            return true;
-        }
-        return false;
-    }
-    public void addArtista(String username, String pass, String nome, String pin){
-        artistasList.add(new Artista(username,pass, nome, pin));
-    }
-    public void addCliente(String username, String pass, String nome){
-        clientesList.add(new Cliente(username, pass,  nome));
-    }
-    public ArrayList<Artista> getArtistasList() {
-        return artistasList;
-    }
-    public void addPlaylist(Playlist playlist){
-        playlistsList.add(playlist);
-    }
-
-
-
-
-
-
-
-
-
-
-        /*     public boolean verificaLoginParaCliente (String username, String pass){
-                    for (Cliente cliente : clientesList) {
-                        if (cliente.getUsername().equals(username)) {
-                            if (cliente.getPass().equals(pass)) {
-                                utilizadorAtual = cliente;
-                                return true;
-                            }
-
-                        }
-                    }
-                    return false;
-                }*/
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
 
 

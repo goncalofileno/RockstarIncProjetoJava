@@ -3,12 +3,14 @@ package Objetos;
 import java.util.ArrayList;
 
 public class Cliente extends Utilizador{
+    ///////////////////////////////////ATRIBUTOS////////////////////////////////////////////////////////////////////////
     private ArrayList<Musica> carrinhoDeCompras;
     private ArrayList<Musica> biblioteca;
     private ArrayList<Playlist> playlistsProprias;
     private ArrayList<Compra> comprasEfetuadas;
     private double saldo;
-
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////CONSTRUTORES//////////////////////////////////////////////////////////////
     public Cliente(String username, String pass, String nome) {
         super(username, pass, nome);
         carrinhoDeCompras=new ArrayList<>();
@@ -16,34 +18,40 @@ public class Cliente extends Utilizador{
         comprasEfetuadas=new ArrayList<>();
         biblioteca=new ArrayList<>();
     }
-
-    //Getters
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////GETTTERS//////////////////////////////////////////////////////////////////
     public ArrayList<Musica> getCarrinhoDeCompras() {
         return carrinhoDeCompras;
-    }
-
-    //Setters
-
-    public void setCarrinhoDeCompras(ArrayList<Musica> carrinhoDeCompras) {
-        this.carrinhoDeCompras = carrinhoDeCompras;
-    }
-
-    public void setComprasEfetuadas(Compra compra){
-        this.comprasEfetuadas.add(compra);
-    }
-
-    public void addPlaylist(Playlist playlist){
-        playlistsProprias.add(playlist);
-    }
-
-    public void addBiblioteca(Musica musica){
-        biblioteca.add(musica);
     }
 
     public ArrayList<Playlist> getPlaylistsProprias() {
         return playlistsProprias;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////SETTERS//////////////////////////////////////////////////////////////////
+    public void setCarrinhoDeCompras(ArrayList<Musica> carrinhoDeCompras) {
+        this.carrinhoDeCompras = carrinhoDeCompras;
+    }
+    public void setComprasEfetuadas(Compra compra){
+        this.comprasEfetuadas.add(compra);
+    }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////ADDERS//////////////////////////////////////////////////////////////////
+    public void addPlaylist(Playlist playlist){
+        playlistsProprias.add(playlist);
+    }
+    public void addBiblioteca(Musica musica){
+        biblioteca.add(musica);
+    }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////METODOS DIVERSOS////////////////////////////////////////////////////////
+
+    /**
+     * Método criado para receber um nome de uma playlist, uma quantidade músicas a adicionar, um genero e visibilidade
+     * Metodo percorre a arraylist de musicas adquiridas do utilizador e seleciona as primeiras que encontrar do mesmo
+     * genero, até não encontrar mais ou até o tamanho ser atingido.
+     */
     public Playlist criaPlaylistAI(String nome, int quantidade, String genero, boolean visibilidade){
         Playlist playlistAI = new Playlist(nome, visibilidade);
 

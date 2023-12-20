@@ -109,7 +109,7 @@ public class LoginPin extends JPanel implements MouseListener, ActionListener {
         }
         if (clicked==btnValidar){
             String pin=new String(txtPin.getPassword());
-            if (artista.verificarLoginPin(artista,pin)){
+            if (artista.verificarLoginPin(pin)){
                 JOptionPane.showMessageDialog(this,"Pin correto");
             }
             else JOptionPane.showMessageDialog(this,"O PIN introduzido está incorreto");
