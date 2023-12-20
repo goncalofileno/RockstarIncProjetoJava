@@ -25,6 +25,7 @@ public class TabelaCliente extends JPanel implements ActionListener {
     private ClientePlaylists panelPlaylists;
     private JButton btnBiblioteca;
     private InterfaceCliente interfaceCliente;
+    private panelPlaylistAI panelPlaylistAI;
 
     private ArrayList<JButton> btnPlaylists;
     public TabelaCliente(RockstarInc rockstar, Cliente utilizadorAtual,ClientePlaylists panelPlaylists, InterfaceCliente interfaceCliente) {
@@ -177,7 +178,6 @@ public class TabelaCliente extends JPanel implements ActionListener {
         if (clicked==btnBiblioteca){
             printMusicas(utizadorAtual.getBiblioteca());
             interfaceCliente.setLblTabela("Biblioteca de músicas:");
-
         }
         for (int i=0;i<btnPlaylists.size();i++) {
             if (clicked ==btnPlaylists.get(i)){
@@ -186,8 +186,6 @@ public class TabelaCliente extends JPanel implements ActionListener {
             }
         }
     }
-
-
 }
 
 

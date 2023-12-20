@@ -1,11 +1,14 @@
 package GUI;
 
 import Objetos.Cliente;
+import Objetos.Playlist;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 
 public class panelPlaylistAI extends JPanel implements ActionListener {
     private JLabel lblNomePlaylist,lblNumeroMusicas,lblGenero;
@@ -15,10 +18,15 @@ public class panelPlaylistAI extends JPanel implements ActionListener {
     private JTextField txtNomePlaylist,txtNumeroMusicas;
     private Cliente utilizadorAtual;
     private ClientePlaylists panelPlaylists;
+    private JFrame frame;
 
-    public panelPlaylistAI(Cliente utilizadorAtual,ClientePlaylists panelPlaylists) {
+    private TabelaCliente tabelaCliente;
+
+    public panelPlaylistAI(Cliente utilizadorAtual,ClientePlaylists panelPlaylists, JFrame frame) {
         this.panelPlaylists=panelPlaylists;
         this.utilizadorAtual=utilizadorAtual;
+        this.frame=frame;
+
 
         setLayout(null);
 
@@ -62,6 +70,7 @@ public class panelPlaylistAI extends JPanel implements ActionListener {
         btnCancelar=new JButton("Cancelar");
         btnCancelar.setFont(font);
         btnCancelar.setBounds(lblNumeroMusicas.getX(),lblNumeroMusicas.getY()+lblNumeroMusicas.getHeight()+resizeHeight(6),resizeWidth(100),resizeHeight(30));
+        btnCancelar.addActionListener(this);
         add(btnCancelar);
 
         btnCriar=new JButton("Criar");
@@ -97,9 +106,16 @@ public class panelPlaylistAI extends JPanel implements ActionListener {
             }
             else selectedVisibilidade=false;
             utilizadorAtual.addPlaylist(utilizadorAtual.criaPlaylistAI(txtNomePlaylist.getText(),Integer.valueOf(txtNumeroMusicas.getText()),comboGenero,selectedVisibilidade));
+            tabelaCliente.setPanelPlaylists(panelPlaylists);
             panelPlaylists.printPlaylists(utilizadorAtual.getPlaylistsProprias());
+            frame.dispatchEvent(new WindowEvent(frame,WindowEvent.WINDOW_CLOSING));
+        }
+        else if(clicked==btnCancelar){
+            frame.dispatchEvent(new WindowEvent(frame,WindowEvent.WINDOW_CLOSING));
         }
     }
 
-
+    public void setTabelaCliente(TabelaCliente tabelaCliente) {
+        this.tabelaCliente = tabelaCliente;
+    }
 }

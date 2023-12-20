@@ -95,7 +95,7 @@ public class ClientePlaylists extends JPanel implements MouseListener, ActionLis
         framePlaylistAI.setSize(resizeWidth(320),resizeHeight(220));
         framePlaylistAI.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         framePlaylistAI.setResizable(false);
-        panelPlaylistAI=new panelPlaylistAI(utilizadorAtual,this);
+        panelPlaylistAI=new panelPlaylistAI(utilizadorAtual,this, framePlaylistAI);
         panelPlaylistAI.setBounds(0,0,framePlaylistAI.getWidth(),framePlaylistAI.getHeight());
         framePlaylistAI.setVisible(false);
         framePlaylistAI.add(panelPlaylistAI);
@@ -222,6 +222,10 @@ public class ClientePlaylists extends JPanel implements MouseListener, ActionLis
 
     public void setTabelaCliente(TabelaCliente tabelaCliente) {
         this.tabelaCliente = tabelaCliente;
+    }
+
+    public void setTabelaPanelAi(TabelaCliente tabela){
+        this.panelPlaylistAI.setTabelaCliente(tabela);
     }
 }
 

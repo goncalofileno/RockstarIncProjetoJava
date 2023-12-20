@@ -32,6 +32,8 @@ public class InterfaceCliente extends JPanel implements ActionListener {
         mudarCorRGB(this,51,153,153);
         setLayout(null);
 
+
+
         panelPlaylists=new ClientePlaylists(rockstar,utilizadorAtual);
         panelPlaylists.setBounds(resizeWidth(10),resizeHeight(50),resizeWidth(200),resizeHeight(500));
         add(panelPlaylists);
@@ -40,6 +42,8 @@ public class InterfaceCliente extends JPanel implements ActionListener {
         panelPlaylists.setTabelaCliente(tabelaCliente);
         tabelaCliente.setBounds(panelPlaylists.getX()+panelPlaylists.getWidth()+resizeWidth(25),panelPlaylists.getY(),resizeWidth(465),panelPlaylists.getHeight());
         add(tabelaCliente);
+
+        panelPlaylists.setTabelaPanelAi(tabelaCliente);
 
         panelCarrinho=new PanelCarrinho();
         panelCarrinho.setBounds(resizeWidth(725),panelPlaylists.getY(),resizeWidth(200),resizeHeight(270));
