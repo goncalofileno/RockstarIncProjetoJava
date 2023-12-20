@@ -21,8 +21,8 @@ public abstract class Utilizador {
         return pass;
     }
 
-    public boolean verificaLoginPass(Utilizador utilizador, String pass) {
-        if (utilizador.getPass().equals(pass)) {
+    public boolean verificaLoginPass(String pass) {
+        if (this.pass.equals(pass)) {
             return true;
         } else
             return false;
