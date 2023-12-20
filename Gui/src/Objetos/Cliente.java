@@ -43,4 +43,15 @@ public class Cliente extends Utilizador{
     public ArrayList<Playlist> getPlaylistsProprias() {
         return playlistsProprias;
     }
+
+    public Playlist criaPlaylistAI(String nome, int quantidade, String genero, boolean visibilidade){
+        Playlist playlistAI = new Playlist(nome, visibilidade);
+
+        for(Musica musica: biblioteca){
+            if(musica.getGenero().equals(genero) && (playlistAI.getMusicas().size() < quantidade)) {
+                playlistAI.addMusica(musica);
+            }
+        }
+        return playlistAI;
+    }
 }

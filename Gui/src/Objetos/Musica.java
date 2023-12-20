@@ -31,7 +31,6 @@ public class Musica {
         this.dataAdicionada = LocalDate.now();
         this.estadoAtividade = true;
 
-
         this.vendas = 0;
         this.faturacao = 0.00;
     }
