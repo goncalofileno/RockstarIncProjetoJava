@@ -32,7 +32,7 @@ public class CriarPlaylistPanel extends JPanel implements ActionListener {
         lblNome.setBounds(resizeWidth(20),resizeHeight(20),resizeWidth(150),resizeHeight(25));
         add(lblNome);
         txtNome=new JTextField(20);
-        txtNome.setBounds(lblNome.getX(),lblNome.getY()+lblNome.getHeight()+resizeHeight(2),resizeWidth(150),resizeHeight(40));
+        txtNome.setBounds(lblNome.getX(),lblNome.getY()+lblNome.getHeight()+resizeHeight(2),resizeWidth(150),resizeHeight(30));
         add(txtNome);
         checkVisibilidade=new JCheckBox("Pública");
         checkVisibilidade.setBounds(txtNome.getX(),txtNome.getY()+txtNome.getHeight()+resizeHeight(5),resizeWidth(100),resizeHeight(40));

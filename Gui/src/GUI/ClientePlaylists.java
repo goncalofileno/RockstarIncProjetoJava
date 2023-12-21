@@ -134,13 +134,7 @@ public class ClientePlaylists extends JPanel implements MouseListener, ActionLis
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        Object clicked = e.getSource();
 
-        for (int i = 0; i < btnListaPlaylists.size(); i++) {
-            if (clicked == btnListaPlaylists.get(i)) {
-                System.out.println("Click na música "+(i+1));
-            }
-        }
     }
 
     @Override
@@ -168,34 +162,42 @@ public class ClientePlaylists extends JPanel implements MouseListener, ActionLis
         Object clicked=e.getSource();
 
         if (clicked==btnCriarPlaylist){
+            frameCriarPlaylist.setLocationRelativeTo(null);
             frameCriarPlaylist.setVisible(true);
         }
         else if(clicked==panelCriarPlaylist.getBtnCriar()) {
 
-            if (panelCriarPlaylist.getCheckVisibilidade().isSelected()) {
-                Playlist playlist=new Playlist(panelCriarPlaylist.getTxtNome().getText(), true);
-                rockstar.addPlaylist(playlist);
-                utilizadorAtual.addPlaylist(playlist);
-                printPlaylists(utilizadorAtual.getPlaylistsProprias());
-                frameCriarPlaylist.dispatchEvent(new WindowEvent(frameCriarPlaylist,WindowEvent.WINDOW_CLOSING));
-                tabelaCliente.setPanelPlaylists(this);
-                JOptionPane.showMessageDialog(frameCriarPlaylist,"A playlist "+playlist.getNome()+" foi criada");
-
+            if (panelCriarPlaylist.getTxtNome().getText().isEmpty()){
+                JOptionPane.showMessageDialog(panelCriarPlaylist,"O nome inserido é inválido ");
             }
-            else{
-                Playlist playlist=new Playlist(panelCriarPlaylist.getTxtNome().getText(), false);
-                rockstar.addPlaylist(playlist);
-                utilizadorAtual.addPlaylist(playlist);
-                printPlaylists(utilizadorAtual.getPlaylistsProprias());
-                frameCriarPlaylist.dispatchEvent(new WindowEvent(frameCriarPlaylist,WindowEvent.WINDOW_CLOSING));
-                tabelaCliente.setPanelPlaylists(this);
-                JOptionPane.showMessageDialog(frameCriarPlaylist,"A playlist "+playlist.getNome()+" foi criada");
+            else {
+                if (panelCriarPlaylist.getCheckVisibilidade().isSelected()) {
+                    Playlist playlist = new Playlist(panelCriarPlaylist.getTxtNome().getText(), true);
+                    rockstar.addPlaylist(playlist);
+                    utilizadorAtual.addPlaylist(playlist);
+                    printPlaylists(utilizadorAtual.getPlaylistsProprias());
+                    panelCriarPlaylist.getTxtNome().setText("");
+                    frameCriarPlaylist.dispatchEvent(new WindowEvent(frameCriarPlaylist, WindowEvent.WINDOW_CLOSING));
+                    tabelaCliente.setPanelPlaylists(this);
+                    JOptionPane.showMessageDialog(frameCriarPlaylist, "A playlist " + playlist.getNome() + " foi criada");
+
+                } else {
+                    Playlist playlist = new Playlist(panelCriarPlaylist.getTxtNome().getText(), false);
+                    rockstar.addPlaylist(playlist);
+                    utilizadorAtual.addPlaylist(playlist);
+                    printPlaylists(utilizadorAtual.getPlaylistsProprias());
+                    frameCriarPlaylist.dispatchEvent(new WindowEvent(frameCriarPlaylist, WindowEvent.WINDOW_CLOSING));
+                    tabelaCliente.setPanelPlaylists(this);
+                    JOptionPane.showMessageDialog(frameCriarPlaylist, "A playlist " + playlist.getNome() + " foi criada");
+                }
+
             }
         }
         else if (clicked==panelCriarPlaylist.getBtnCancelar()){
             frameCriarPlaylist.dispatchEvent(new WindowEvent(frameCriarPlaylist,WindowEvent.WINDOW_CLOSING));
         }
         else if(clicked==btnCriadorAI){
+            framePlaylistAI.setLocationRelativeTo(null);
             framePlaylistAI.setVisible(true);
         }
         else if (clicked==panelPlaylistAI.getBtnCriar()){
@@ -205,12 +207,25 @@ public class ClientePlaylists extends JPanel implements MouseListener, ActionLis
                 selectedVisibilidade=true;
             }
             else selectedVisibilidade=false;
-            Playlist playlistAI=utilizadorAtual.criaPlaylistAI(panelPlaylistAI.getTxtNomePlaylist().getText(),Integer.valueOf(panelPlaylistAI.getTxtNumeroMusicas().getText()),comboGenero,selectedVisibilidade);
-            utilizadorAtual.addPlaylist(playlistAI);
-            rockstar.addPlaylist(playlistAI);
-            printPlaylists(utilizadorAtual.getPlaylistsProprias());
-            tabelaCliente.setPanelPlaylists(this);
-            framePlaylistAI.dispatchEvent(new WindowEvent(framePlaylistAI,WindowEvent.WINDOW_CLOSING));
+            if (panelPlaylistAI.getTxtNumeroMusicas().getText().isEmpty() || panelPlaylistAI.getTxtNomePlaylist().getText().isEmpty()) {
+                JOptionPane.showMessageDialog(panelPlaylistAI,"Os dados inseridos são inválidos");
+            }
+            else {
+                if (Integer.valueOf(panelPlaylistAI.getTxtNumeroMusicas().getText()) > 0) {
+                    Playlist playlistAI = utilizadorAtual.criaPlaylistAI(panelPlaylistAI.getTxtNomePlaylist().getText(), Integer.valueOf(panelPlaylistAI.getTxtNumeroMusicas().getText()), comboGenero, selectedVisibilidade);
+                    if(!utilizadorAtual.verificarQtdMusicas(playlistAI,Integer.valueOf(panelPlaylistAI.getTxtNumeroMusicas().getText()))){
+                        JOptionPane.showMessageDialog(panelPlaylistAI,"Quantidade de músicas insuficientes. A Playlist foi criada com "+playlistAI.getMusicas().size()+" músicas");
+                    }
+                    utilizadorAtual.addPlaylist(playlistAI);
+                    rockstar.addPlaylist(playlistAI);
+                    printPlaylists(utilizadorAtual.getPlaylistsProprias());
+                    tabelaCliente.setPanelPlaylists(this);
+                    panelPlaylistAI.getTxtNomePlaylist().setText("");
+                    panelPlaylistAI.getTxtNumeroMusicas().setText("");
+                    framePlaylistAI.dispatchEvent(new WindowEvent(framePlaylistAI, WindowEvent.WINDOW_CLOSING));
+                }
+                else  JOptionPane.showMessageDialog(panelPlaylistAI,"Insira um número de músicas válido");
+            }
         }
         else if(clicked==panelPlaylistAI.getBtnCancelar()){
             framePlaylistAI.dispatchEvent(new WindowEvent(framePlaylistAI,WindowEvent.WINDOW_CLOSING));
@@ -221,6 +236,7 @@ public class ClientePlaylists extends JPanel implements MouseListener, ActionLis
         panelPlaylists.removeAll();
         btnListaPlaylists.clear();
         panelPlaylists.revalidate();
+        panelPlaylists.repaint();
 
         for (int i = 0; i < playlists.size(); i++) {
 
@@ -229,7 +245,6 @@ public class ClientePlaylists extends JPanel implements MouseListener, ActionLis
             btnListaPlaylists.get(i).setFont(font);
             btnListaPlaylists.get(i).setBorderPainted(false);
             mudarCorRGB(btnListaPlaylists.get(i),238,238,238);
-            btnListaPlaylists.get(i).addMouseListener(this);
 
             System.out.println(playlists.get(i).getNome());
             panelPlaylists.add(btnListaPlaylists.get(i));

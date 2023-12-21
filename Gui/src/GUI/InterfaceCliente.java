@@ -1,6 +1,7 @@
 package GUI;
 
 import Objetos.Cliente;
+import Objetos.Playlist;
 import Objetos.RockstarInc;
 import Objetos.Utilizador;
 
@@ -9,6 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 
 public class InterfaceCliente extends JPanel implements ActionListener {
     private ClientePlaylists panelPlaylists;
@@ -16,8 +18,6 @@ public class InterfaceCliente extends JPanel implements ActionListener {
     private PesquisaPanel filtros;
     private JLabel lblUser,lblSaldo,lblTabela;
     private JButton btnLoja, btnCarregar,btnCancelar,btnCarregar2;
-    private JRadioButton radioBtnMusicas,radioBtnPlaylists;
-    private ButtonGroup grupoRadioBtn;
     private JButton btnRemoverPlaylist;
     private TabelaCliente tabelaCliente;
     private JFrame frmCarregamento;
@@ -31,8 +31,6 @@ public class InterfaceCliente extends JPanel implements ActionListener {
 
         mudarCorRGB(this,51,153,153);
         setLayout(null);
-
-
 
         panelPlaylists=new ClientePlaylists(rockstar,utilizadorAtual);
         panelPlaylists.setBounds(resizeWidth(10),resizeHeight(50),resizeWidth(200),resizeHeight(500));
@@ -72,35 +70,15 @@ public class InterfaceCliente extends JPanel implements ActionListener {
         Font font3=new Font("SansSerif",Font.BOLD,13);
         lblTabela=new JLabel("Biblioteca de músicas:");
         lblTabela.setFont(font3);
-        lblTabela.setBounds(tabelaCliente.getX(),lblUser.getY(),resizeWidth(250),lblUser.getHeight());
+        lblTabela.setBounds(tabelaCliente.getX(),lblUser.getY(),resizeWidth(400),lblUser.getHeight());
         add(lblTabela);
-
-        Font font2=new Font("SansSerif",Font.BOLD | Font.ITALIC,13);
-        radioBtnMusicas=new JRadioButton("Músicas");
-        radioBtnPlaylists=new JRadioButton("Playlists");
-        radioBtnMusicas.setFont(font2);
-        radioBtnPlaylists.setFont(font2);
-        radioBtnMusicas.setOpaque(false);
-        radioBtnPlaylists.setOpaque(false);
-        radioBtnMusicas.setBounds(lblTabela.getX()+resizeWidth(70),lblTabela.getY(),resizeWidth(80),resizeHeight(25));
-        radioBtnPlaylists.setBounds(radioBtnMusicas.getX()+radioBtnMusicas.getWidth()+resizeWidth(10),radioBtnMusicas.getY(),resizeWidth(80),resizeHeight(25));
-        radioBtnMusicas.setSelected(true);
-        add(radioBtnMusicas);
-        add(radioBtnPlaylists);
-        radioBtnMusicas.setVisible(false);
-        radioBtnPlaylists.setVisible(false);
-        radioBtnMusicas.addActionListener(this);
-        radioBtnPlaylists.addActionListener(this);
-
-        grupoRadioBtn=new ButtonGroup();
-        grupoRadioBtn.add(radioBtnMusicas);
-        grupoRadioBtn.add(radioBtnPlaylists);
 
         btnRemoverPlaylist=new JButton("Remover Playlist");
         btnRemoverPlaylist.setFont(font);
         btnRemoverPlaylist.setBounds(panelCarrinho.getX()-resizeWidth(155),btnLoja.getY(),resizeWidth(140),resizeHeight(30));
         btnRemoverPlaylist.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         btnRemoverPlaylist.addActionListener(this);
+        btnRemoverPlaylist.setVisible(false);
         add(btnRemoverPlaylist);
 
         lblSaldo=new JLabel("Saldo: 20.00€");
@@ -191,35 +169,39 @@ public class InterfaceCliente extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Object clicked=e.getSource();
 
-        if (clicked==radioBtnMusicas){
-            for (int i=0;i<50;i++) {
-                tabelaCliente.getModel().setValueAt("Musica "+(i+1),i , 0);
-            }
-        }
-        else if(clicked==radioBtnPlaylists){
-            for (int i=0;i<50;i++) {
-                tabelaCliente.getModel().setValueAt("Playlist "+(i+1),i , 0);
-            }
-        }
-        else if(clicked==btnCarregar){
+        if(clicked==btnCarregar){
             frmCarregamento.setBounds(resizeWidth(1000),resizeHeight(150),resizeWidth(240),resizeHeight(180));
             frmCarregamento.setVisible(true);
         }
         else if(clicked==btnLoja){
-            radioBtnPlaylists.setVisible(true);
-            radioBtnMusicas.setVisible(true);
             lblTabela.setText("Loja:");
-            lblTabela.setBounds(lblTabela.getX(),lblTabela.getY(),resizeWidth(60),lblUser.getHeight());
+            String [] headers ={"Nome","Artista","Género","Rating","Preço","Username"};
+            tabelaCliente.setHeader(headers);
+            tabelaCliente.printMusicasLoja(rockstar.getMusicasList());
+            tabelaCliente.setPlaylist(null);
+            btnRemoverPlaylist.setVisible(false);
+
         }
         else if(clicked==panelPlaylists.getBtnBiblioteca()){
-            radioBtnMusicas.setVisible(false);
-            radioBtnPlaylists.setVisible(false);
             lblTabela.setText("Biblioteca de músicas:");
-            lblTabela.setBounds(lblTabela.getX(),lblTabela.getY(),resizeWidth(140),lblUser.getHeight());
+            tabelaCliente.setPlaylist(null);
+            String [] headers= {"Nome","Artista","Género","Rating",""};
+            tabelaCliente.setHeader(headers);
+            tabelaCliente.printMusicas(utilizadorAtual.getBiblioteca());
+            btnRemoverPlaylist.setVisible(false);
+
         }
         else if(clicked==btnRemoverPlaylist){
-                tabelaCliente.getModel().setRowCount(0);
-
+            System.out.println("remover playlist");
+            tabelaCliente.getModel().setRowCount(0);
+            utilizadorAtual.getPlaylistsProprias().remove(tabelaCliente.getPlaylist());
+            rockstar.removerPlaylist(tabelaCliente.getPlaylist());
+            panelPlaylists.printPlaylists(utilizadorAtual.getPlaylistsProprias());
+            tabelaCliente.setPanelPlaylists(panelPlaylists);
+            tabelaCliente.printMusicas(utilizadorAtual.getBiblioteca());
+            lblTabela.setText("Biblioteca de músicas");
+            tabelaCliente.setPlaylist(null);
+            btnRemoverPlaylist.setVisible(false);
         }
     }
 
@@ -238,5 +220,9 @@ public class InterfaceCliente extends JPanel implements ActionListener {
 
     public JButton getBtnRemoverPlaylist() {
         return btnRemoverPlaylist;
+    }
+
+    public JLabel getLblTabela() {
+        return lblTabela;
     }
 }

@@ -53,11 +53,8 @@ public class PesquisaPanel extends JPanel {
         add(btnPesquisa);
 
         popupMenu=new JPopupMenu();
-        popupMenu.add(new JMenuItem("Click me"));
-        popupMenu.add(new JMenuItem("Click 2"));
-        popupMenu.add(new JMenuItem("Click 3"));
-        popupMenu.setSize(100,100);
-
+        popupMenu.add(new JMenuItem("Comprar música"));
+        popupMenu.setSize(200,100);
         add(popupMenu);
 
         txtPesquisa.addMouseListener(new MouseListener() {

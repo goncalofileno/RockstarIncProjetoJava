@@ -63,8 +63,36 @@ public class Cliente extends Utilizador{
         return playlistAI;
     }
 
+    public boolean verificarQtdMusicas (Playlist playlist,int quantidade){
+        if (playlist.getMusicas().size()<quantidade){
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
     public ArrayList<Musica> getBiblioteca() {
         return biblioteca;
     }
 
+    public void comprarMusica(Musica musica){
+            if (musica.getPrecoMusica() != 0) {
+                carrinhoDeCompras.add(musica);
+
+            } else {
+                biblioteca.add(musica);
+
+            }
+
+    }
+
+    public boolean verificarBiblioteca(Musica musica){
+        for (int i=0;i<biblioteca.size();i++){
+            if (biblioteca.get(i).equals(musica)){
+                return true;
+            }
+        }
+        return false;
+    }
 }

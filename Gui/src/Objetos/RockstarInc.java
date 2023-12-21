@@ -145,7 +145,24 @@ public class RockstarInc {
             }
             return false;
     }
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public Musica musicaSelecionada (String username,String titulo){
+        for (int i=0;i<musicasList.size();i++){
+            if(musicasList.get(i).getTitulo().equals(titulo) && musicasList.get(i).getCompositor().getUsername().equals(username)){
+                return musicasList.get(i);
+            }
+        }
+
+        return null;
+    }
+
+    public void removerPlaylist(Playlist playlist){
+        playlistsList.remove(playlist);
+    }
+
+    public ArrayList<Musica> getMusicasList() {
+        return musicasList;
+    }
 }
 
 
