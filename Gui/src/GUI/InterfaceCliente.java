@@ -1,29 +1,28 @@
 package GUI;
 
 import Objetos.Cliente;
-import Objetos.Playlist;
+import Objetos.Compra;
 import Objetos.RockstarInc;
-import Objetos.Utilizador;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
 
 public class InterfaceCliente extends JPanel implements ActionListener {
     private ClientePlaylists panelPlaylists;
     private PanelCarrinho panelCarrinho;
-    private PesquisaPanel filtros;
-    private JLabel lblUser,lblSaldo,lblTabela;
+    private PesquisaPanel panelPesquisa;
+    private JLabel lblUser,lblSaldo,lblTabela,lblAlterarVisibilidade;
     private JButton btnLoja, btnCarregar,btnCancelar,btnCarregar2;
-    private JButton btnRemoverPlaylist;
+    private JButton btnRemoverPlaylist,btnAlterarVisibilidade;
     private TabelaCliente tabelaCliente;
-    private JFrame frmCarregamento;
+    private JDialog frmCarregamento;
     private JPanel panelCarregamento;
     private RockstarInc rockstar;
     private Cliente utilizadorAtual;
+    private JTextField txtValor;
 
     public InterfaceCliente(RockstarInc rockstar, Cliente utilizadorAtual){
         this.rockstar=rockstar;
@@ -36,27 +35,35 @@ public class InterfaceCliente extends JPanel implements ActionListener {
         panelPlaylists.setBounds(resizeWidth(10),resizeHeight(50),resizeWidth(200),resizeHeight(500));
         add(panelPlaylists);
 
+        Font font3=new Font("SansSerif",Font.BOLD,13);
+        lblTabela=new JLabel("Biblioteca de músicas:");
+        lblTabela.setFont(font3);
+        lblTabela.setBounds(panelPlaylists.getX()+panelPlaylists.getWidth()+resizeWidth(25),resizeHeight(20),resizeWidth(400),resizeHeight(20));
+        add(lblTabela);
+
+        panelCarrinho=new PanelCarrinho(utilizadorAtual);
+        panelCarrinho.setBounds(resizeWidth(725),panelPlaylists.getY(),resizeWidth(200),resizeHeight(320));
+        add(panelCarrinho);
+
         tabelaCliente=new TabelaCliente( rockstar, utilizadorAtual,panelPlaylists,this);
         panelPlaylists.setTabelaCliente(tabelaCliente);
-        tabelaCliente.setBounds(panelPlaylists.getX()+panelPlaylists.getWidth()+resizeWidth(25),panelPlaylists.getY(),resizeWidth(465),panelPlaylists.getHeight());
+        tabelaCliente.setBounds(lblTabela.getX(),panelPlaylists.getY(),resizeWidth(465),panelPlaylists.getHeight());
         add(tabelaCliente);
 
         panelPlaylists.setTabelaPanelAi(tabelaCliente);
 
-        panelCarrinho=new PanelCarrinho();
-        panelCarrinho.setBounds(resizeWidth(725),panelPlaylists.getY(),resizeWidth(200),resizeHeight(270));
-        add(panelCarrinho);
+        tabelaCliente.setPanelCarrinho(panelCarrinho);
 
         setVisible(true);
 
-        filtros=new PesquisaPanel();
-        filtros.setBounds(panelCarrinho.getX(),panelCarrinho.getY()+panelCarrinho.getHeight()+resizeHeight(20),panelCarrinho.getWidth(),resizeHeight(100));
-        add(filtros);
+        panelPesquisa =new PesquisaPanel();
+        panelPesquisa.setBounds(panelCarrinho.getX(),panelCarrinho.getY()+panelCarrinho.getHeight()+resizeHeight(20),panelCarrinho.getWidth(),resizeHeight(100));
+        add(panelPesquisa);
 
         Font font4=new Font("SansSerif",Font.BOLD ,13);
         lblUser=new JLabel("Cliente: "+utilizadorAtual.getUsername());
         lblUser.setFont(font4);
-        lblUser.setBounds(panelPlaylists.getX()+resizeWidth(10),resizeHeight(20),resizeWidth(150),resizeHeight(20));
+        lblUser.setBounds(panelPlaylists.getX()+resizeWidth(10),lblTabela.getY(),resizeWidth(150),lblTabela.getHeight());
         add(lblUser);
 
         Font font=new Font("SansSerif",Font.BOLD ,12);
@@ -67,12 +74,6 @@ public class InterfaceCliente extends JPanel implements ActionListener {
         btnLoja.addActionListener(this);
         add(btnLoja);
 
-        Font font3=new Font("SansSerif",Font.BOLD,13);
-        lblTabela=new JLabel("Biblioteca de músicas:");
-        lblTabela.setFont(font3);
-        lblTabela.setBounds(tabelaCliente.getX(),lblUser.getY(),resizeWidth(400),lblUser.getHeight());
-        add(lblTabela);
-
         btnRemoverPlaylist=new JButton("Remover Playlist");
         btnRemoverPlaylist.setFont(font);
         btnRemoverPlaylist.setBounds(panelCarrinho.getX()-resizeWidth(155),btnLoja.getY(),resizeWidth(140),resizeHeight(30));
@@ -81,7 +82,21 @@ public class InterfaceCliente extends JPanel implements ActionListener {
         btnRemoverPlaylist.setVisible(false);
         add(btnRemoverPlaylist);
 
-        lblSaldo=new JLabel("Saldo: 20.00€");
+        btnAlterarVisibilidade=new JButton();
+        btnAlterarVisibilidade.setFont(font);
+        btnAlterarVisibilidade.setBounds(btnRemoverPlaylist.getX()-resizeWidth(170),btnRemoverPlaylist.getY(),resizeWidth(120),btnRemoverPlaylist.getHeight());
+        btnAlterarVisibilidade.setBorder(BorderFactory.createLineBorder(Color.black));
+        btnAlterarVisibilidade.addActionListener(this);
+        btnAlterarVisibilidade.setVisible(false);
+        add(btnAlterarVisibilidade);
+
+        lblAlterarVisibilidade=new JLabel("Alterar visibilidade para:");
+        lblAlterarVisibilidade.setFont(font);
+        lblAlterarVisibilidade.setBounds(btnAlterarVisibilidade.getX()-resizeWidth(148),btnRemoverPlaylist.getY(),resizeWidth(140),resizeHeight(30));
+        lblAlterarVisibilidade.setVisible(false);
+        add(lblAlterarVisibilidade);
+
+        lblSaldo=new JLabel("Saldo: "+String.valueOf(utilizadorAtual.getSaldo())+"€");
         lblSaldo.setFont(font);
         lblSaldo.setBounds(panelCarrinho.getX(),lblUser.getY(),resizeWidth(80),resizeHeight(20));
         add(lblSaldo);
@@ -95,7 +110,7 @@ public class InterfaceCliente extends JPanel implements ActionListener {
         panelPlaylists.getBtnBiblioteca().addActionListener(this);
 
         //////////////////////////////// JFrame CARREGAMENTO////////////////////////////////////
-        frmCarregamento =new JFrame();
+        frmCarregamento =new JDialog();
         frmCarregamento.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frmCarregamento.setLayout(null);
         frmCarregamento.setBounds(resizeWidth(1000),resizeHeight(150),resizeWidth(240),resizeHeight(180));
@@ -109,7 +124,7 @@ public class InterfaceCliente extends JPanel implements ActionListener {
 
         JLabel lblValor=new JLabel("Valor :");
         lblValor.setFont(font);
-        JTextField txtValor=new JTextField(20);
+        txtValor=new JTextField(20);
         txtValor.setFont(font);
 
         btnCancelar=new JButton("Cancelar");
@@ -117,6 +132,7 @@ public class InterfaceCliente extends JPanel implements ActionListener {
 
         btnCarregar2=new JButton("Carregar");
         btnCarregar2.setFont(font);
+        btnCarregar2.addActionListener(this);
 
         lblCarregarSaldo.setBounds(resizeWidth(20),resizeHeight(5),resizeWidth(100),resizeHeight(25));
         panelCarregamento.add(lblCarregarSaldo);
@@ -146,6 +162,9 @@ public class InterfaceCliente extends JPanel implements ActionListener {
 
         frmCarregamento.setVisible(false);
         frmCarregamento.add(panelCarregamento);
+
+        panelCarrinho.getBtnReset().addActionListener(this);
+        panelCarrinho.getBtnCheckout().addActionListener(this);
 
         ////////////////////////////////////////////////////////////////////////
 
@@ -180,15 +199,21 @@ public class InterfaceCliente extends JPanel implements ActionListener {
             tabelaCliente.printMusicasLoja(rockstar.getMusicasList());
             tabelaCliente.setPlaylist(null);
             btnRemoverPlaylist.setVisible(false);
+            btnAlterarVisibilidade.setVisible(false);
+            lblAlterarVisibilidade.setVisible(false);
 
         }
         else if(clicked==panelPlaylists.getBtnBiblioteca()){
             lblTabela.setText("Biblioteca de músicas:");
             tabelaCliente.setPlaylist(null);
             String [] headers= {"Nome","Artista","Género","Rating",""};
+
             tabelaCliente.setHeader(headers);
             tabelaCliente.printMusicas(utilizadorAtual.getBiblioteca());
+            tabelaCliente.setPlaylist(null);
             btnRemoverPlaylist.setVisible(false);
+            btnAlterarVisibilidade.setVisible(false);
+            lblAlterarVisibilidade.setVisible(false);
 
         }
         else if(clicked==btnRemoverPlaylist){
@@ -205,6 +230,52 @@ public class InterfaceCliente extends JPanel implements ActionListener {
             tabelaCliente.setPlaylist(null);
             btnRemoverPlaylist.setVisible(false);
         }
+        else if(clicked==btnAlterarVisibilidade){
+            if(btnAlterarVisibilidade.getText().equals("Privada")){
+                tabelaCliente.getPlaylist().setVisibilidade(false);
+                btnAlterarVisibilidade.setText("Pública");
+            }
+            else{
+                tabelaCliente.getPlaylist().setVisibilidade(true);
+                btnAlterarVisibilidade.setText("Privada");
+            }
+        }
+        else if(clicked==panelCarrinho.getBtnReset()){
+           limparCarrinho();
+            utilizadorAtual.limparCarrinho();
+        }
+        else if(clicked==panelCarrinho.getBtnCheckout()){
+            if(utilizadorAtual.getSaldo()>=utilizadorAtual.getTotalCarrinho()){
+                Compra compra=new Compra(utilizadorAtual,utilizadorAtual.getCarrinhoDeCompras());
+                limparCarrinho();
+                atualizarLblSaldo();
+                JOptionPane.showMessageDialog(this,"Compra efetuada com sucesso");
+            }
+            else{
+                JOptionPane.showMessageDialog(this,"Saldo insuficiente");
+            }
+        }
+        else if(clicked==btnCarregar2){
+
+            try{
+                if(Double.valueOf(txtValor.getText())>0) {
+                    utilizadorAtual.carregarSaldo(Double.valueOf(txtValor.getText()));
+                    atualizarLblSaldo();
+                    txtValor.setText("");
+                    frmCarregamento.dispatchEvent(new WindowEvent(frmCarregamento, WindowEvent.WINDOW_CLOSING));
+                    JOptionPane.showMessageDialog(this, "Saldo adicionado com sucesso");
+                }
+                else{
+                    txtValor.setText("");
+                    JOptionPane.showMessageDialog(this,"O valor inserido é inválido");
+                }
+            }
+            catch (NumberFormatException q){
+                txtValor.setText("");
+                JOptionPane.showMessageDialog(this,"Dados inválidos");
+            }
+        }
+
     }
 
     public JButton getBtnCarregar() {
@@ -226,5 +297,30 @@ public class InterfaceCliente extends JPanel implements ActionListener {
 
     public JLabel getLblTabela() {
         return lblTabela;
+    }
+
+    public PanelCarrinho getPanelCarrinho() {
+        return panelCarrinho;
+    }
+    public void atualizarLblSaldo(){
+        lblSaldo.setText("Saldo: "+String.valueOf(utilizadorAtual.getSaldo())+"€");
+    }
+
+    public void limparCarrinho(){
+        panelCarrinho.getTitulos().clear();
+        panelCarrinho.getPrecos().clear();
+        panelCarrinho.resetPrecoTotal();
+        panelCarrinho.atualizarLblTotalCompra();
+        panelCarrinho.getPanelCarrinho().removeAll();
+        panelCarrinho.getPanelCarrinho().revalidate();
+        panelCarrinho.getPanelCarrinho().repaint();
+    }
+
+    public JButton getBtnAlterarVisibilidade() {
+        return btnAlterarVisibilidade;
+    }
+
+    public JLabel getLblAlterarVisibilidade() {
+        return lblAlterarVisibilidade;
     }
 }

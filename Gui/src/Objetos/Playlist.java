@@ -21,5 +21,14 @@ public class Playlist extends GrupoDeMusicas{
         super(nome);
         this.visibilidade = visibilidade;
     }
+
+    public boolean isVisibilidade() {
+        return visibilidade;
+    }
+
+    public void setVisibilidade(boolean visibilidade) {
+        this.visibilidade = visibilidade;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }

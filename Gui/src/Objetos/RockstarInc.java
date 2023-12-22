@@ -38,6 +38,8 @@ public class RockstarInc {
 
         Musica deixei = new Musica("Deixei tudo por ela", zecabra, "Popular", 0.00);
         musicasList.add(deixei);
+        deixei.novoPreco(1.5, LocalDate.now());
+        deixei.novoPreco(2.5, LocalDate.now());
         Musica voltei = new Musica("Voltei para ela", zecabra, "Popular", 0.00);
         musicasList.add(voltei);
         Musica aqui = new Musica("Aqui só para ti", marialeal, "Pop Popular", 0.00);
@@ -46,6 +48,8 @@ public class RockstarInc {
         musicasList.add(traidora);
         Musica turbinada = new Musica("Turbinada", anamalhoa, "Pop Popular", 2.5);
         musicasList.add(turbinada);
+        turbinada.novoPreco(1.5,LocalDate.now());
+        turbinada.novoPreco(1, LocalDate.now());
         Musica elamexe = new Musica("Ela mexe", anamalhoa, "Pop Popular", 1.5);
         musicasList.add(elamexe);
         Musica bacalhau = new Musica("Deixa-me cheirar teu bacalhau", quimbarreiros, "Popular", 3.00);
@@ -75,8 +79,6 @@ public class RockstarInc {
         clientesList.get(0).addBiblioteca(traidora);
         clientesList.get(0).addBiblioteca(deixei);
         clientesList.get(0).addBiblioteca(casar);
-        clientesList.get(0).addBiblioteca(turbinada);
-        clientesList.get(0).addBiblioteca(elamexe);
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////ADDERS////////////////////////////////////////////////////////////////////

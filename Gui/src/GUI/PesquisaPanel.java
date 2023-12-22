@@ -51,41 +51,6 @@ public class PesquisaPanel extends JPanel {
         btnPesquisa=new JButton("\uD83D\uDD0E");
         btnPesquisa.setBounds(txtPesquisa.getX()+txtPesquisa.getWidth()+resizeWidth(5),txtPesquisa.getY(),resizeWidth(50),resizeHeight(22));
         add(btnPesquisa);
-
-        popupMenu=new JPopupMenu();
-        popupMenu.add(new JMenuItem("Comprar música"));
-        popupMenu.setSize(200,100);
-        add(popupMenu);
-
-        txtPesquisa.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (e.getButton()==MouseEvent.BUTTON3) {
-                    popupMenu.show(e.getComponent(), e.getX(), e.getY());
-                }
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
-        });
-
     }
     private int resizeWidth(int width ){
         Dimension ecra=Toolkit.getDefaultToolkit().getScreenSize();

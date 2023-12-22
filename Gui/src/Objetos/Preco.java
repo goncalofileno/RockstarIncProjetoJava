@@ -17,5 +17,10 @@ public class Preco {
     public double getValor() {
         return valor;
     }
+
+    public LocalDate getDataPreco() {
+        return dataPreco;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }

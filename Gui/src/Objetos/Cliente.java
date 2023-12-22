@@ -17,6 +17,7 @@ public class Cliente extends Utilizador{
         playlistsProprias=new ArrayList<>();
         comprasEfetuadas=new ArrayList<>();
         biblioteca=new ArrayList<>();
+        saldo=0;
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////GETTTERS//////////////////////////////////////////////////////////////////
@@ -82,9 +83,7 @@ public class Cliente extends Utilizador{
 
             } else {
                 biblioteca.add(musica);
-
             }
-
     }
 
     public boolean verificarBiblioteca(Musica musica){
@@ -95,4 +94,39 @@ public class Cliente extends Utilizador{
         }
         return false;
     }
+
+    public boolean verificarMusicaCarrinho(Musica musica){
+        for (int i=0;i<carrinhoDeCompras.size();i++){
+            if (carrinhoDeCompras.get(i).equals(musica)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void limparCarrinho(){
+        carrinhoDeCompras.clear();
+    }
+
+    public double getSaldo() {
+        return saldo;
+    }
+
+    public void carregarSaldo(double carregamento){
+        saldo+=carregamento;
+    }
+
+    public void descontarSaldo(double precoMusicas){
+        saldo-=precoMusicas;
+    }
+
+    public double getTotalCarrinho(){
+        double precoTotal=0;
+        for (int i=0;i<carrinhoDeCompras.size();i++){
+            precoTotal+=carrinhoDeCompras.get(i).getPrecoMusica();
+        }
+        return precoTotal;
+    }
+
+
 }

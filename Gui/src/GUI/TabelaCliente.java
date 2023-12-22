@@ -1,9 +1,6 @@
 package GUI;
 
-import Objetos.Cliente;
-import Objetos.Musica;
-import Objetos.Playlist;
-import Objetos.RockstarInc;
+import Objetos.*;
 
 import javax.swing.*;
 import javax.swing.table.*;
@@ -28,6 +25,9 @@ public class TabelaCliente extends JPanel implements ActionListener {
     private ArrayList<JButton> btnPlaylists;
     private JScrollPane scrollPane;
     private JPopupMenu popupMenuLoja,popupMenuBiblioteca;
+    private PanelCarrinho panelCarrinho;
+    private JFrame frmPrecos;
+    private JPanel panelPrecos;
 
     public TabelaCliente(RockstarInc rockstar, Cliente utilizadorAtual,ClientePlaylists panelPlaylists, InterfaceCliente interfaceCliente) {
         this.rockstar=rockstar;
@@ -65,16 +65,9 @@ public class TabelaCliente extends JPanel implements ActionListener {
 
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-        /*TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(table.getModel());
-        table.setRowSorter(sorter);
+        setOrdemTabela();
 
-        List<RowSorter.SortKey> sortKeys = new ArrayList<>(25);
-        sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
-        sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
-        sorter.setSortKeys(sortKeys);*/
-
-        table.setAutoCreateRowSorter(true);
-
+        //table.setAutoCreateRowSorter(true);
 
         mudarCorRGB(this,51,153,153);
         mudarCorRGB(table,200,240,250);
@@ -106,19 +99,86 @@ public class TabelaCliente extends JPanel implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int row =table.getSelectedRow();
-                row =table.convertRowIndexToModel(row);
+                if(row!=-1) {
+                    row = table.convertRowIndexToModel(row);
 
-                if(!utilizadorAtual.verificarBiblioteca(rockstar.musicaSelecionada(table.getModel().getValueAt(row,5).toString(),table.getModel().getValueAt(row,0).toString()))) {
-                    utilizadorAtual.comprarMusica(rockstar.musicaSelecionada(table.getModel().getValueAt(row, 5).toString(), table.getModel().getValueAt(row, 0).toString()));
-                }
-                else {
-                    JOptionPane.showMessageDialog(interfaceCliente, "Música já adquirida.");
+                    Musica musicaSelecionada=rockstar.musicaSelecionada(table.getModel().getValueAt(row, 5).toString(), table.getModel().getValueAt(row, 0).toString());
+
+                    if (!utilizadorAtual.verificarBiblioteca(musicaSelecionada)) {
+                        if(!utilizadorAtual.verificarMusicaCarrinho(musicaSelecionada)) {
+                            utilizadorAtual.comprarMusica(musicaSelecionada);
+                            if (musicaSelecionada.getPrecoMusica() != 0) {
+                                panelCarrinho.getTitulos().add(musicaSelecionada.getTitulo());
+                                panelCarrinho.addPrecoTotal(musicaSelecionada.getPrecoMusica());
+                                panelCarrinho.getPanelCarrinho().removeAll();
+                                panelCarrinho.getPanelCarrinho().revalidate();
+                                panelCarrinho.atualizarLblTotalCompra();
+                                for (int i = 0; i < utilizadorAtual.getCarrinhoDeCompras().size(); i++) {
+                                    panelCarrinho.getPanelCarrinho().add(new JLabel(panelCarrinho.getTitulos().get(i)));
+                                    panelCarrinho.getPanelCarrinho().add(new JLabel(panelCarrinho.getPrecos().get(i) + "€"));
+                                }
+                            }
+                            else{
+                                JOptionPane.showMessageDialog(interfaceCliente,"Música adicionada com sucesso");
+                            }
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(interfaceCliente,"A música selecionada já se encontra no carrinho de compras.");
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(interfaceCliente, "Música já adquirida.");
+                    }
+
                 }
 
             }
         });
 
+        frmPrecos =new JFrame("Histórico de preços");
+        frmPrecos.setLayout(null);
+        frmPrecos.setSize(resizeWidth(200),resizeHeight(300));
+        frmPrecos.setLocationRelativeTo(null);
+
+        frmPrecos.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+
+        panelPrecos=new JPanel();
+        panelPrecos.setLayout(new BoxLayout(panelPrecos,BoxLayout.Y_AXIS));
+        frmPrecos.setVisible(false);
+
+        JScrollPane scrollPane2=new JScrollPane(panelPrecos);
+        scrollPane2.setBounds(0,0,frmPrecos.getWidth(),frmPrecos.getHeight());
+        frmPrecos.add(scrollPane2);
+
+
+        JMenuItem menuLoja2=new JMenuItem("Histórico do preço");
+
+        menuLoja2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panelPrecos.removeAll();
+                panelPrecos.revalidate();
+                panelPrecos.repaint();
+
+                int row = table.getSelectedRow();
+                if (row != -1) {
+                    row = table.convertRowIndexToModel(row);
+                    Musica musicaSelecionada = rockstar.musicaSelecionada(table.getModel().getValueAt(row, 5).toString(), table.getModel().getValueAt(row, 0).toString());
+
+                    ArrayList<Preco> precos=musicaSelecionada.getListaPrecos();
+
+                    for (int i=0;i<precos.size();i++){
+                        panelPrecos.add(new JLabel("        "+precos.get(i).getValor()+"€"));
+                        panelPrecos.add(new JLabel("        "+precos.get(i).getDataPreco().toString()));
+                        panelPrecos.add(new JLabel("      "));
+                    }
+
+                    frmPrecos.setVisible(true);
+                }
+            }
+        });
+
         popupMenuLoja.add(menuLoja1);
+        popupMenuLoja.add(menuLoja2);
 
         popupMenuLoja.setSize(600,300);
         add(popupMenuLoja);
@@ -129,7 +189,7 @@ public class TabelaCliente extends JPanel implements ActionListener {
         menuBiblioteca1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                frmPrecos.setVisible(true);
             }
         });
 
@@ -146,30 +206,35 @@ public class TabelaCliente extends JPanel implements ActionListener {
 
                     if (interfaceCliente.getLblTabela().getText().equals("Loja:")) {
                         int row =table.getSelectedRow();
-                        row =table.convertRowIndexToModel(row);
 
-                        popupMenuLoja.show(e.getComponent(), e.getX(), e.getY());
-                        int r = table.rowAtPoint(e.getPoint());
-                        table.setRowSelectionInterval(r, r);
+                        if(row!=-1) {
+                            row = table.convertRowIndexToModel(row);
 
-                        System.out.println(table.getModel().getValueAt(row,5).toString());
+                            popupMenuLoja.show(e.getComponent(), e.getX(), e.getY());
+                            int r = table.rowAtPoint(e.getPoint());
+                            table.setRowSelectionInterval(r, r);
+
+                            System.out.println(table.getModel().getValueAt(row, 5).toString());
+                        }
 
                     }
-
-
 
                     else if (interfaceCliente.getLblTabela().getText().equals("Biblioteca de músicas:")){
 
                         int row =table.getSelectedRow();
-                        row =table.convertRowIndexToModel(row);
 
-                        popupMenuBiblioteca.show(e.getComponent(), e.getX(), e.getY());
-                        int r = table.rowAtPoint(e.getPoint());
-                        table.setRowSelectionInterval(r, r);
+                        if (row!=-1) {
+                            row = table.convertRowIndexToModel(row);
 
-                        rockstar.musicaSelecionada(table.getModel().getValueAt(row,4).toString(),table.getModel().getValueAt(row,0).toString());
+                            popupMenuBiblioteca.show(e.getComponent(), e.getX(), e.getY());
+                            int r = table.rowAtPoint(e.getPoint());
+                            table.setRowSelectionInterval(r, r);
 
-                        System.out.println(table.getModel().getValueAt(row,4).toString());;
+                            rockstar.musicaSelecionada(table.getModel().getValueAt(row, 4).toString(), table.getModel().getValueAt(row, 0).toString());
+
+                            System.out.println(table.getModel().getValueAt(row, 4).toString());
+                            ;
+                        }
                     }
                 }
             }
@@ -220,6 +285,9 @@ public class TabelaCliente extends JPanel implements ActionListener {
         listaMusicasAtual=musicas;
         scrollPane.setSize(resizeWidth(465),(listaMusicasAtual.size()+1)*resizeHeight(23));
         model.setRowCount(0);
+
+        setOrdemTabela();
+
         for (int i = 0; i < musicas.size(); i++) {
             model.addRow(new Object[]{"", "", "","",""});
         }
@@ -246,6 +314,8 @@ public class TabelaCliente extends JPanel implements ActionListener {
         listaMusicasAtual=musicas;
         scrollPane.setSize(resizeWidth(465),(listaMusicasAtual.size()+1)*resizeHeight(23));
         model.setRowCount(0);
+
+        setOrdemTabela();
 
         for (int i = 0; i < musicas.size(); i++) {
             model.addRow(new Object[]{"", "", "","","",""});
@@ -283,14 +353,36 @@ public class TabelaCliente extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Object clicked=e.getSource();
 
+
         for (int i=0;i<btnPlaylists.size();i++) {
             if (clicked ==btnPlaylists.get(i)){
+
+                setPlaylist(utilizadorAtual.getPlaylistsProprias().get(i));
+
+                if(playlist.isVisibilidade()){
+                    interfaceCliente.getBtnAlterarVisibilidade().setText("Privada");
+                    interfaceCliente.revalidate();
+                    interfaceCliente.getBtnAlterarVisibilidade().revalidate();
+                    interfaceCliente.repaint();
+                    interfaceCliente.getBtnAlterarVisibilidade().repaint();
+
+                }
+                else{
+                    interfaceCliente.getBtnAlterarVisibilidade().setText("Pública");
+                    interfaceCliente.revalidate();
+                    interfaceCliente.getBtnAlterarVisibilidade().revalidate();
+                    interfaceCliente.repaint();
+                    interfaceCliente.getBtnAlterarVisibilidade().repaint();
+                }
+                interfaceCliente.setLblTabela("Playlist: "+ utilizadorAtual.getPlaylistsProprias().get(i).getNome());
                 String [] headers= {"Nome","Artista","Género","Rating",""};
                 setHeader(headers);
+                setPlaylist(utilizadorAtual.getPlaylistsProprias().get(i));
                 printMusicas(utilizadorAtual.getPlaylistsProprias().get(i).getMusicas());
                 playlist= utilizadorAtual.getPlaylistsProprias().get(i);
-                interfaceCliente.setLblTabela("Playlist: "+ utilizadorAtual.getPlaylistsProprias().get(i).getNome());
                 interfaceCliente.getBtnRemoverPlaylist().setVisible(true);
+                interfaceCliente.getBtnAlterarVisibilidade().setVisible(true);
+                interfaceCliente.getLblAlterarVisibilidade().setVisible(true);
             }
         }
 
@@ -324,6 +416,26 @@ public class TabelaCliente extends JPanel implements ActionListener {
 
     public JPopupMenu getPopupMenuBiblioteca() {
         return popupMenuBiblioteca;
+    }
+
+    public void setPanelCarrinho(PanelCarrinho panelCarrinho) {
+        this.panelCarrinho = panelCarrinho;
+    }
+
+    private void setOrdemTabela(){
+
+        TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(table.getModel());
+        table.setRowSorter(sorter);
+
+        sorter.setSortable(0,true);
+        sorter.setSortable(1,true);
+        sorter.setSortable(2,false);
+        sorter.setSortable(3,false);
+        sorter.setSortable(4,false);
+        if(interfaceCliente.getLblTabela().getText().equals("Loja:")){
+            sorter.setSortable(5,false);
+        }
+
     }
 }
 

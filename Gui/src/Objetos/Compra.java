@@ -21,6 +21,11 @@ public class Compra {
 
         this.listaMusicas = cliente.getCarrinhoDeCompras();
 
+        for (int i=0;i<listaMusicas.size();i++){
+            cliente.addBiblioteca(listaMusicas.get(i));
+        }
+
+
         cliente.setCarrinhoDeCompras(new ArrayList<Musica>());
 
         this.dataCompra = LocalDate.now();
@@ -32,6 +37,8 @@ public class Compra {
         }
 
         this.valorCompra = total;
+
+        cliente.descontarSaldo(valorCompra);
 
         cliente.setComprasEfetuadas(this);
     }
