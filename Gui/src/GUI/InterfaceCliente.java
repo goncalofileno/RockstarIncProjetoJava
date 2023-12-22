@@ -197,6 +197,8 @@ public class InterfaceCliente extends JPanel implements ActionListener {
             utilizadorAtual.getPlaylistsProprias().remove(tabelaCliente.getPlaylist());
             rockstar.removerPlaylist(tabelaCliente.getPlaylist());
             panelPlaylists.printPlaylists(utilizadorAtual.getPlaylistsProprias());
+            String [] headers= {"Nome","Artista","Género","Rating",""};
+            tabelaCliente.setHeader(headers);
             tabelaCliente.setPanelPlaylists(panelPlaylists);
             tabelaCliente.printMusicas(utilizadorAtual.getBiblioteca());
             lblTabela.setText("Biblioteca de músicas");

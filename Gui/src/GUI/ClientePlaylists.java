@@ -186,6 +186,7 @@ public class ClientePlaylists extends JPanel implements MouseListener, ActionLis
                     rockstar.addPlaylist(playlist);
                     utilizadorAtual.addPlaylist(playlist);
                     printPlaylists(utilizadorAtual.getPlaylistsProprias());
+                    panelCriarPlaylist.getTxtNome().setText("");
                     frameCriarPlaylist.dispatchEvent(new WindowEvent(frameCriarPlaylist, WindowEvent.WINDOW_CLOSING));
                     tabelaCliente.setPanelPlaylists(this);
                     JOptionPane.showMessageDialog(frameCriarPlaylist, "A playlist " + playlist.getNome() + " foi criada");

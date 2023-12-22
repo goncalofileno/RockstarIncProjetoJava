@@ -285,7 +285,7 @@ public class TabelaCliente extends JPanel implements ActionListener {
 
         for (int i=0;i<btnPlaylists.size();i++) {
             if (clicked ==btnPlaylists.get(i)){
-                String [] headers= {"Nome","Artista","Género","Rating"};
+                String [] headers= {"Nome","Artista","Género","Rating",""};
                 setHeader(headers);
                 printMusicas(utilizadorAtual.getPlaylistsProprias().get(i).getMusicas());
                 playlist= utilizadorAtual.getPlaylistsProprias().get(i);
