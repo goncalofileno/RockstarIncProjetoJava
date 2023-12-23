@@ -13,7 +13,7 @@ public class Compra {
     //////////////////////////////////////////CONSTRUTORES//////////////////////////////////////////////////////////////
 
     /**
-     *Contrutor de compra, que ao gerar uma nova compra irá calcular o seu valor puxando o ultimo preço de cada música
+     * Contrutor de compra, que ao gerar uma nova compra irá calcular o seu valor puxando o ultimo preço de cada música
      * que está inserida no lista de músicas da mesma compra.
      */
     public Compra(Cliente cliente, ArrayList<Musica> listaMusicas) {
@@ -21,10 +21,9 @@ public class Compra {
 
         this.listaMusicas = cliente.getCarrinhoDeCompras();
 
-        for (int i=0;i<listaMusicas.size();i++){
+        for (int i = 0; i < listaMusicas.size(); i++) {
             cliente.addBiblioteca(listaMusicas.get(i));
         }
-
 
         cliente.setCarrinhoDeCompras(new ArrayList<Musica>());
 
@@ -44,16 +43,12 @@ public class Compra {
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////GETTTERS//////////////////////////////////////////////////////////////////
-
-    //Getters
     public Cliente getCliente() {
         return cliente;
     }
-
     public LocalDate getDataCompra() {
         return dataCompra;
     }
-
     public double getValorCompra() {
         return valorCompra;
     }

@@ -15,12 +15,10 @@ public class Musica {
     private Album album;
     private int vendas;
     private double faturacao;
-
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////CONSTRUTORES//////////////////////////////////////////////////////////////
-
     /**
-     * Construtor cria musicas sem album atribuido (singles)
+     * Construtor criado para criar Músicas sem Album atribuído, ou seja Singles.
      */
     public Musica(String titulo, Artista compositor, String genero, double valor) {
 
@@ -41,9 +39,8 @@ public class Musica {
 
         compositor.addSingles(this);
     }
-
     /**
-     * Construtor cria musica com album (musica pertencente a album)
+     * Construtor criado para criar músicas com album já atribuido.
      */
     public Musica(String titulo, Artista compositor, String genero, double valor, Album album) {
         this.titulo = titulo;
@@ -77,10 +74,7 @@ public class Musica {
         return genero;
     }
 
-    public double getPrecoMusica() {
-
-        return listaPrecos.get(listaPrecos.size() - 1).getValor();
-    }
+    public double getPrecoMusica() {return listaPrecos.get(listaPrecos.size() - 1).getValor();}
 
     public ArrayList<Rating> getListaRatings() {
         return listaRatings;
@@ -90,6 +84,9 @@ public class Musica {
         return listaPrecos;
     }
 
+    /**
+     * Getter criado para devolver um valor médio dos Ratings presentes
+     */
     public double getRatingMedio() {
         int totalRatings = 0;
         for (Rating rating : listaRatings) {
