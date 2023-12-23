@@ -2,6 +2,7 @@ package GUI;
 
 import Objetos.Cliente;
 import Objetos.Compra;
+import Objetos.Musica;
 import Objetos.RockstarInc;
 
 import javax.swing.*;
@@ -9,6 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 
 public class InterfaceCliente extends JPanel implements ActionListener {
     private ClientePlaylists panelPlaylists;
@@ -226,9 +228,18 @@ public class InterfaceCliente extends JPanel implements ActionListener {
             tabelaCliente.setHeader(headers);
             tabelaCliente.setPanelPlaylists(panelPlaylists);
             tabelaCliente.printMusicas(utilizadorAtual.getBiblioteca());
-            lblTabela.setText("Biblioteca de músicas");
-            tabelaCliente.setPlaylist(null);
+            lblTabela.setText("Biblioteca de músicas:");
             btnRemoverPlaylist.setVisible(false);
+            btnAlterarVisibilidade.setVisible(false);
+            lblAlterarVisibilidade.setVisible(false);
+            int indice=tabelaCliente.getPlaylistsPopMenu().indexOf(tabelaCliente.getPlaylist());
+            System.out.println("remover"+tabelaCliente.getMenuBiblioteca11().get(indice).getText());
+            tabelaCliente.getMenuBiblioteca1().remove(tabelaCliente.getMenuBiblioteca11().get(indice));
+
+            tabelaCliente.getMenuBiblioteca11().remove(indice);
+            tabelaCliente.getPlaylistsPopMenu().remove(indice);
+            tabelaCliente.updateActionsListeners();
+            tabelaCliente.setPlaylist(null);
         }
         else if(clicked==btnAlterarVisibilidade){
             if(btnAlterarVisibilidade.getText().equals("Privada")){

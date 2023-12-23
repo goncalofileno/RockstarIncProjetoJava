@@ -29,6 +29,5 @@ public class Playlist extends GrupoDeMusicas{
     public void setVisibilidade(boolean visibilidade) {
         this.visibilidade = visibilidade;
     }
-
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }

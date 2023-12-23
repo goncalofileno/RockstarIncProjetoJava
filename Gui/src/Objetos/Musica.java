@@ -151,6 +151,7 @@ public class Musica {
         this.faturacao = this.faturacao + faturacao;
     }
 
+
     public Rating getRatingCliente(Cliente cliente){
         Rating ratingCliente = null;
         for(Rating rating: listaRatings){
@@ -163,6 +164,11 @@ public class Musica {
 
     public void addRating(Cliente cliente, int avaliacao){
         listaRatings.add(new Rating(cliente, this, avaliacao));
+    }
+
+
+    public boolean isEstadoAtividade() {
+        return estadoAtividade;
     }
 
 }

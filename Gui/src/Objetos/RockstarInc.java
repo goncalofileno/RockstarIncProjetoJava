@@ -190,6 +190,16 @@ public class RockstarInc {
         return listaPesquisada;
     }
 
+    public ArrayList<Musica> musicasVisiveis(){
+        ArrayList<Musica> musicasVisiveis=new ArrayList<>();
+        for (int i=0;i<musicasList.size();i++){
+            if(musicasList.get(i).isEstadoAtividade()){
+                musicasVisiveis.add(musicasList.get(i));
+            }
+        }
+        return musicasVisiveis;
+    }
+
 
 }
 
