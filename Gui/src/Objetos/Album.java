@@ -15,12 +15,21 @@ public class Album extends GrupoDeMusicas{
         this.genero = genero;
         this.artista = artista;
         this.dataLancamento = LocalDate.now();
+
+        artista.addAlbum(this);
     }
+    /**
+     * Contrutor de album sem qualquer musica adicionada, ou seja, cria album vazio.
+     */
     public Album(String nome, String genero, Artista artista) {
         super(nome);
         this.genero = genero;
         this.artista = artista;
         this.dataLancamento = LocalDate.now();
+
+        artista.addAlbum(this);
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////MÉTODOS DIVERSOS////////////////////////////////////////////////////////////////////
+
 }

@@ -38,6 +38,8 @@ public class Musica {
 
         this.vendas = 0;
         this.faturacao = 0.00;
+
+        compositor.addSingles(this);
     }
 
     /**
@@ -47,7 +49,6 @@ public class Musica {
         this.titulo = titulo;
         this.compositor = compositor;
         this.genero = genero;
-
 
         listaPrecos = new ArrayList<>();
         listaPrecos.add(new Preco(valor, LocalDate.now()));
@@ -61,11 +62,12 @@ public class Musica {
         this.vendas = 0;
         this.faturacao = 0.00;
     }
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////GETTERS//////////////////////////////////////////////////////////////////////
-public String getTitulo() {
-    return titulo;
-}
+    public String getTitulo() {
+        return titulo;
+    }
 
     public Artista getCompositor() {
         return compositor;
@@ -75,24 +77,27 @@ public String getTitulo() {
         return genero;
     }
 
-    public double getPrecoMusica(){
+    public double getPrecoMusica() {
 
-       return listaPrecos.get(listaPrecos.size()-1).getValor();
-   }
-   
+        return listaPrecos.get(listaPrecos.size() - 1).getValor();
+    }
+
+    public ArrayList<Rating> getListaRatings() {
+        return listaRatings;
+    }
+
     public ArrayList<Preco> getListaPrecos() {
         return listaPrecos;
     }
 
-    public double getRatingMedio(){
+    public double getRatingMedio() {
         int totalRatings = 0;
-        for(Rating rating: listaRatings){
+        for (Rating rating : listaRatings) {
             totalRatings += rating.getAvaliacao();
         }
-        if (totalRatings>0) {
+        if (totalRatings > 0) {
             return (double) (totalRatings / listaRatings.size());
-        }
-        else {
+        } else {
             return 0;
         }
     }
@@ -108,21 +113,21 @@ public String getTitulo() {
 //////////////////////////////////////////SETTERS///////////////////////////////////////////////////////////////////////
 
     /**
-     *Adiciona um novo preço à música
+     * Adiciona um novo preço à música
      */
-    public void novoPreco(double valor, LocalDate dataPreco){
+    public void novoPreco(double valor, LocalDate dataPreco) {
         listaPrecos.add(new Preco(valor, dataPreco));
     }
 
     /**
      * Adiciona um novo rating à musica
      */
-    public void atribuiRating(Cliente cliente, int valor){
+    public void atribuiRating(Cliente cliente, int valor) {
         listaRatings.add(new Rating(cliente, this, valor));
     }
 
     /**
-     *Altera o titulo da música.
+     * Altera o titulo da música.
      */
     public void setTitulo(String titulo) {
         this.titulo = titulo;
@@ -147,6 +152,20 @@ public String getTitulo() {
      */
     public void setFaturacao(double faturacao) {
         this.faturacao = this.faturacao + faturacao;
+    }
+
+    public Rating getRatingCliente(Cliente cliente){
+        Rating ratingCliente = null;
+        for(Rating rating: listaRatings){
+            if(rating.getCliente().equals(cliente)){
+                ratingCliente = rating;
+            }
+        }
+        return ratingCliente;
+    }
+
+    public void addRating(Cliente cliente, int avaliacao){
+        listaRatings.add(new Rating(cliente, this, avaliacao));
     }
 
 }

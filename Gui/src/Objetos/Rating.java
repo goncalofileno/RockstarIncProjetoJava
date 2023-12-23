@@ -19,5 +19,13 @@ public class Rating {
     public int getAvaliacao() {
         return avaliacao;
     }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public void setAvaliacao(int avaliacao) {
+        this.avaliacao = avaliacao;
+    }
 }

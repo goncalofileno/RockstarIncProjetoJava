@@ -128,5 +128,24 @@ public class Cliente extends Utilizador{
         return precoTotal;
     }
 
+    public boolean verificaRating(Musica musica){
+        for (Rating rating: musica.getListaRatings()){
+            if(rating.getCliente().equals(this)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean adicionaRating(Musica musica, int avaliacao){
+        if(verificaRating(musica)){
+            musica.getRatingCliente(this).setAvaliacao(avaliacao);
+            return true;
+        }else{
+            musica.addRating(this, avaliacao);
+            return false;
+        }
+    }
+
 
 }
