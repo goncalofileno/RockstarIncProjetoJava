@@ -1,23 +1,39 @@
 package GUI;
 
+import GUI.Artista.InterfaceArtista;
+import Objetos.Album;
 import Objetos.Artista;
+import Objetos.RockstarInc;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
+import java.util.ArrayList;
 
 public class LoginPin extends JPanel implements MouseListener, ActionListener {
     private JLabel lblPin;
     private JPasswordField txtPin;
     private JButton btnValidar;
     private JCheckBox checkPin;
-    private Artista artista;
+    private Artista utilizadorAtual;
+    private JFrame frame, frameArtista;
+    private LoginPanel panelLogin;
+    private RockstarInc rockstar;
+    private InterfaceArtista interfaceArtista;
 
-    public LoginPin(Artista artista){
-        this.artista=artista;
+    public LoginPin(RockstarInc rockstar,Artista utilizadorAtual, JFrame frame, JFrame frameArtista, LoginPanel panelLogin){
+        this.utilizadorAtual =utilizadorAtual;
+        this.frame=frame;
+        this.frameArtista=frameArtista;
+        this.panelLogin=panelLogin;
+        this.rockstar=rockstar;
+
+        System.out.println(utilizadorAtual.getUsername());
+
+        ArrayList< Album> albuns=utilizadorAtual.getAlbuns();
+        for(int i=0;i<albuns.size();i++){
+            System.out.println(albuns.get(i).getNome());
+        }
 
         mudarCorRGB(this,50,126,154);
         setLayout(null);
@@ -33,12 +49,6 @@ public class LoginPin extends JPanel implements MouseListener, ActionListener {
         txtPin.setHorizontalAlignment(JPasswordField.CENTER);
         add(txtPin);
 
-        /*txtPin=new JTextField(18);
-        txtPin.setFont(font);
-        txtPin.setBounds(lblPin.getX()+lblPin.getWidth()+2,lblPin.getY(),100,20);
-        txtPin.setHorizontalAlignment(JTextField.CENTER);
-        add(txtPin);*/
-
         btnValidar=new JButton("Validar");
         btnValidar.setFont(font);
         btnValidar.setBounds(resizeWidth(80),resizeHeight(100),resizeWidth(90),resizeHeight(40));
@@ -52,7 +62,6 @@ public class LoginPin extends JPanel implements MouseListener, ActionListener {
         mudarCorRGB(checkPin,50,126,154);
         checkPin.addActionListener(this);
         add(checkPin);
-
 
         //Criar icon para a Rockstar/////
         JLabel imagem=new JLabel();
@@ -109,12 +118,17 @@ public class LoginPin extends JPanel implements MouseListener, ActionListener {
         }
         if (clicked==btnValidar){
             String pin=new String(txtPin.getPassword());
-            if (artista.verificarLoginPin(pin)){
-                JOptionPane.showMessageDialog(this,"Pin correto");
+            if (utilizadorAtual.verificarLoginPin(pin)){
+                panelLogin.setVisible(false);
+                interfaceArtista=new InterfaceArtista(rockstar,utilizadorAtual);
+                frame.setSize(resizeWidth(950),resizeHeight(650));
+                frame.setLocationRelativeTo(null);
+                interfaceArtista.setBounds(0,0,frame.getWidth(),frame.getHeight());
+                frame.add(interfaceArtista);
+                frameArtista.dispatchEvent(new WindowEvent(frameArtista,WindowEvent.WINDOW_CLOSING));
             }
             else JOptionPane.showMessageDialog(this,"O PIN introduzido está incorreto");
         }
-
     }
 
     public JTextField getTxtPin() {

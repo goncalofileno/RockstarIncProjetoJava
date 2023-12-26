@@ -25,10 +25,11 @@ public class RockstarInc {
 
         //////////////////////////////////////VALORES PARA TESTE DA APP/////////////////////////////////////////////////
         addCliente("admin", "admin", "admin");
-        Artista as = new Artista("as", "as", "as", "1111");
+        //Artista as = new Artista("as", "as", "as", "1111");
         addArtista("as", "as", "as", "1111");
 
-        Album album1 = new Album("Rock in Rio", "Rock", as);
+        Album album1 = new Album("Rock in Rio", "Rock", artistasList.get(0));
+        //as.addAlbum(album1);
 
         Artista zecabra = new Artista("zecabra", "zecabra", "Zé Cabra", "1234");
         artistasList.add(zecabra);
@@ -74,7 +75,9 @@ public class RockstarInc {
         musicaPopular.add(deixei);
         musicaPopular.add(casar);
 
-        Album album2 = new Album(musicaPopular, "Popular in Rio", "Popular", as);
+        Album album2 = new Album(musicaPopular, "Popular in Rio", "Popular", artistasList.get(0));
+
+        //as.addAlbum(album2);
 
         Playlist PopPopular = new Playlist(musicaPopPopular, "Musicas de Pop Popular", true);
         Playlist Popular = new Playlist(musicaPopular, "Musica Popular", true);

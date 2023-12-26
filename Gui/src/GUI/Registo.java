@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import Objetos.Cliente;
 import Objetos.RockstarInc;
 
 public class Registo extends JPanel implements ActionListener, MouseListener {

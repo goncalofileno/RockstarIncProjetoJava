@@ -1,5 +1,6 @@
 package GUI;
 
+import GUI.Cliente.InterfaceCliente;
 import Objetos.*;
 
 
@@ -176,7 +177,7 @@ public class LoginPanel extends JPanel implements MouseListener, ActionListener 
                         setPanelClienteVisible(rockstar,(Cliente)utilizadorAtual);
                     }
                     else {
-                        setFramePinArtistaVisible((Artista)utilizadorAtual);
+                        setFramePinArtistaVisible((Artista)utilizadorAtual, frame);
                     }
                 }
                 else {
@@ -203,14 +204,14 @@ public class LoginPanel extends JPanel implements MouseListener, ActionListener 
         this.setVisible(false);
     }
 
-    private void setFramePinArtistaVisible(Artista artista){
+    private void setFramePinArtistaVisible(Artista artista, JFrame frame){
         framePinArtista =new JFrame("PIN");
         framePinArtista.setSize(resizeWidth(250),resizeHeight(200));
         framePinArtista.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         framePinArtista.setLayout(null);
         framePinArtista.setLocationRelativeTo(null);
         framePinArtista.setResizable(false);
-        loginPin=new LoginPin(artista);
+        loginPin=new LoginPin(rockstar,artista, frame, framePinArtista, this);
         loginPin.setBounds(0,0, framePinArtista.getWidth(), frame.getHeight());
         framePinArtista.add(loginPin);
         framePinArtista.setVisible(true);

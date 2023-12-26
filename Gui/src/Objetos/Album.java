@@ -15,7 +15,6 @@ public class Album extends GrupoDeMusicas{
         this.genero = genero;
         this.artista = artista;
         this.dataLancamento = LocalDate.now();
-
         artista.addAlbum(this);
     }
     /**
@@ -26,8 +25,8 @@ public class Album extends GrupoDeMusicas{
         this.genero = genero;
         this.artista = artista;
         this.dataLancamento = LocalDate.now();
-
         artista.addAlbum(this);
+
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////MÉTODOS DIVERSOS////////////////////////////////////////////////////////////////////

@@ -1,14 +1,12 @@
-package GUI;
+package GUI.Cliente;
 
 import Objetos.Cliente;
-import Objetos.Playlist;
 import Objetos.RockstarInc;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
 
 public class CriarPlaylistPanel extends JPanel implements ActionListener {
     private JTextField txtNome;

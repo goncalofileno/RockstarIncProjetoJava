@@ -1,10 +1,10 @@
-package GUI;
+package GUI.Cliente;
+
+import Objetos.RockstarInc;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 
 public class PesquisaPanel extends JPanel {
 
@@ -12,9 +12,15 @@ public class PesquisaPanel extends JPanel {
     private JTextField txtPesquisa;
     private JRadioButton radioArtista, radioTitulo;
     private JButton btnPesquisa;
-    private JPopupMenu popupMenu;
+    private TabelaCliente tabelaCliente;
+    private RockstarInc rockstar;
+    private InterfaceCliente interfaceCliente;
 
-    public PesquisaPanel(){
+    public PesquisaPanel(TabelaCliente tabelaCliente, RockstarInc rockstar, InterfaceCliente interfaceCliente){
+        this.tabelaCliente=tabelaCliente;
+        this.rockstar=rockstar;
+        this.interfaceCliente=interfaceCliente;
+
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
         setSize(resizeWidth(180),resizeHeight(80));
         setLayout(null);
@@ -51,6 +57,33 @@ public class PesquisaPanel extends JPanel {
         btnPesquisa=new JButton("\uD83D\uDD0E");
         btnPesquisa.setBounds(txtPesquisa.getX()+txtPesquisa.getWidth()+resizeWidth(5),txtPesquisa.getY(),resizeWidth(50),resizeHeight(22));
         add(btnPesquisa);
+
+        btnPesquisa.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (radioArtista.isSelected()){
+                    tabelaCliente.setListaMusicasAtual(rockstar.pesquisaArtista(tabelaCliente.getListaMusicasAtual(),txtPesquisa.getText()));
+                    if(interfaceCliente.getLblTabela().getText().equals("Loja:")) {
+
+                        tabelaCliente.printMusicasLoja(tabelaCliente.getListaMusicasAtual());
+                    }
+                    else {
+                        tabelaCliente.printMusicas(tabelaCliente.getListaMusicasAtual());
+                    }
+                    tabelaCliente.setPlaylist(null);
+                }
+                else {
+                    tabelaCliente.setListaMusicasAtual(rockstar.pesquisaTitulo(tabelaCliente.getListaMusicasAtual(),txtPesquisa.getText()));
+                    if(interfaceCliente.getLblTabela().getText().equals("Loja:")) {
+                        tabelaCliente.printMusicasLoja(tabelaCliente.getListaMusicasAtual());
+                    }
+                    else {
+                        tabelaCliente.printMusicas(tabelaCliente.getListaMusicasAtual());
+                    }
+                    tabelaCliente.setPlaylist(null);
+                }
+            }
+        });
     }
     private int resizeWidth(int width ){
         Dimension ecra=Toolkit.getDefaultToolkit().getScreenSize();
@@ -68,5 +101,21 @@ public class PesquisaPanel extends JPanel {
     private void mudarCorRGB(Component componente,int red,int green,int blue){ float[] cor = new float[3];
         cor = Color.RGBtoHSB(red, green, blue, cor);
         componente.setBackground(Color.getHSBColor(cor[0], cor[1], cor[2]));
+    }
+
+    public JTextField getTxtPesquisa() {
+        return txtPesquisa;
+    }
+
+    public JRadioButton getRadioArtista() {
+        return radioArtista;
+    }
+
+    public JRadioButton getRadioTitulo() {
+        return radioTitulo;
+    }
+
+    public JButton getBtnPesquisa() {
+        return btnPesquisa;
     }
 }

@@ -15,6 +15,7 @@ public class Artista extends Utilizador {
         this.albuns = new ArrayList<>();
         this.singles = new ArrayList<>();
         this.pin = pin;
+
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -42,5 +43,29 @@ public class Artista extends Utilizador {
             return true;
         }
         return false;
+    }
+
+    public ArrayList<Album> getAlbuns() {
+        return albuns;
+    }
+
+    public boolean verificarAlbum(String titulo){
+        for (int i=0;i<albuns.size();i++){
+            if(albuns.get(i).getNome().equals(titulo)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public String[] titulosAlbuns(){
+        String[] titulos=new String[albuns.size()+1];
+
+        titulos[0]="Singles";
+
+        for(int i=0;i<albuns.size();i++){
+            titulos[i+1]=albuns.get(i).getNome();
+        }
+        return titulos;
     }
 }
