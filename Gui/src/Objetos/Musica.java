@@ -20,7 +20,7 @@ public class Musica {
     /**
      * Construtor criado para criar Músicas sem Album atribuído, ou seja Singles.
      */
-    public Musica(String titulo, Artista compositor, String genero, double valor) {
+    public Musica(String titulo, Artista compositor, String genero, double valor, boolean estadoAtividade) {
 
         this.titulo = titulo;
         this.compositor = compositor;
@@ -32,7 +32,7 @@ public class Musica {
         listaRatings = new ArrayList<>();
 
         this.dataAdicionada = LocalDate.now();
-        this.estadoAtividade = true;
+        this.estadoAtividade = estadoAtividade;
 
         this.vendas = 0;
         this.faturacao = 0.00;
@@ -42,7 +42,7 @@ public class Musica {
     /**
      * Construtor criado para criar músicas com album já atribuido.
      */
-    public Musica(String titulo, Artista compositor, String genero, double valor, Album album) {
+    public Musica(String titulo, Artista compositor, String genero, double valor, Album album, boolean estadoAtividade) {
         this.titulo = titulo;
         this.compositor = compositor;
         this.genero = genero;
@@ -53,11 +53,12 @@ public class Musica {
         listaRatings = new ArrayList<>();
 
         this.dataAdicionada = LocalDate.now();
-        this.estadoAtividade = true;
+        this.estadoAtividade = estadoAtividade;
 
         this.album = album;
         this.vendas = 0;
         this.faturacao = 0.00;
+        album.addMusica(this);
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -140,8 +141,8 @@ public class Musica {
     /**
      * Incrementa as vendas.
      */
-    public void setVendas(int vendas) {
-        this.vendas = this.vendas + vendas;
+    public void addVendas() {
+        vendas++;
     }
 
     /**

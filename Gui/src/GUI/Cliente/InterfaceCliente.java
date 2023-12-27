@@ -249,7 +249,7 @@ public class InterfaceCliente extends JPanel implements ActionListener {
             utilizadorAtual.limparCarrinho();
         }
         else if(clicked==panelCarrinho.getBtnCheckout()){
-            if(utilizadorAtual.getSaldo()>=utilizadorAtual.getTotalCarrinho()){
+            if(utilizadorAtual.verificarSaldo(utilizadorAtual.getTotalCarrinho())){
                 Compra compra=new Compra(utilizadorAtual,utilizadorAtual.getCarrinhoDeCompras());
                 limparCarrinho();
                 atualizarLblSaldo();

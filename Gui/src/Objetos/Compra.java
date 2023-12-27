@@ -20,20 +20,18 @@ public class Compra {
         this.cliente = cliente;
 
         this.listaMusicas = cliente.getCarrinhoDeCompras();
+        double total = 0;
 
         for (int i = 0; i < listaMusicas.size(); i++) {
             cliente.addBiblioteca(listaMusicas.get(i));
+            total+=listaMusicas.get(i).getPrecoMusica();
+            listaMusicas.get(i).addVendas();
         }
 
         cliente.setCarrinhoDeCompras(new ArrayList<Musica>());
 
         this.dataCompra = LocalDate.now();
 
-        double total = 0;
-
-        for (Musica musica : listaMusicas) {
-            total = total + musica.getPrecoMusica();
-        }
 
         this.valorCompra = total;
 

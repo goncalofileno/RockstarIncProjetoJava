@@ -3,6 +3,7 @@ package GUI.Artista;
 import GUI.Cliente.panelPlaylistAI;
 import Objetos.Album;
 import Objetos.Artista;
+import Objetos.Musica;
 import Objetos.RockstarInc;
 
 import javax.swing.*;
@@ -15,13 +16,13 @@ import java.util.ArrayList;
 public class ArtistaAlbuns extends JPanel implements ActionListener {
     private RockstarInc rockstar;
     private Artista utilizadorAtual;
-    private JLabel lblAlbuns,lblNomeAlbum,lblGenero,lblNomeMusica,lblGeneroMusica,lblAlbum,lblPreco,lblVisibilidade;
+    private JLabel lblAlbuns,lblNomeAlbum,lblGenero,lblNomeMusica,lblGeneroMusica,lblAlbum,lblPreco;
     private JButton btnCriarAlbum, btnCriarMusica, btnBiblioteca,btnCancelarCriarAlbum,btnCriarAlbum2,btnCancelarCriarMusica,btnCriarMusica2;
     private JPanel panelAlbuns,panelCriarAlbum, panelCriarMusica;
     private ArrayList<JButton> btnListaAlbuns;
     private JScrollPane scrollPaneAlbuns;
     private JFrame frmCriarAlbum,frmCriarMusica;
-    private JTextField txtNomeAlbum,txtNomeMusica,txtpreco;
+    private JTextField txtNomeAlbum,txtNomeMusica,txtPreco;
     private JComboBox cmbGenero,cmbGeneroMusica,cmbAlbum;
     private JCheckBox checkVisibilidade;
 
@@ -131,7 +132,7 @@ public class ArtistaAlbuns extends JPanel implements ActionListener {
         panelCriarMusica=new JPanel();
 
         frmCriarMusica.setLayout(null);
-        frmCriarMusica.setSize(resizeWidth(320),resizeHeight(220));
+        frmCriarMusica.setSize(resizeWidth(320),resizeHeight(250));
         frmCriarMusica.setLocationRelativeTo(null);
         frmCriarMusica.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frmCriarMusica.setResizable(false);
@@ -142,7 +143,7 @@ public class ArtistaAlbuns extends JPanel implements ActionListener {
 
         lblNomeMusica=new JLabel("Nome da Música");
         lblNomeMusica.setFont(font);
-        lblNomeMusica.setBounds(resizeWidth(5),resizeHeight(5),resizeWidth(120),resizeHeight(25));
+        lblNomeMusica.setBounds(resizeWidth(5),resizeHeight(5),resizeWidth(110),resizeHeight(25));
         panelCriarMusica.add(lblNomeMusica);
 
         txtNomeMusica =new JTextField(30);
@@ -160,29 +161,42 @@ public class ArtistaAlbuns extends JPanel implements ActionListener {
         cmbGeneroMusica.setBounds(lblGeneroMusica.getX()+lblGeneroMusica.getWidth()+resizeWidth(4),lblGeneroMusica.getY(),resizeWidth(100),resizeHeight(30));
         panelCriarMusica.add(cmbGeneroMusica);
 
-        lblAlbuns=new JLabel("Album");
+        lblAlbuns=new JLabel("Álbum");
         lblAlbuns.setFont(font);
-        lblAlbuns.setBounds(lblGeneroMusica.getX(),lblGeneroMusica.getY()+lblGeneroMusica.getHeight()+resizeHeight(10),resizeWidth(100),resizeHeight(30));
+        lblAlbuns.setBounds(lblGeneroMusica.getX(),lblGeneroMusica.getY()+lblGeneroMusica.getHeight()+resizeHeight(10),resizeWidth(50),resizeHeight(30));
         panelCriarMusica.add(lblAlbuns);
 
-        cmbAlbum=new JComboBox(utilizadorAtual.titulosAlbuns());
+        cmbAlbum=new JComboBox(this.utilizadorAtual.titulosAlbuns());
         cmbAlbum.setFont(font);
-        cmbAlbum.setBounds(lblAlbuns.getX()+lblAlbuns.getWidth()+resizeWidth(4),lblAlbuns.getY(),resizeWidth(100),resizeHeight(30));
+        cmbAlbum.setBounds(lblAlbuns.getX()+lblAlbuns.getWidth()+resizeWidth(4),lblAlbuns.getY(),resizeWidth(125),resizeHeight(30));
         panelCriarMusica.add(cmbAlbum);
 
-        /*btnCancelarCriarMusica=new JButton("Cancelar");
+        lblPreco=new JLabel("Preço");
+        lblPreco.setFont(font);
+        lblPreco.setBounds(lblAlbuns.getX(),lblAlbuns.getY()+lblAlbuns.getHeight()+resizeHeight(10),resizeWidth(50),resizeHeight(30));
+        panelCriarMusica.add(lblPreco);
+
+        txtPreco=new JTextField(20);
+        txtPreco.setFont(font);
+        txtPreco.setBounds(lblPreco.getX()+lblPreco.getWidth()+resizeWidth(1),lblPreco.getY(),resizeWidth(50),resizeHeight(30));
+        panelCriarMusica.add(txtPreco);
+
+        checkVisibilidade=new JCheckBox("Pública");
+        checkVisibilidade.setFont(font);
+        checkVisibilidade.setBounds(txtPreco.getX()+txtPreco.getWidth()+resizeWidth(5),txtPreco.getY(),resizeWidth(100),resizeHeight(30));
+        panelCriarMusica.add(checkVisibilidade);
+
+        btnCancelarCriarMusica=new JButton("Cancelar");
         btnCancelarCriarMusica.setFont(font);
-        btnCancelarCriarMusica.setBounds(lblGeneroMusica.getX(),lblGeneroMusica.getY()+lblGeneroMusica.getHeight()+resizeHeight(6),resizeWidth(100),resizeHeight(30));
+        btnCancelarCriarMusica.setBounds(lblPreco.getX()+resizeWidth(30),lblPreco.getY()+lblPreco.getHeight()+resizeHeight(10),resizeWidth(100),resizeHeight(30));
         btnCancelarCriarMusica.addActionListener(this);
         panelCriarMusica.add(btnCancelarCriarMusica);
 
         btnCriarMusica2=new JButton("Criar");
         btnCriarMusica2.setFont(font);
-        btnCriarMusica2.setBounds(btnCancelarCriarMusica.getX()+btnCancelarCriarMusica.getWidth()+resizeWidth(10),btnCancelarCriarMusica.getY(),btnCancelarCriarMusica.getWidth(),btnCancelarCriarMusica.getHeight());
+        btnCriarMusica2.setBounds(btnCancelarCriarMusica.getX()+btnCancelarCriarMusica.getWidth()+resizeWidth(20),btnCancelarCriarMusica.getY(),btnCancelarCriarMusica.getWidth(),btnCancelarCriarMusica.getHeight());
         btnCriarMusica2.addActionListener(this);
         panelCriarMusica.add(btnCriarMusica2);
-
-         */
 
         frmCriarMusica.add(panelCriarMusica);
     }
@@ -204,9 +218,10 @@ public class ArtistaAlbuns extends JPanel implements ActionListener {
                     printAlbuns(utilizadorAtual.getAlbuns());
                     txtNomeAlbum.setText("");
                     frmCriarAlbum.dispatchEvent(new WindowEvent(frmCriarAlbum, WindowEvent.WINDOW_CLOSING));
+                    updateComboAlbuns(utilizadorAtual.titulosAlbuns());
                 }
             }
-            cmbAlbum=new JComboBox(utilizadorAtual.titulosAlbuns());
+
         }
         else if(clicked==btnCancelarCriarAlbum){
             txtNomeAlbum.setText("");
@@ -214,6 +229,41 @@ public class ArtistaAlbuns extends JPanel implements ActionListener {
         }
         else if(clicked==btnCriarMusica){
             frmCriarMusica.setVisible(true);
+        }
+        else if(clicked==btnCriarMusica2) {
+            try {
+                if (!txtNomeMusica.equals("") && !txtPreco.equals("")) {
+                    if (!utilizadorAtual.verificarMusica(txtNomeMusica.getText())) {
+                        String comboGenero = (String) cmbGenero.getSelectedItem();
+
+                        if (cmbAlbum.getSelectedIndex() == 0) {
+                            Musica musica = new Musica(txtNomeMusica.getText(), utilizadorAtual, comboGenero, Double.valueOf(txtPreco.getText()),checkVisibilidade.isSelected());
+                        } else {
+                            Musica musica = new Musica(txtNomeMusica.getText(), utilizadorAtual, comboGenero, Double.valueOf(txtPreco.getText()), utilizadorAtual.getAlbuns().get(cmbAlbum.getSelectedIndex()),checkVisibilidade.isSelected());
+                        }
+                    } else {
+                        txtNomeMusica.setText("");
+                        JOptionPane.showMessageDialog(frmCriarMusica, "Já tem uma música com este nome");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(frmCriarMusica, "Os dados inseridos são inválidos");
+                }
+            }catch(NumberFormatException f){
+                txtPreco.setText("");
+                JOptionPane.showMessageDialog(frmCriarMusica,"Os dados inseridos são inválidos");
+            }
+
+        }
+        else if(clicked==btnCancelarCriarMusica){
+            txtNomeMusica.setText("");
+            frmCriarMusica.dispatchEvent(new WindowEvent(frmCriarMusica,WindowEvent.WINDOW_CLOSING));
+        }
+    }
+
+    public void updateComboAlbuns(String [] titulosAlbuns ){
+        cmbAlbum.removeAllItems();
+        for (int i=0;i<titulosAlbuns.length;i++){
+            cmbAlbum.addItem(titulosAlbuns[i]);
         }
     }
 

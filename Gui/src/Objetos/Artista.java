@@ -28,6 +28,7 @@ public class Artista extends Utilizador {
     public void addAlbum(Album album) {
         albuns.add(album);
     }
+
     public void addSingles(Musica musica) {
         singles.add(musica);
     }
@@ -58,6 +59,23 @@ public class Artista extends Utilizador {
         return false;
     }
 
+    public boolean verificarMusica(String nomeMusica){
+        for (int i=1;i<albuns.size();i++){
+            for(int j=0;j<albuns.get(i).getMusicas().size();j++) {
+                if (albuns.get(i).getMusicas().get(j).equals(nomeMusica)){
+                    return true;
+                }
+            }
+        }
+
+        for(int i=0;i<singles.size();i++){
+            if(singles.get(i).getTitulo().equals(nomeMusica)){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public String[] titulosAlbuns(){
         String[] titulos=new String[albuns.size()+1];
 
@@ -68,4 +86,5 @@ public class Artista extends Utilizador {
         }
         return titulos;
     }
+
 }

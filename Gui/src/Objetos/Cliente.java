@@ -71,6 +71,13 @@ public class Cliente extends Utilizador {
     /**
      * Metodo criado para descontar o saldo do Cliente, o mesmo recebe um valor e desconta no atributo Saldo do mesmo.
      */
+
+    public boolean verificarSaldo (double precoMusicas){
+        if(saldo>=precoMusicas){
+            return true;
+        }
+        else return false;
+    }
     public void descontarSaldo(double precoMusicas) {
         saldo -= precoMusicas;
     }
@@ -128,6 +135,7 @@ public class Cliente extends Utilizador {
 
         } else {
             biblioteca.add(musica);
+            musica.addVendas();
         }
     }
     /**
