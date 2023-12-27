@@ -26,7 +26,7 @@ public class RockstarInc {
         //////////////////////////////////////VALORES PARA TESTE DA APP/////////////////////////////////////////////////
         addCliente("admin", "admin", "admin");
         //Artista as = new Artista("as", "as", "as", "1111");
-        addArtista("as", "as", "as", "1111");
+        addArtista("as", "as", "assss", "1111");
 
         Album album1 = new Album("Rock in Rio", "Rock", artistasList.get(0));
         //as.addAlbum(album1);
@@ -42,7 +42,7 @@ public class RockstarInc {
         Artista rosinha = new Artista("rosinha", "rosinha", "Rosinha", "1234");
         artistasList.add(rosinha);
 
-        Musica deixei = new Musica("Deixei tudo por ela", zecabra, "Popular", 0.00,true);
+        Musica deixei = new Musica("Deixei tudo por ela", artistasList.get(0), "Popular", 0.00,true);
         musicasList.add(deixei);
         deixei.novoPreco(1.5, LocalDate.now());
         deixei.novoPreco(2.5, LocalDate.now());
@@ -60,9 +60,9 @@ public class RockstarInc {
         musicasList.add(elamexe);
         Musica bacalhau = new Musica("Deixa-me cheirar teu bacalhau", quimbarreiros, "Popular", 3.00,true);
         musicasList.add(bacalhau);
-        Musica casar = new Musica("Qual o melhor dia para casar", quimbarreiros, "Popular", 2.5,true);
+        Musica casar = new Musica("Qual o melhor dia para casar", artistasList.get(0), "Popular", 2.5,true);
         musicasList.add(casar);
-        Musica chupo = new Musica("Eu chupo", rosinha, "Popular", 0.00,true);
+        Musica chupo = new Musica("Eu chupo", artistasList.get(0), "Popular", 0.00,true);
         musicasList.add(chupo);
         Musica pacote = new Musica("Eu levo no pacote", rosinha, "Popular", 1.5,true);
         musicasList.add(pacote);
@@ -75,7 +75,18 @@ public class RockstarInc {
         musicaPopular.add(deixei);
         musicaPopular.add(casar);
 
-        Album album2 = new Album(musicaPopular, "Popular in Rio", "Popular", artistasList.get(0));
+        casar.addVendas();
+        casar.addVendas();
+        chupo.addVendas();
+        chupo.addVendas();
+        chupo.addVendas();
+        chupo.addVendas();
+
+        Album album2 = new Album( "Popular in Rio", "Popular", artistasList.get(0));
+        album2.addMusica(deixei);
+        artistasList.get(0).removerMusicaDeSingles(deixei);
+        album2.addMusica(casar);
+        artistasList.get(0).removerMusicaDeSingles(casar);
 
         //as.addAlbum(album2);
 
@@ -104,6 +115,8 @@ public class RockstarInc {
     public void addPlaylist(Playlist playlist) {
         playlistsList.add(playlist);
     }
+    public void addAlbum(Album album){ albunsList.add(album);}
+    public void addMusica(Musica musica){ musicasList.add(musica);}
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////MÉTODOS DIVERSOS//////////////////////////////////////////////////////////
 

@@ -61,7 +61,6 @@ public class TabelaCliente extends JPanel implements ActionListener {
             }
         };
 
-
         table.getTableHeader().setReorderingAllowed(false);
 
         table.setEnabled(true);
@@ -91,8 +90,6 @@ public class TabelaCliente extends JPanel implements ActionListener {
         scrollPane.setBounds(resizeWidth(0), resizeHeight(0), resizeWidth(465), (listaMusicasAtual.size() + 1) * resizeHeight(23));
         add(scrollPane);
         table.setRowHeight(23);
-
-        alinharTable();
 
         table.getTableHeader().setResizingAllowed(false);
 
@@ -258,9 +255,7 @@ public class TabelaCliente extends JPanel implements ActionListener {
                         frmPrecos.setVisible(true);
                     }
                 }catch(ArrayIndexOutOfBoundsException h){
-            }
-
-
+                }
             }
         });
 
@@ -268,6 +263,7 @@ public class TabelaCliente extends JPanel implements ActionListener {
         popupMenuLoja.add(menuLoja2);
 
         popupMenuLoja.setSize(600, 300);
+
         add(popupMenuLoja);
 
         popupMenuBiblioteca = new JPopupMenu();
@@ -296,7 +292,7 @@ public class TabelaCliente extends JPanel implements ActionListener {
         popupMenuBiblioteca.add(menuBiblioteca1);
         popupMenuBiblioteca.add(menuBiblioteca2);
 
-        popupMenuBiblioteca.setSize(600, 300);
+        popupMenuBiblioteca.setSize(150, 300);
         add(popupMenuBiblioteca);
 
         table.addMouseListener(new MouseListener() {
@@ -335,9 +331,6 @@ public class TabelaCliente extends JPanel implements ActionListener {
                 }
             }
 
-
-
-
             @Override
             public void mousePressed(MouseEvent e) {
             }
@@ -356,8 +349,6 @@ public class TabelaCliente extends JPanel implements ActionListener {
         });
 
     }
-
-
 
     public DefaultTableModel getModel() {
         return model;
@@ -496,8 +487,6 @@ public class TabelaCliente extends JPanel implements ActionListener {
     public JTable getTable() {
         return table;
     }
-
-
 
     public void setListaMusicasAtual(ArrayList<Musica> listaMusicasAtual) {
         this.listaMusicasAtual = listaMusicasAtual;

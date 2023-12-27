@@ -195,13 +195,15 @@ public class LoginPanel extends JPanel implements MouseListener, ActionListener 
         }
     }
     private void setPanelClienteVisible(RockstarInc rockstar,Cliente cliente){
-        panelCliente=new InterfaceCliente(rockstar,cliente);
+        panelCliente=new InterfaceCliente(rockstar,cliente,frame,this);
         frame.setSize(resizeWidth(950),resizeHeight(650));
         panelCliente.setBounds(0,0,frame.getWidth(),frame.getHeight());
         frame.setLocationRelativeTo(null);
         frame.add(panelCliente);
         panelCliente.setVisible(true);
         this.setVisible(false);
+        txtUsername.setText("");
+        txtPass.setText("");
     }
 
     private void setFramePinArtistaVisible(Artista artista, JFrame frame){
@@ -215,6 +217,8 @@ public class LoginPanel extends JPanel implements MouseListener, ActionListener 
         loginPin.setBounds(0,0, framePinArtista.getWidth(), frame.getHeight());
         framePinArtista.add(loginPin);
         framePinArtista.setVisible(true);
+        txtUsername.setText("");
+        txtPass.setText("");
     }
 
     public JButton getBtnLogin() {

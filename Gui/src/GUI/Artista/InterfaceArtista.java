@@ -1,25 +1,37 @@
 package GUI.Artista;
 
+import GUI.Cliente.TabelaCliente;
+import GUI.LoginPanel;
 import Objetos.Artista;
+import Objetos.Musica;
 import Objetos.RockstarInc;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
-public class InterfaceArtista extends JPanel {
+public class InterfaceArtista extends JPanel implements ActionListener {
     private RockstarInc rockstar;
     private Artista utilizadorAtual;
     private ArtistaAlbuns panelAlbuns;
     private JLabel lblUser,lblTabela;
+    private TabelaArtista tabelaArtista;
+    private JButton btnLogout;
+    private  JFrame frame;
+    private LoginPanel panelLogin;
 
-    public InterfaceArtista(RockstarInc rockstar, Artista utilizadorAtual){
+    public InterfaceArtista(RockstarInc rockstar, Artista utilizadorAtual, JFrame frame, LoginPanel panelLogin){
         this.rockstar=rockstar;
         this.utilizadorAtual=utilizadorAtual;
+        this.frame=frame;
+        this.panelLogin=panelLogin;
 
         mudarCorRGB(this,51,153,153);
         setLayout(null);
 
-        panelAlbuns=new ArtistaAlbuns(rockstar,utilizadorAtual);
+        panelAlbuns=new ArtistaAlbuns(rockstar,utilizadorAtual,this);
 
         panelAlbuns.setBounds(resizeWidth(10),resizeHeight(50),resizeWidth(200),resizeHeight(500));
         add(panelAlbuns);
@@ -30,12 +42,30 @@ public class InterfaceArtista extends JPanel {
         lblTabela.setBounds(panelAlbuns.getX()+panelAlbuns.getWidth()+resizeWidth(25),resizeHeight(20),resizeWidth(400),resizeHeight(20));
         add(lblTabela);
 
-        Font font4=new Font("SansSerif",Font.BOLD ,13);
+
         lblUser=new JLabel("Artista: "+utilizadorAtual.getUsername());
-        lblUser.setFont(font4);
+        lblUser.setFont(font3);
         lblUser.setBounds(panelAlbuns.getX()+resizeWidth(10),lblTabela.getY(),resizeWidth(150),lblTabela.getHeight());
         add(lblUser);
 
+
+        tabelaArtista=new TabelaArtista( rockstar, utilizadorAtual, panelAlbuns,this);
+        tabelaArtista.setBounds(lblTabela.getX(),panelAlbuns.getY(),resizeWidth(465),panelAlbuns.getHeight());
+        add(tabelaArtista);
+
+        panelAlbuns.setTabelaArtista(tabelaArtista);
+
+        Font font4=new Font("SansSerif",Font.BOLD ,12);
+        btnLogout=new JButton("Logout");
+        btnLogout.setFont(font4);
+        btnLogout.setBounds(resizeWidth(840),resizeHeight(565),resizeWidth(80),resizeHeight(30));
+        btnLogout.addActionListener(this);
+        add(btnLogout);
+    }
+
+
+    public void setLblTabela(String lblTabela) {
+        this.lblTabela.setText(lblTabela);
     }
 
     private int resizeWidth(int width ){
@@ -55,5 +85,18 @@ public class InterfaceArtista extends JPanel {
     private void mudarCorRGB(Component componente, int red, int green, int blue){ float[] cor = new float[3];
         cor = Color.RGBtoHSB(red, green, blue, cor);
         componente.setBackground(Color.getHSBColor(cor[0], cor[1], cor[2]));
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Object clicked=e.getSource();
+
+        if(clicked==btnLogout){
+            frame.setSize((resizeWidth(500)),resizeHeight(350));
+            panelLogin.setVisible(true);
+            setVisible(false);
+            utilizadorAtual=null;
+            frame.setLocationRelativeTo(null);
+        }
     }
 }

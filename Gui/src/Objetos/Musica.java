@@ -58,7 +58,7 @@ public class Musica {
         this.album = album;
         this.vendas = 0;
         this.faturacao = 0.00;
-        album.addMusica(this);
+        this.album.addMusica(this);
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -138,6 +138,7 @@ public class Musica {
         this.estadoAtividade = estadoAtividade;
     }
 
+
     /**
      * Incrementa as vendas.
      */
@@ -151,8 +152,6 @@ public class Musica {
     public void setFaturacao(double faturacao) {
         this.faturacao = this.faturacao + faturacao;
     }
-
-
     public Rating getRatingCliente(Cliente cliente){
         Rating ratingCliente = null;
         for(Rating rating: listaRatings){
@@ -172,4 +171,7 @@ public class Musica {
         return estadoAtividade;
     }
 
+    public Album getAlbum() {
+        return album;
+    }
 }

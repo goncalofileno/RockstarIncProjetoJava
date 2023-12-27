@@ -29,6 +29,10 @@ public class Artista extends Utilizador {
         albuns.add(album);
     }
 
+    public void removerMusicaDeSingles(Musica musica){
+        singles.remove(musica);
+    }
+
     public void addSingles(Musica musica) {
         singles.add(musica);
     }
@@ -60,9 +64,9 @@ public class Artista extends Utilizador {
     }
 
     public boolean verificarMusica(String nomeMusica){
-        for (int i=1;i<albuns.size();i++){
+        for (int i=0;i<albuns.size();i++){
             for(int j=0;j<albuns.get(i).getMusicas().size();j++) {
-                if (albuns.get(i).getMusicas().get(j).equals(nomeMusica)){
+                if (albuns.get(i).getMusicas().get(j).getTitulo().equals(nomeMusica)){
                     return true;
                 }
             }
@@ -87,4 +91,40 @@ public class Artista extends Utilizador {
         return titulos;
     }
 
+    public ArrayList<Musica> getTop5MusicasVendidas(){
+        ArrayList<Musica> totalMusicas=getTotalMusicas();
+        boolean verificar=false;
+        for (int i=0;i<totalMusicas.size()-1;i++){
+           if(totalMusicas.get(i).getVendas()<totalMusicas.get(i+1).getVendas() ) {
+               verificar=true;
+               Musica aux=totalMusicas.get(i);
+               totalMusicas.set(i,totalMusicas.get(i+1));
+               totalMusicas.set(i+1,aux);
+           }
+           if((i==totalMusicas.size()-2)&& verificar==true){
+               verificar=false;
+               i=-1;
+           }
+        }
+
+        ArrayList<Musica> top5=new ArrayList<>();
+        for (int i=0;i<5;i++){
+            top5.add(totalMusicas.get(i));
+        }
+        return top5;
+    }
+
+    public ArrayList<Musica> getTotalMusicas(){
+        ArrayList<Musica> totalMusicas=new ArrayList<>();
+        for (int i=1;i<albuns.size();i++){
+            for(int j=0;j<albuns.get(i).getMusicas().size();j++) {
+               totalMusicas.add(albuns.get(i).getMusicas().get(j));
+            }
+        }
+
+        for(int i=0;i<singles.size();i++){
+            totalMusicas.add(singles.get(i));
+        }
+      return totalMusicas;
+    }
 }

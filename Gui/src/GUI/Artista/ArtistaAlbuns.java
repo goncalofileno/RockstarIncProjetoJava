@@ -25,12 +25,14 @@ public class ArtistaAlbuns extends JPanel implements ActionListener {
     private JTextField txtNomeAlbum,txtNomeMusica,txtPreco;
     private JComboBox cmbGenero,cmbGeneroMusica,cmbAlbum;
     private JCheckBox checkVisibilidade;
+    private TabelaArtista tabelaArtista;
+    private InterfaceArtista interfaceArtista;
 
 
-    public ArtistaAlbuns(RockstarInc rockstar, Artista utilizadorAtual){
+    public ArtistaAlbuns(RockstarInc rockstar, Artista utilizadorAtual, InterfaceArtista interfaceArtista){
         this.rockstar=rockstar;
         this.utilizadorAtual =utilizadorAtual;
-
+        this.interfaceArtista=interfaceArtista;
 
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
         setSize(resizeWidth(200), resizeHeight(300));
@@ -61,6 +63,7 @@ public class ArtistaAlbuns extends JPanel implements ActionListener {
         btnBiblioteca = new JButton("As suas Músicas");
         btnBiblioteca.setFont(font2);
         btnBiblioteca.setBounds(btnCriarMusica.getX(), btnCriarMusica.getY() + resizeHeight(165), resizeWidth(140), resizeHeight(30));
+        btnBiblioteca.addActionListener(this);
         add(btnBiblioteca);
 
         btnListaAlbuns=new ArrayList<>();
@@ -214,7 +217,7 @@ public class ArtistaAlbuns extends JPanel implements ActionListener {
                     JOptionPane.showMessageDialog(frmCriarAlbum, "Já tem um Álbum com este nome");
                 } else {
                     String comboGenero = (String) cmbGenero.getSelectedItem();
-                    Album album = new Album(txtNomeAlbum.getText(), comboGenero, utilizadorAtual);
+                    rockstar.addAlbum(new Album(txtNomeAlbum.getText(), comboGenero, utilizadorAtual));
                     printAlbuns(utilizadorAtual.getAlbuns());
                     txtNomeAlbum.setText("");
                     frmCriarAlbum.dispatchEvent(new WindowEvent(frmCriarAlbum, WindowEvent.WINDOW_CLOSING));
@@ -235,11 +238,18 @@ public class ArtistaAlbuns extends JPanel implements ActionListener {
                 if (!txtNomeMusica.equals("") && !txtPreco.equals("")) {
                     if (!utilizadorAtual.verificarMusica(txtNomeMusica.getText())) {
                         String comboGenero = (String) cmbGenero.getSelectedItem();
-
                         if (cmbAlbum.getSelectedIndex() == 0) {
-                            Musica musica = new Musica(txtNomeMusica.getText(), utilizadorAtual, comboGenero, Double.valueOf(txtPreco.getText()),checkVisibilidade.isSelected());
+                            rockstar.addMusica(new Musica(txtNomeMusica.getText(), utilizadorAtual, comboGenero, Double.valueOf(txtPreco.getText()),checkVisibilidade.isSelected()));
+                            tabelaArtista.printMusicas(utilizadorAtual.getTotalMusicas());
+                            txtNomeMusica.setText("");
+                            txtPreco.setText("");
+                            frmCriarMusica.dispatchEvent(new WindowEvent(frmCriarMusica,WindowEvent.WINDOW_CLOSING));
                         } else {
-                            Musica musica = new Musica(txtNomeMusica.getText(), utilizadorAtual, comboGenero, Double.valueOf(txtPreco.getText()), utilizadorAtual.getAlbuns().get(cmbAlbum.getSelectedIndex()),checkVisibilidade.isSelected());
+                            rockstar.addMusica(new Musica(txtNomeMusica.getText(), utilizadorAtual, comboGenero, Double.valueOf(txtPreco.getText()), utilizadorAtual.getAlbuns().get(cmbAlbum.getSelectedIndex()-1),checkVisibilidade.isSelected()));
+                            tabelaArtista.printMusicas(utilizadorAtual.getAlbuns().get(cmbAlbum.getSelectedIndex()-1).getMusicas());
+                            txtNomeMusica.setText("");
+                            txtPreco.setText("");
+                            frmCriarMusica.dispatchEvent(new WindowEvent(frmCriarMusica,WindowEvent.WINDOW_CLOSING));
                         }
                     } else {
                         txtNomeMusica.setText("");
@@ -257,6 +267,10 @@ public class ArtistaAlbuns extends JPanel implements ActionListener {
         else if(clicked==btnCancelarCriarMusica){
             txtNomeMusica.setText("");
             frmCriarMusica.dispatchEvent(new WindowEvent(frmCriarMusica,WindowEvent.WINDOW_CLOSING));
+        }
+        else if(clicked==btnBiblioteca){
+            interfaceArtista.setLblTabela("As suas Músicas:");
+            tabelaArtista.printMusicas(utilizadorAtual.getTotalMusicas());
         }
     }
 
@@ -284,6 +298,14 @@ public class ArtistaAlbuns extends JPanel implements ActionListener {
             System.out.println(albuns.get(i).getNome());
             panelAlbuns.add(btnListaAlbuns.get(i));
         }
+    }
+
+    public void setTabelaArtista(TabelaArtista tabelaArtista) {
+        this.tabelaArtista = tabelaArtista;
+    }
+
+    public ArrayList<JButton> getBtnListaAlbuns() {
+        return btnListaAlbuns;
     }
 
     private int resizeWidth(int width ){

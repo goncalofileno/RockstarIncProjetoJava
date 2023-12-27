@@ -1,5 +1,6 @@
 package GUI.Cliente;
 
+import GUI.LoginPanel;
 import Objetos.Cliente;
 import Objetos.Compra;
 import Objetos.RockstarInc;
@@ -15,7 +16,7 @@ public class InterfaceCliente extends JPanel implements ActionListener {
     private PanelCarrinho panelCarrinho;
     private PesquisaPanel panelPesquisa;
     private JLabel lblUser,lblSaldo,lblTabela,lblAlterarVisibilidade;
-    private JButton btnLoja, btnCarregar,btnCancelar,btnCarregar2;
+    private JButton btnLoja, btnCarregar,btnCancelar,btnCarregar2, btnLogout;
     private JButton btnRemoverPlaylist,btnAlterarVisibilidade;
     private TabelaCliente tabelaCliente;
     private JDialog frmCarregamento;
@@ -23,10 +24,14 @@ public class InterfaceCliente extends JPanel implements ActionListener {
     private RockstarInc rockstar;
     private Cliente utilizadorAtual;
     private JTextField txtValor;
+    private JFrame frame;
+    private LoginPanel panelLogin;
 
-    public InterfaceCliente(RockstarInc rockstar, Cliente utilizadorAtual){
+    public InterfaceCliente(RockstarInc rockstar, Cliente utilizadorAtual, JFrame frame, LoginPanel panelLogin){
         this.rockstar=rockstar;
         this.utilizadorAtual=utilizadorAtual;
+        this.frame=frame;
+        this.panelLogin=panelLogin;
 
         mudarCorRGB(this,51,153,153);
         setLayout(null);
@@ -160,6 +165,12 @@ public class InterfaceCliente extends JPanel implements ActionListener {
             }
         });
 
+        btnLogout=new JButton("Logout");
+        btnLogout.setFont(font);
+        btnLogout.setBounds(resizeWidth(840),btnRemoverPlaylist.getY(),resizeWidth(80),resizeHeight(30));
+        btnLogout.addActionListener(this);
+        add(btnLogout);
+
         frmCarregamento.setVisible(false);
         frmCarregamento.add(panelCarregamento);
 
@@ -279,7 +290,13 @@ public class InterfaceCliente extends JPanel implements ActionListener {
                 JOptionPane.showMessageDialog(this,"Dados inválidos");
             }
         }
-
+        else if(clicked==btnLogout){
+            frame.setSize((resizeWidth(500)),resizeHeight(350));
+            setVisible(false);
+            panelLogin.setVisible(true);
+            utilizadorAtual=null;
+            frame.setLocationRelativeTo(null);
+        }
     }
 
     public JButton getBtnCarregar() {

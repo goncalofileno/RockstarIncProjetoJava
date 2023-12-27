@@ -120,7 +120,7 @@ public class LoginPin extends JPanel implements MouseListener, ActionListener {
             String pin=new String(txtPin.getPassword());
             if (utilizadorAtual.verificarLoginPin(pin)){
                 panelLogin.setVisible(false);
-                interfaceArtista=new InterfaceArtista(rockstar,utilizadorAtual);
+                interfaceArtista=new InterfaceArtista(rockstar,utilizadorAtual,frame,panelLogin);
                 frame.setSize(resizeWidth(950),resizeHeight(650));
                 frame.setLocationRelativeTo(null);
                 interfaceArtista.setBounds(0,0,frame.getWidth(),frame.getHeight());

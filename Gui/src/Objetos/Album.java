@@ -16,6 +16,9 @@ public class Album extends GrupoDeMusicas{
         this.artista = artista;
         this.dataLancamento = LocalDate.now();
         artista.addAlbum(this);
+        for(int i=0;i<musicas.size();i++){
+            artista.removerMusicaDeSingles(musicas.get(i));
+        }
     }
     /**
      * Contrutor de album sem qualquer musica adicionada, ou seja, cria album vazio.

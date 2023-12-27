@@ -32,7 +32,6 @@ public class Compra {
 
         this.dataCompra = LocalDate.now();
 
-
         this.valorCompra = total;
 
         cliente.descontarSaldo(valorCompra);
