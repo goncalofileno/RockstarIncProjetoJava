@@ -92,7 +92,9 @@ public class Artista extends Utilizador {
     }
 
     public ArrayList<Musica> getTop5MusicasVendidas(){
-        ArrayList<Musica> totalMusicas=getTotalMusicas();
+        ArrayList<Musica> totalMusicas=new ArrayList<>();
+        totalMusicas.addAll(getTotalMusicas());
+
         boolean verificar=false;
         for (int i=0;i<totalMusicas.size()-1;i++){
            if(totalMusicas.get(i).getVendas()<totalMusicas.get(i+1).getVendas() ) {
@@ -108,6 +110,7 @@ public class Artista extends Utilizador {
         }
 
         ArrayList<Musica> top5=new ArrayList<>();
+
         for (int i=0;i<5;i++){
             top5.add(totalMusicas.get(i));
         }
@@ -126,5 +129,14 @@ public class Artista extends Utilizador {
             totalMusicas.add(singles.get(i));
         }
       return totalMusicas;
+    }
+
+    public int getVendasTotal(){
+        ArrayList<Musica> musicasTotal=getTotalMusicas();
+        int vendasTotal=0;
+        for (int i=0;i<musicasTotal.size();i++){
+            vendasTotal+=musicasTotal.get(i).getVendas();
+        }
+        return vendasTotal;
     }
 }

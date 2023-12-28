@@ -61,7 +61,7 @@ public class panelPlaylistAI extends JPanel implements ActionListener {
         lblGenero.setBounds(txtNumeroMusicas.getX()+txtNumeroMusicas.getWidth()+resizeWidth(4),txtNumeroMusicas.getY(),resizeWidth(50),resizeHeight(30));
         add(lblGenero);
 
-        String[] generos={"Rock","Pop","Rap","Popular","Pop Popular"};
+        String[] generos={"Rock","Pop","Rap","Clássica","Jazz","Metal","Popular","Eletrónica"};
         cmbGenero=new JComboBox(generos);
         cmbGenero.setFont(font);
         cmbGenero.setBounds(lblGenero.getX()+lblGenero.getWidth()+resizeWidth(4),lblGenero.getY(),resizeWidth(100),resizeHeight(30));

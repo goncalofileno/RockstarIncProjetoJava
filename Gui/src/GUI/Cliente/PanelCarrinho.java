@@ -69,11 +69,13 @@ public class PanelCarrinho extends JPanel {
         btnCheckout =new JButton("Checkout");
         btnCheckout.setFont(font);
         btnCheckout.setBounds(lblCarrinho.getX()+resizeWidth(40),lblTotalCompra.getY()+lblTotalCompra.getHeight()+resizeHeight(15),resizeWidth(110),resizeHeight(30));
+        btnCheckout.setEnabled(false);
         add(btnCheckout);
 
         btnReset=new JButton("Reset");
         btnReset.setFont(font);
         btnReset.setBounds(btnCheckout.getX(),btnCheckout.getY()+btnCheckout.getHeight()+resizeHeight(10),btnCheckout.getWidth(),btnCheckout.getHeight());
+        btnReset.setEnabled(false);
         add(btnReset);
 
 

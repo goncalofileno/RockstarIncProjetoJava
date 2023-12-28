@@ -26,6 +26,7 @@ public class Compra {
             cliente.addBiblioteca(listaMusicas.get(i));
             total+=listaMusicas.get(i).getPrecoMusica();
             listaMusicas.get(i).addVendas();
+            listaMusicas.get(i).setFaturacao(listaMusicas.get(i).getPrecoMusica());
         }
 
         cliente.setCarrinhoDeCompras(new ArrayList<Musica>());

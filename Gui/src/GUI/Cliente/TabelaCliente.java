@@ -87,7 +87,13 @@ public class TabelaCliente extends JPanel implements ActionListener {
 
         // Adicionar a tabela à janela
 
-        scrollPane.setBounds(resizeWidth(0), resizeHeight(0), resizeWidth(465), (listaMusicasAtual.size() + 1) * resizeHeight(23));
+        int scrollPaneHeight;
+        if ((listaMusicasAtual.size() + 1) * resizeHeight(23)<=500){
+            scrollPaneHeight=(listaMusicasAtual.size() + 1) * resizeHeight(23);
+        }
+        else scrollPaneHeight=resizeHeight(500);
+
+        scrollPane.setSize(resizeWidth(465), scrollPaneHeight);
         add(scrollPane);
         table.setRowHeight(23);
 
@@ -116,9 +122,12 @@ public class TabelaCliente extends JPanel implements ActionListener {
                                     panelCarrinho.getPanelCarrinho().removeAll();
                                     panelCarrinho.getPanelCarrinho().revalidate();
                                     panelCarrinho.atualizarLblTotalCompra();
+                                    panelCarrinho.getBtnCheckout().setEnabled(true);
+                                    panelCarrinho.getBtnReset().setEnabled(true);
+
                                     for (int i = 0; i < utilizadorAtual.getCarrinhoDeCompras().size(); i++) {
-                                        panelCarrinho.getPanelCarrinho().add(new JLabel(panelCarrinho.getTitulos().get(i)));
-                                        panelCarrinho.getPanelCarrinho().add(new JLabel(panelCarrinho.getPrecos().get(i) + "€"));
+                                        panelCarrinho.getPanelCarrinho().add(new JLabel(panelCarrinho.getTitulos().get(i)+" - "+panelCarrinho.getPrecos().get(i) + "€"));
+                                        panelCarrinho.getPanelCarrinho().add(new JLabel(" "));
                                     }
                                 } else {
                                     JOptionPane.showMessageDialog(interfaceCliente, "Música adicionada com sucesso");
@@ -247,6 +256,7 @@ public class TabelaCliente extends JPanel implements ActionListener {
 
                         ArrayList<Preco> precos = musicaSelecionada.getListaPrecos();
 
+
                         for (int i = 0; i < precos.size(); i++) {
                             panelPrecos.add(new JLabel("        " + precos.get(i).getValor() + "€  -  " + precos.get(i).getDataPreco().toString()));
                             panelPrecos.add(new JLabel("      "));
@@ -262,7 +272,7 @@ public class TabelaCliente extends JPanel implements ActionListener {
         popupMenuLoja.add(menuLoja1);
         popupMenuLoja.add(menuLoja2);
 
-        popupMenuLoja.setSize(600, 300);
+        popupMenuLoja.setSize(0, 0);
 
         add(popupMenuLoja);
 
@@ -292,7 +302,7 @@ public class TabelaCliente extends JPanel implements ActionListener {
         popupMenuBiblioteca.add(menuBiblioteca1);
         popupMenuBiblioteca.add(menuBiblioteca2);
 
-        popupMenuBiblioteca.setSize(150, 300);
+        popupMenuBiblioteca.setSize(0, 0);
         add(popupMenuBiblioteca);
 
         table.addMouseListener(new MouseListener() {
@@ -379,7 +389,14 @@ public class TabelaCliente extends JPanel implements ActionListener {
         setHeader(headers);
 
         listaMusicasAtual = musicas;
-        scrollPane.setSize(resizeWidth(465), (listaMusicasAtual.size() + 1) * resizeHeight(23));
+
+        int scrollPaneHeight;
+        if ((listaMusicasAtual.size() + 1) * resizeHeight(23)<=500){
+            scrollPaneHeight=(listaMusicasAtual.size() + 1) * resizeHeight(23);
+        }
+        else scrollPaneHeight=resizeHeight(500);
+
+        scrollPane.setSize(resizeWidth(465), scrollPaneHeight);
         model.setRowCount(0);
 
         setOrdemTabela();
@@ -411,7 +428,13 @@ public class TabelaCliente extends JPanel implements ActionListener {
 
         listaMusicasAtual=musicas;
 
-        scrollPane.setSize(resizeWidth(465), (listaMusicasAtual.size() + 1) * resizeHeight(23));
+        int scrollPaneHeight;
+        if ((listaMusicasAtual.size() + 1) * resizeHeight(23)<=500){
+            scrollPaneHeight=(listaMusicasAtual.size() + 1) * resizeHeight(23);
+        }
+        else scrollPaneHeight=resizeHeight(500);
+
+        scrollPane.setSize(resizeWidth(465), scrollPaneHeight);
         model.setRowCount(0);
 
         setOrdemTabela();

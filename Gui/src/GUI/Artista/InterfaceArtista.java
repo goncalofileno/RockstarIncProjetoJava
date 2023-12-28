@@ -1,5 +1,7 @@
 package GUI.Artista;
 
+import GUI.Cliente.PanelCarrinho;
+import GUI.Cliente.PesquisaPanel;
 import GUI.Cliente.TabelaCliente;
 import GUI.LoginPanel;
 import Objetos.Artista;
@@ -21,6 +23,8 @@ public class InterfaceArtista extends JPanel implements ActionListener {
     private JButton btnLogout;
     private  JFrame frame;
     private LoginPanel panelLogin;
+    private EstatisticasArtista estatisticasArtista;
+    private PesquisaArtista pesquisaArtista;
 
     public InterfaceArtista(RockstarInc rockstar, Artista utilizadorAtual, JFrame frame, LoginPanel panelLogin){
         this.rockstar=rockstar;
@@ -31,9 +35,13 @@ public class InterfaceArtista extends JPanel implements ActionListener {
         mudarCorRGB(this,51,153,153);
         setLayout(null);
 
-        panelAlbuns=new ArtistaAlbuns(rockstar,utilizadorAtual,this);
+        estatisticasArtista=new EstatisticasArtista(rockstar,utilizadorAtual);
+
+        panelAlbuns=new ArtistaAlbuns(rockstar,utilizadorAtual,this, estatisticasArtista);
 
         panelAlbuns.setBounds(resizeWidth(10),resizeHeight(50),resizeWidth(200),resizeHeight(500));
+        estatisticasArtista.setBounds(resizeWidth(725),panelAlbuns.getY(),resizeWidth(200),resizeHeight(370));
+        add(estatisticasArtista);
         add(panelAlbuns);
 
         Font font3=new Font("SansSerif",Font.BOLD,13);
@@ -49,7 +57,7 @@ public class InterfaceArtista extends JPanel implements ActionListener {
         add(lblUser);
 
 
-        tabelaArtista=new TabelaArtista( rockstar, utilizadorAtual, panelAlbuns,this);
+        tabelaArtista=new TabelaArtista( rockstar, utilizadorAtual, panelAlbuns,this,frame);
         tabelaArtista.setBounds(lblTabela.getX(),panelAlbuns.getY(),resizeWidth(465),panelAlbuns.getHeight());
         add(tabelaArtista);
 
@@ -61,6 +69,12 @@ public class InterfaceArtista extends JPanel implements ActionListener {
         btnLogout.setBounds(resizeWidth(840),resizeHeight(565),resizeWidth(80),resizeHeight(30));
         btnLogout.addActionListener(this);
         add(btnLogout);
+
+
+
+        pesquisaArtista =new PesquisaArtista(tabelaArtista,rockstar,this);
+        pesquisaArtista.setBounds(estatisticasArtista.getX(),estatisticasArtista.getY()+estatisticasArtista.getHeight()+resizeHeight(20),estatisticasArtista.getWidth(),resizeHeight(100));
+        add(pesquisaArtista);
     }
 
 

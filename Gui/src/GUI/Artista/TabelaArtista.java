@@ -1,15 +1,11 @@
 package GUI.Artista;
 
-import GUI.Cliente.ClientePlaylists;
 import Objetos.*;
 
 import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 
 public class TabelaArtista extends JPanel implements ActionListener, MouseListener {
@@ -25,13 +21,25 @@ public class TabelaArtista extends JPanel implements ActionListener, MouseListen
     private Album album;
     private JPopupMenu popmenuArtista;
     private Musica musicaSelecionada;
+    private JDialog frmTitulo,frmPreco;
+    private JPanel panelTitulo,panelPreco;
+    private JButton btnCancelarTitulo,btnTitulo,btnCancelarPreco,btnPreco;
+    private JTextField txtTitulo, txtPreco;
+    private JFrame frame;
 
-    public TabelaArtista(RockstarInc rockstar, Artista utilizadorAtual, ArtistaAlbuns panelAlbuns, InterfaceArtista interfaceArtista) {
+    public TabelaArtista(RockstarInc rockstar, Artista utilizadorAtual, ArtistaAlbuns panelAlbuns, InterfaceArtista interfaceArtista, JFrame frame) {
         this.rockstar = rockstar;
         this.utilizadorAtual = utilizadorAtual;
         this.interfaceArtista = interfaceArtista;
+        this.frame=frame;
 
         setPanelAlbuns(panelAlbuns);
+
+        frmPreco =new JDialog();
+        frmTitulo =new JDialog();
+
+        setFramePreco();
+        setFrameTitulo();
 
         String[] headers = {"Título", "Album", "Rating", "Preço", "Visibilidade"};
         // Criar o modelo da tabela
@@ -65,7 +73,13 @@ public class TabelaArtista extends JPanel implements ActionListener, MouseListen
 
         printMusicas(utilizadorAtual.getTotalMusicas());
 
-        scrollPane.setBounds(resizeWidth(0), resizeHeight(0), resizeWidth(465), (listaMusicasAtual.size() + 1) * resizeHeight(23));
+        int scrollPaneHeight;
+        if ((listaMusicasAtual.size() + 1) * resizeHeight(23)<=500){
+            scrollPaneHeight=(listaMusicasAtual.size() + 1) * resizeHeight(23);
+        }
+        else scrollPaneHeight=resizeHeight(500);
+
+        scrollPane.setBounds(resizeWidth(0), resizeHeight(0), resizeWidth(465), scrollPaneHeight);
         add(scrollPane);
 
         table.setRowHeight(23);
@@ -93,11 +107,64 @@ public class TabelaArtista extends JPanel implements ActionListener, MouseListen
             }
         });
 
+        JMenuItem menuArtista2 =new JMenuItem("Alterar título");
+
+        menuArtista2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int row = table.getSelectedRow();
+
+                if (row != -1 && row < listaMusicasAtual.size()) {
+                    row = table.convertRowIndexToModel(row);
+                    musicaSelecionada = rockstar.musicaSelecionada(utilizadorAtual.getUsername(), table.getModel().getValueAt(row, 0).toString());
+                    txtTitulo.setText(musicaSelecionada.getTitulo());
+                    frame.setEnabled(false);
+                    frmTitulo.setLocationRelativeTo(null);
+                    frmTitulo.setVisible(true);
+                }
+            }
+        });
+
+        JMenuItem menuArtista3 =new JMenuItem("Alterar Preço");
+        menuArtista3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int row = table.getSelectedRow();
+
+                if (row != -1 && row < listaMusicasAtual.size()) {
+                    row = table.convertRowIndexToModel(row);
+                    musicaSelecionada = rockstar.musicaSelecionada(utilizadorAtual.getUsername(), table.getModel().getValueAt(row, 0).toString());
+                    txtPreco.setText(Double.toString(musicaSelecionada.getPrecoMusica()));
+                    frame.setEnabled(false);
+                    frmPreco.setLocationRelativeTo(null);
+                    frmPreco.setVisible(true);
+                }
+            }
+        });
+
         popmenuArtista.add(menuArtista1);
-        popmenuArtista.setSize(resizeWidth(300),resizeHeight(300));
+        popmenuArtista.add(menuArtista2);
+        popmenuArtista.add(menuArtista3);
+        popmenuArtista.setSize(resizeWidth(0),resizeHeight(0));
         add(popmenuArtista);
 
         table.addMouseListener(this);
+
+        frmPreco.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                frame.setEnabled(true);
+            }
+        });
+
+        frmTitulo.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                frame.setEnabled(true);
+            }
+        });
     }
 
     public void setHeader(String[] headers) {
@@ -117,7 +184,14 @@ public class TabelaArtista extends JPanel implements ActionListener, MouseListen
 
     public void printMusicas(ArrayList<Musica> musicas) {
         listaMusicasAtual = musicas;
-        scrollPane.setSize(resizeWidth(465), (listaMusicasAtual.size() + 1) * resizeHeight(23));
+
+        int scrollPaneHeight;
+        if ((listaMusicasAtual.size() + 1) * resizeHeight(23)<=500){
+            scrollPaneHeight=(listaMusicasAtual.size() + 1) * resizeHeight(23);
+        }
+        else scrollPaneHeight=resizeHeight(500);
+
+        scrollPane.setSize(resizeWidth(465), scrollPaneHeight);
         model.setRowCount(0);
 
         setOrdemTabela();
@@ -188,10 +262,44 @@ public class TabelaArtista extends JPanel implements ActionListener, MouseListen
     public void actionPerformed(ActionEvent e) {
         Object clicked = e.getSource();
 
+        if(clicked==btnCancelarTitulo){
+            frame.setEnabled(true);
+            frmTitulo.dispatchEvent(new WindowEvent(frmTitulo,WindowEvent.WINDOW_CLOSING));
+        }
+        else if(clicked==btnTitulo){
+            if(!txtTitulo.getText().isEmpty()) {
+                musicaSelecionada.setTitulo(txtTitulo.getText());
+                printMusicas(listaMusicasAtual);
+                frame.setEnabled(true);
+                frmTitulo.dispatchEvent(new WindowEvent(frmTitulo, WindowEvent.WINDOW_CLOSING));
+            }
+            else JOptionPane.showMessageDialog(interfaceArtista,"Tem de inserir um título na música");
+
+        }
+        else if(clicked==btnCancelarPreco){
+            frame.setEnabled(true);
+            frmPreco.dispatchEvent(new WindowEvent(frmPreco,WindowEvent.WINDOW_CLOSING));
+        }
+        else if(clicked==btnPreco){
+            try {
+                if (txtPreco.getText().matches("\\d+(\\.\\d+)*")) {
+                    if (Double.valueOf(txtPreco.getText()) >= 0) {
+                        musicaSelecionada.novoPreco(Double.valueOf(txtPreco.getText()));
+                        printMusicas(listaMusicasAtual);
+                        frame.setEnabled(true);
+                        frmPreco.dispatchEvent(new WindowEvent(frmPreco, WindowEvent.WINDOW_CLOSING));
+                    } else JOptionPane.showMessageDialog(interfaceArtista, "Dados inseridos inválidos");
+                }
+                else JOptionPane.showMessageDialog(interfaceArtista,"Dados inseridos inválidos");
+            }
+            catch(NumberFormatException j){
+                    JOptionPane.showMessageDialog(interfaceArtista, "Dados inseridos inválidos");
+                }
+        }
         for (int i = 0; i < btnAlbuns.size(); i++) {
             if (clicked == btnAlbuns.get(i)) {
-
                 interfaceArtista.setLblTabela("Album: " + utilizadorAtual.getAlbuns().get(i).getNome());
+                album=utilizadorAtual.getAlbuns().get(i);
                 printMusicas(utilizadorAtual.getAlbuns().get(i).getMusicas());
             }
         }
@@ -216,21 +324,117 @@ public class TabelaArtista extends JPanel implements ActionListener, MouseListen
 
     @Override
     public void mousePressed(MouseEvent e) {
-
     }
-
     @Override
     public void mouseReleased(MouseEvent e) {
-
     }
-
     @Override
     public void mouseEntered(MouseEvent e) {
-
     }
-
     @Override
     public void mouseExited(MouseEvent e) {
+    }
 
+    public ArrayList<Musica> getListaMusicasAtual() {
+        return listaMusicasAtual;
+    }
+
+    public void setListaMusicasAtual(ArrayList<Musica> listaMusicasAtual) {
+        this.listaMusicasAtual = listaMusicasAtual;
+    }
+
+    public void setAlbum(Album album) {
+        this.album = album;
+    }
+
+    public void setFrameTitulo(){
+        frmTitulo.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        frmTitulo.setLayout(null);
+        frmTitulo.setBounds(resizeWidth(1000),resizeHeight(150),resizeWidth(280),resizeHeight(180));
+        frmTitulo.setResizable(false);
+        frmTitulo.setVisible(false);
+        frmTitulo.setLocationRelativeTo(null);
+
+        panelTitulo=new JPanel();
+        panelTitulo.setLayout(null);
+
+        Font font = new Font("SansSerif", Font.BOLD, 12);
+
+        JLabel lblTitulo=new JLabel("Mudar Título");
+        lblTitulo.setFont(font);
+
+        btnCancelarTitulo=new JButton("Cancelar");
+        btnCancelarTitulo.setFont(font);
+        btnCancelarTitulo.addActionListener(this);
+
+        btnTitulo=new JButton("Submeter");
+        btnTitulo.setFont(font);
+        btnTitulo.addActionListener(this);
+
+        txtTitulo=new JTextField(20);
+        txtTitulo.setFont(font);
+
+        lblTitulo.setBounds(resizeWidth(20),resizeHeight(5),resizeWidth(100),resizeHeight(25));
+        panelTitulo.add(lblTitulo);
+
+        txtTitulo.setBounds(lblTitulo.getX(),lblTitulo.getY()+lblTitulo.getHeight()+resizeHeight(5),resizeWidth(180),resizeHeight(21));
+        panelTitulo.add(txtTitulo);
+
+        btnCancelarTitulo.setBounds(lblTitulo.getX(),lblTitulo.getY()+lblTitulo.getHeight()+lblTitulo.getHeight()+resizeHeight(20),resizeWidth(100),resizeHeight(25));
+        panelTitulo.add(btnCancelarTitulo);
+
+        btnTitulo.setBounds(btnCancelarTitulo.getX()+btnCancelarTitulo.getWidth()+resizeWidth(15),btnCancelarTitulo.getY(),btnCancelarTitulo.getWidth(),btnCancelarTitulo.getHeight());
+        panelTitulo.add(btnTitulo);
+
+        mudarCorRGB(panelTitulo,51,153,153);
+
+        panelTitulo.setBounds(resizeWidth(0),resizeHeight(0), frmTitulo.getWidth(), frmTitulo.getHeight());
+
+        frmTitulo.add(panelTitulo);
+    }
+    public void setFramePreco(){
+        frmPreco.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        frmPreco.setLayout(null);
+        frmPreco.setSize(resizeWidth(280),resizeHeight(180));
+        frmPreco.setResizable(false);
+        frmPreco.setVisible(false);
+        frmPreco.setLocationRelativeTo(null);
+
+        panelPreco=new JPanel();
+        panelPreco.setLayout(null);
+
+        Font font = new Font("SansSerif", Font.BOLD, 12);
+
+        JLabel lblPreco=new JLabel("Mudar Preco");
+        lblPreco.setFont(font);
+
+        btnCancelarPreco=new JButton("Cancelar");
+        btnCancelarPreco.setFont(font);
+        btnCancelarPreco.addActionListener(this);
+
+        btnPreco=new JButton("Submeter");
+        btnPreco.setFont(font);
+        btnPreco.addActionListener(this);
+
+        txtPreco=new JTextField(20);
+        txtPreco.setFont(font);
+
+        lblPreco.setBounds(resizeWidth(20),resizeHeight(5),resizeWidth(100),resizeHeight(25));
+        panelPreco.add(lblPreco);
+
+        txtPreco.setBounds(lblPreco.getX(),lblPreco.getY()+lblPreco.getHeight()+resizeHeight(5),resizeWidth(180),resizeHeight(21));
+        panelPreco.add(txtPreco);
+
+        btnCancelarPreco.setBounds(lblPreco.getX(),lblPreco.getY()+lblPreco.getHeight()+lblPreco.getHeight()+resizeHeight(20),resizeWidth(100),resizeHeight(25));
+        panelPreco.add(btnCancelarPreco);
+
+        btnPreco.setBounds(btnCancelarPreco.getX()+btnCancelarPreco.getWidth()+resizeWidth(15),btnCancelarPreco.getY(),btnCancelarPreco.getWidth(),btnCancelarPreco.getHeight());
+        panelPreco.add(btnPreco);
+
+        mudarCorRGB(panelPreco,51,153,153);
+
+        panelPreco.setBounds(resizeWidth(0),resizeHeight(0), frmPreco.getWidth(), frmPreco.getHeight());
+
+        frmPreco.add(panelPreco);
     }
 }

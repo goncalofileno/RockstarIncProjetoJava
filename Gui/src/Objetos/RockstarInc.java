@@ -29,6 +29,7 @@ public class RockstarInc {
         addArtista("as", "as", "assss", "1111");
 
         Album album1 = new Album("Rock in Rio", "Rock", artistasList.get(0));
+        albunsList.add(album1);
         //as.addAlbum(album1);
 
         Artista zecabra = new Artista("zecabra", "zecabra", "Zé Cabra", "1234");
@@ -44,8 +45,8 @@ public class RockstarInc {
 
         Musica deixei = new Musica("Deixei tudo por ela", artistasList.get(0), "Popular", 0.00,true);
         musicasList.add(deixei);
-        deixei.novoPreco(1.5, LocalDate.now());
-        deixei.novoPreco(2.5, LocalDate.now());
+        deixei.novoPreco(1.5);
+        deixei.novoPreco(2.5);
         Musica voltei = new Musica("Voltei para ela", zecabra, "Popular", 0.00,true);
         musicasList.add(voltei);
         Musica aqui = new Musica("Aqui só para ti", marialeal, "Pop Popular", 0.00,true);
@@ -54,8 +55,8 @@ public class RockstarInc {
         musicasList.add(traidora);
         Musica turbinada = new Musica("Turbinada", anamalhoa, "Pop Popular", 2.5,true);
         musicasList.add(turbinada);
-        turbinada.novoPreco(1.5, LocalDate.now());
-        turbinada.novoPreco(1, LocalDate.now());
+        turbinada.novoPreco(1.5);
+        turbinada.novoPreco(1);
         Musica elamexe = new Musica("Ela mexe", anamalhoa, "Pop Popular", 1.5,true);
         musicasList.add(elamexe);
         Musica bacalhau = new Musica("Deixa-me cheirar teu bacalhau", quimbarreiros, "Popular", 3.00,true);
@@ -83,6 +84,7 @@ public class RockstarInc {
         chupo.addVendas();
 
         Album album2 = new Album( "Popular in Rio", "Popular", artistasList.get(0));
+        albunsList.add(album2);
         album2.addMusica(deixei);
         artistasList.get(0).removerMusicaDeSingles(deixei);
         album2.addMusica(casar);
@@ -100,6 +102,8 @@ public class RockstarInc {
         clientesList.get(0).addBiblioteca(traidora);
         clientesList.get(0).addBiblioteca(deixei);
         clientesList.get(0).addBiblioteca(casar);
+
+        getTopArtistasVendidos();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -194,8 +198,9 @@ public class RockstarInc {
 
     public ArrayList<Musica> pesquisaTitulo(ArrayList<Musica> listaDeMusicas, String titulo) {
         ArrayList listaPesquisada = new ArrayList<Musica>();
+        titulo=titulo.toLowerCase();
         for (Musica musica : listaDeMusicas) {
-            if (musica.getTitulo().contains(titulo)) {
+            if (musica.getTitulo().toLowerCase().contains(titulo)) {
                 listaPesquisada.add(musica);
             }
         }
@@ -204,14 +209,27 @@ public class RockstarInc {
 
     public ArrayList<Musica> pesquisaArtista(ArrayList<Musica> listaDeMusicas, String artista) {
         ArrayList listaPesquisada = new ArrayList<Musica>();
+        artista=artista.toLowerCase();
         for (Musica musica : listaDeMusicas) {
-            if (musica.getCompositor().getNome().contains(artista)) {
+            if (musica.getCompositor().getNome().toLowerCase().contains(artista)) {
                 listaPesquisada.add(musica);
             }
         }
         return listaPesquisada;
     }
 
+    public ArrayList<Musica> pesquisaAlbum(ArrayList<Musica> listaDeMusicas, String titulo) {
+        ArrayList listaPesquisada = new ArrayList<Musica>();
+        titulo=titulo.toLowerCase();
+        for (Musica musica : listaDeMusicas) {
+            if(musica.getAlbum()!=null) {
+                if (musica.getAlbum().getNome().toLowerCase().contains(titulo)) {
+                    listaPesquisada.add(musica);
+                }
+            }
+        }
+        return listaPesquisada;
+    }
     public ArrayList<Musica> musicasVisiveis(){
         ArrayList<Musica> musicasVisiveis=new ArrayList<>();
         for (int i=0;i<musicasList.size();i++){
@@ -222,7 +240,98 @@ public class RockstarInc {
         return musicasVisiveis;
     }
 
+    public int getTotalUtil(){
+        int i = 0, j = 0;
+        for(Cliente cliente: clientesList){
+            i = i + 1;
+        }
+        for(Artista artista: artistasList){
+            j = j + 1;
+        }
 
-}
+        return i+j;
+    }
+    public int getTotalMusi(){
+        int i = 0;
+        for(Musica musica: musicasList){
+            i = i + 1;
+        }
+        return i;
+    }
+    public double getTotalValor(){
+        double valor = 0;
+        for(Musica musica: musicasList){
+            valor = valor + musica.getPrecoMusica();
+        }
+        return valor;
+    }
+    public double getFaturacaoTotal(){
+        double faturacao = 0;
+        for(Musica musica: musicasList){
+            faturacao = faturacao + musica.getFaturacao();
+        }
+        return faturacao;
+    }
+
+    public int[] getAlbunsPorGenero(){
+        int[] albunsPorGenero=new int[8];
+
+        for (int i=0;i<albunsList.size();i++){
+            if(albunsList.get(i).getGenero().equals("Rock")){
+                albunsPorGenero[0]++;
+            }
+            else if(albunsList.get(i).getGenero().equals("Rap")){
+                albunsPorGenero[1]++;
+            }
+            else if(albunsList.get(i).getGenero().equals("Pop")){
+                albunsPorGenero[2]++;
+            }
+            else if(albunsList.get(i).getGenero().equals("Clássica")){
+                albunsPorGenero[3]++;
+            }
+            else if(albunsList.get(i).getGenero().equals("Jazz")){
+                albunsPorGenero[4]++;
+            }
+            else if(albunsList.get(i).getGenero().equals("Metal")){
+                albunsPorGenero[5]++;
+            }
+            else if(albunsList.get(i).getGenero().equals("Popular")){
+                albunsPorGenero[6]++;
+            }
+            else if(albunsList.get(i).getGenero().equals("Eletrónica")){
+                albunsPorGenero[7]++;
+            }
+        }
+        return albunsPorGenero;
+    }
+
+    public ArrayList<Artista> getTopArtistasVendidos(){
+        ArrayList<Artista> topArtistas=new ArrayList<>();
+
+            boolean verificar=false;
+            ArrayList<Artista> artistasTotal=new ArrayList<>();
+            artistasTotal.addAll(artistasList);
+
+            for (int i=0;i<artistasTotal.size()-1;i++){
+                if(artistasTotal.get(i).getVendasTotal()<artistasTotal.get(i+1).getVendasTotal() ) {
+                    verificar=true;
+                    Artista aux=artistasTotal.get(i);
+                    artistasTotal.set(i,artistasTotal.get(i+1));
+                    artistasTotal.set(i+1,aux);
+                }
+                if((i==artistasTotal.size()-2)&& verificar==true){
+                    verificar=false;
+                    i=-1;
+                }
+            }
+
+            ArrayList<Artista> top5Artistas=new ArrayList<>();
+            for (int i=0;i<5;i++){
+                top5Artistas.add(artistasTotal.get(i));
+            }
+            return top5Artistas;
+        }
+    }
+
 
 

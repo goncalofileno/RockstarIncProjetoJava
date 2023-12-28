@@ -257,13 +257,18 @@ public class InterfaceCliente extends JPanel implements ActionListener {
         }
         else if(clicked==panelCarrinho.getBtnReset()){
            limparCarrinho();
-            utilizadorAtual.limparCarrinho();
+           utilizadorAtual.limparCarrinho();
+           panelCarrinho.getBtnCheckout().setEnabled(false);
+           panelCarrinho.getBtnReset().setEnabled(false);
+
         }
         else if(clicked==panelCarrinho.getBtnCheckout()){
             if(utilizadorAtual.verificarSaldo(utilizadorAtual.getTotalCarrinho())){
                 Compra compra=new Compra(utilizadorAtual,utilizadorAtual.getCarrinhoDeCompras());
                 limparCarrinho();
                 atualizarLblSaldo();
+                panelCarrinho.getBtnCheckout().setEnabled(false);
+                panelCarrinho.getBtnReset().setEnabled(false);
                 JOptionPane.showMessageDialog(this,"Compra efetuada com sucesso");
             }
             else{

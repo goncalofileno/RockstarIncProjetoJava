@@ -27,7 +27,7 @@ public class Musica {
         this.genero = genero;
 
         listaPrecos = new ArrayList<>();
-        listaPrecos.add(new Preco(valor, LocalDate.now()));
+        listaPrecos.add(new Preco(valor));
 
         listaRatings = new ArrayList<>();
 
@@ -48,7 +48,7 @@ public class Musica {
         this.genero = genero;
 
         listaPrecos = new ArrayList<>();
-        listaPrecos.add(new Preco(valor, LocalDate.now()));
+        listaPrecos.add(new Preco(valor));
 
         listaRatings = new ArrayList<>();
 
@@ -113,10 +113,12 @@ public class Musica {
     /**
      * Adiciona um novo preço à música
      */
-    public void novoPreco(double valor, LocalDate dataPreco) {
-        listaPrecos.add(new Preco(valor, dataPreco));
+    public void novoPreco(double valor) {
+        listaPrecos.add(new Preco(valor));
     }
-
+    //public boolean validarPreco(String valor){
+ //
+    //}
     /**
      * Adiciona um novo rating à musica
      */
