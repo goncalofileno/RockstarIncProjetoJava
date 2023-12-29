@@ -33,23 +33,23 @@ public class RockstarInc implements Serializable {
         albunsList.add(album1);
         //as.addAlbum(album1);
 
-        Artista zecabra = new Artista("zecabra", "zecabra", "Zé Cabra", "1234");
-        artistasList.add(zecabra);
+        //Artista zecabra = new Artista("zecabra", "zecabra", "Zé Cabra", "1234");
+       // artistasList.add(zecabra);
         Artista marialeal = new Artista("marialeal", "marialeal", "Maria Leal", "1234");
         artistasList.add(marialeal);
         Artista anamalhoa = new Artista("anamalhoa", "anamalhoa", "Ana Malhoa", "1234");
-        artistasList.add(anamalhoa);
+        artistasList.add(anamalhoa);/*
         Artista quimbarreiros = new Artista("quimbarreiros", "quimbarreiros", "Quim Barreiros", "1234");
         artistasList.add(quimbarreiros);
         Artista rosinha = new Artista("rosinha", "rosinha", "Rosinha", "1234");
-        artistasList.add(rosinha);
+        artistasList.add(rosinha);*/
 
         Musica deixei = new Musica("Deixei tudo por ela", artistasList.get(0), "Popular", 0.00,true);
         musicasList.add(deixei);
         deixei.novoPreco(1.5);
         deixei.novoPreco(2.5);
-        Musica voltei = new Musica("Voltei para ela", zecabra, "Popular", 0.00,true);
-        musicasList.add(voltei);
+       /* Musica voltei = new Musica("Voltei para ela", zecabra, "Popular", 0.00,true);
+        musicasList.add(voltei);*/
         Musica aqui = new Musica("Aqui só para ti", marialeal, "Pop Popular", 0.00,true);
         musicasList.add(aqui);
         Musica traidora = new Musica("Traidora", marialeal, "Pop Popular", 0.00,true);
@@ -58,16 +58,16 @@ public class RockstarInc implements Serializable {
         musicasList.add(turbinada);
         turbinada.novoPreco(1.5);
         turbinada.novoPreco(1);
-        Musica elamexe = new Musica("Ela mexe", anamalhoa, "Pop Popular", 1.5,true);
+        /*Musica elamexe = new Musica("Ela mexe", anamalhoa, "Pop Popular", 1.5,true);
         musicasList.add(elamexe);
         Musica bacalhau = new Musica("Deixa-me cheirar teu bacalhau", quimbarreiros, "Popular", 3.00,true);
-        musicasList.add(bacalhau);
+        musicasList.add(bacalhau);*/
         Musica casar = new Musica("Qual o melhor dia para casar", artistasList.get(0), "Popular", 2.5,true);
         musicasList.add(casar);
-        Musica chupo = new Musica("Eu chupo", artistasList.get(0), "Popular", 0.00,true);
+       /* Musica chupo = new Musica("Eu chupo", artistasList.get(0), "Popular", 0.00,true);
         musicasList.add(chupo);
         Musica pacote = new Musica("Eu levo no pacote", rosinha, "Popular", 1.5,true);
-        musicasList.add(pacote);
+        musicasList.add(pacote);*/
 
         ArrayList musicaPopPopular = new ArrayList<Musica>();
         musicaPopPopular.add(aqui);
@@ -76,13 +76,6 @@ public class RockstarInc implements Serializable {
         ArrayList musicaPopular = new ArrayList<Musica>();
         musicaPopular.add(deixei);
         musicaPopular.add(casar);
-
-        casar.addVendas();
-        casar.addVendas();
-        chupo.addVendas();
-        chupo.addVendas();
-        chupo.addVendas();
-        chupo.addVendas();
 
         Album album2 = new Album( "Popular in Rio", "Popular", artistasList.get(0));
         albunsList.add(album2);
@@ -326,8 +319,16 @@ public class RockstarInc implements Serializable {
                 }
             }
 
+            int tamanho;
+            if(artistasTotal.size()>=5){
+                tamanho=5;
+            }
+            else {
+                tamanho=artistasTotal.size();
+            }
+
             ArrayList<Artista> top5Artistas=new ArrayList<>();
-            for (int i=0;i<5;i++){
+            for (int i=0;i<tamanho;i++){
                 top5Artistas.add(artistasTotal.get(i));
             }
             return top5Artistas;
@@ -351,14 +352,22 @@ public class RockstarInc implements Serializable {
             }
         }
 
+        int tamanho;
+        if(totalMusicas.size()>=5){
+            tamanho=5;
+        }
+        else {
+            tamanho=totalMusicas.size();
+        }
+
         ArrayList<Musica> top5=new ArrayList<>();
 
-        for (int i=0;i<5;i++){
+        for (int i=0;i<tamanho;i++){
             top5.add(totalMusicas.get(i));
         }
         return top5;
     }
-    }
+}
 
 
 

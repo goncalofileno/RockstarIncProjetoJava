@@ -6,6 +6,7 @@ import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class TabelaCliente extends JPanel implements ActionListener {
@@ -31,11 +32,13 @@ public class TabelaCliente extends JPanel implements ActionListener {
     private Musica musiceSelecionada;
     private JDialog frmRating;
     private PesquisaPanel panelPesquisa;
+    private JFrame frame;
 
-    public TabelaCliente(RockstarInc rockstar, Cliente utilizadorAtual, ClientePlaylists panelPlaylists, InterfaceCliente interfaceCliente) {
+    public TabelaCliente(RockstarInc rockstar, Cliente utilizadorAtual, ClientePlaylists panelPlaylists, InterfaceCliente interfaceCliente,JFrame frame) {
         this.rockstar = rockstar;
         this.utilizadorAtual = utilizadorAtual;
         this.interfaceCliente = interfaceCliente;
+        this.frame=frame;
 
         setPanelPlaylists(panelPlaylists);
 
@@ -199,10 +202,12 @@ public class TabelaCliente extends JPanel implements ActionListener {
         btnCancelar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                frame.setEnabled(true);
                 frmRating.dispatchEvent(new WindowEvent(frmRating,WindowEvent.WINDOW_CLOSING));
             }
         });
 
+        frmRating.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         btnRating.setBounds(btnCancelar.getX()+btnCancelar.getWidth()+resizeWidth(15),btnCancelar.getY(),btnCancelar.getWidth(),btnCancelar.getHeight());
         panelRating.add(btnRating);
         btnRating.addActionListener(new ActionListener() {
@@ -212,15 +217,18 @@ public class TabelaCliente extends JPanel implements ActionListener {
                 try {
                     if (Integer.valueOf(txtRating.getText()) >= 1 && Integer.valueOf(txtRating.getText()) <= 10) {
                         if (utilizadorAtual.adicionaRating(musiceSelecionada, Integer.valueOf(txtRating.getText()))) {
+                            frmRating.dispatchEvent(new WindowEvent(frmRating, WindowEvent.WINDOW_CLOSING));
                             printMusicas(listaMusicasAtual);
                             JOptionPane.showMessageDialog(interfaceCliente, "Rating alterado com sucesso");
-                            frmRating.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+                            txtRating.setText("");
+                            frame.setEnabled(true);
                         } else {
+                            frmRating.dispatchEvent(new WindowEvent(frmRating, WindowEvent.WINDOW_CLOSING));
                             printMusicas(listaMusicasAtual);
                             JOptionPane.showMessageDialog(interfaceCliente, "Rating adicionado com sucesso");
-                            frmRating.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+                            txtRating.setText("");
+                            frame.setEnabled(true);
                         }
-
                     }
                     else{
                         JOptionPane.showMessageDialog(interfaceCliente,"O valor inserido é inválido");
@@ -244,6 +252,7 @@ public class TabelaCliente extends JPanel implements ActionListener {
         menuLoja2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                frame.setEnabled(false);
                 panelPrecos.removeAll();
                 panelPrecos.revalidate();
                 panelPrecos.repaint();
@@ -266,6 +275,14 @@ public class TabelaCliente extends JPanel implements ActionListener {
                     }
                 }catch(ArrayIndexOutOfBoundsException h){
                 }
+            }
+        });
+
+        frmPrecos.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                frame.setEnabled(true);
             }
         });
 
@@ -294,10 +311,18 @@ public class TabelaCliente extends JPanel implements ActionListener {
         menuBiblioteca2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                frame.setEnabled(false);
                 frmRating.setVisible(true);
             }
         });
 
+        frmRating.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                frame.setEnabled(true);
+            }
+        });
 
         popupMenuBiblioteca.add(menuBiblioteca1);
         popupMenuBiblioteca.add(menuBiblioteca2);
@@ -408,8 +433,8 @@ public class TabelaCliente extends JPanel implements ActionListener {
             model.setValueAt(musicas.get(i).getTitulo(), i, 0);
             model.setValueAt(musicas.get(i).getCompositor().getNome(), i, 1);
             model.setValueAt(musicas.get(i).getGenero(), i, 2);
-            if (musicas.get(i).getRatingMedio() > 0) {
-                model.setValueAt(musicas.get(i).getRatingMedio(), i, 3);
+            if (musicas.get(i).getRatingCliente(utilizadorAtual)!=null) {
+                model.setValueAt(musicas.get(i).getRatingCliente(utilizadorAtual).getAvaliacao(), i, 3);
             } else {
                 model.setValueAt("Sem Rating", i, 3);
             }
@@ -447,7 +472,7 @@ public class TabelaCliente extends JPanel implements ActionListener {
             model.setValueAt(musicas.get(i).getCompositor().getNome(), i, 1);
             model.setValueAt(musicas.get(i).getGenero(), i, 2);
             if (musicas.get(i).getRatingMedio() > 0) {
-                model.setValueAt(musicas.get(i).getRatingMedio(), i, 3);
+                model.setValueAt(limitarCasasDecimais(musicas.get(i).getRatingMedio()), i, 3);
             } else {
                 model.setValueAt("Sem Rating", i, 3);
             }
@@ -480,14 +505,14 @@ public class TabelaCliente extends JPanel implements ActionListener {
                 setPlaylist(utilizadorAtual.getPlaylistsProprias().get(i));
 
                 if (playlist.isVisibilidade()) {
-                    interfaceCliente.getBtnAlterarVisibilidade().setText("Privada");
+                    interfaceCliente.getBtnAlterarVisibilidade().setText("Pública");
                     interfaceCliente.revalidate();
                     interfaceCliente.getBtnAlterarVisibilidade().revalidate();
                     interfaceCliente.repaint();
                     interfaceCliente.getBtnAlterarVisibilidade().repaint();
 
                 } else {
-                    interfaceCliente.getBtnAlterarVisibilidade().setText("Pública");
+                    interfaceCliente.getBtnAlterarVisibilidade().setText("Privada");
                     interfaceCliente.revalidate();
                     interfaceCliente.getBtnAlterarVisibilidade().revalidate();
                     interfaceCliente.repaint();
@@ -585,6 +610,11 @@ public class TabelaCliente extends JPanel implements ActionListener {
         if (interfaceCliente.getLblTabela().getText().equals("Loja:")) {
             sorter.setSortable(5, false);
         }
+    }
+
+    public String limitarCasasDecimais(double valor){
+        DecimalFormat df=new DecimalFormat("#.#");
+        return df.format(valor);
     }
 
     public void updateActionsListeners() {

@@ -35,9 +35,9 @@ public class InterfaceArtista extends JPanel implements ActionListener {
         mudarCorRGB(this,51,153,153);
         setLayout(null);
 
-        estatisticasArtista=new EstatisticasArtista(rockstar,utilizadorAtual);
+        estatisticasArtista=new EstatisticasArtista(rockstar,utilizadorAtual,frame);
 
-        panelAlbuns=new ArtistaAlbuns(rockstar,utilizadorAtual,this, estatisticasArtista);
+        panelAlbuns=new ArtistaAlbuns(rockstar,utilizadorAtual,this, estatisticasArtista,frame);
 
         panelAlbuns.setBounds(resizeWidth(10),resizeHeight(50),resizeWidth(200),resizeHeight(500));
         estatisticasArtista.setBounds(resizeWidth(725),panelAlbuns.getY(),resizeWidth(200),resizeHeight(370));
@@ -45,7 +45,7 @@ public class InterfaceArtista extends JPanel implements ActionListener {
         add(panelAlbuns);
 
         Font font3=new Font("SansSerif",Font.BOLD,13);
-        lblTabela=new JLabel("As suas Músicas:");
+        lblTabela=new JLabel("As minhas Músicas:");
         lblTabela.setFont(font3);
         lblTabela.setBounds(panelAlbuns.getX()+panelAlbuns.getWidth()+resizeWidth(25),resizeHeight(20),resizeWidth(400),resizeHeight(20));
         add(lblTabela);

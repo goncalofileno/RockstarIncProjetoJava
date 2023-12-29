@@ -21,7 +21,12 @@ public class LoginPin extends JPanel implements MouseListener, ActionListener {
     private RockstarInc rockstar;
     private InterfaceArtista interfaceArtista;
 
+    /**
+     * Construtor para criar a JPanel LoginPin
+     */
+
     public LoginPin(RockstarInc rockstar,Artista utilizadorAtual, JFrame frame, JFrame frameArtista, LoginPanel panelLogin){
+
         this.utilizadorAtual =utilizadorAtual;
         this.frame=frame;
         this.frameArtista=frameArtista;
@@ -125,6 +130,7 @@ public class LoginPin extends JPanel implements MouseListener, ActionListener {
                 frame.setLocationRelativeTo(null);
                 interfaceArtista.setBounds(0,0,frame.getWidth(),frame.getHeight());
                 frame.add(interfaceArtista);
+                frame.setEnabled(true);
                 frameArtista.dispatchEvent(new WindowEvent(frameArtista,WindowEvent.WINDOW_CLOSING));
             }
             else JOptionPane.showMessageDialog(this,"O PIN introduzido está incorreto");

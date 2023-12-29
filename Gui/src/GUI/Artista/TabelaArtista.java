@@ -6,6 +6,7 @@ import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class TabelaArtista extends JPanel implements ActionListener, MouseListener {
@@ -215,7 +216,7 @@ public class TabelaArtista extends JPanel implements ActionListener, MouseListen
             }
             else  model.setValueAt("Sem Álbum", i, 1);
             if (musicas.get(i).getRatingMedio() > 0) {
-                model.setValueAt(musicas.get(i).getRatingMedio(), i, 2);
+                model.setValueAt(limitarCasasDecimais(musicas.get(i).getRatingMedio()), i, 2);
             } else {
                 model.setValueAt("Sem Rating", i, 2);
             }
@@ -265,6 +266,11 @@ public class TabelaArtista extends JPanel implements ActionListener, MouseListen
         float[] cor = new float[3];
         cor = Color.RGBtoHSB(red, green, blue, cor);
         componente.setBackground(Color.getHSBColor(cor[0], cor[1], cor[2]));
+    }
+
+    public String limitarCasasDecimais(double valor){
+        DecimalFormat df=new DecimalFormat("#.#");
+        return df.format(valor);
     }
 
     @Override

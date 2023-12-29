@@ -21,10 +21,12 @@ public class ClientePlaylists extends JPanel implements MouseListener, ActionLis
     private panelPlaylistAI panelPlaylistAI;
     private RockstarInc rockstar;
     private TabelaCliente tabelaCliente;
+    private JFrame frame;
 
-    public ClientePlaylists(RockstarInc rockstar,Cliente utilizadorAtual) {
+    public ClientePlaylists(RockstarInc rockstar,Cliente utilizadorAtual, JFrame frame) {
         this.utilizadorAtual=utilizadorAtual;
         this.rockstar=rockstar;
+        this.frame=frame;
 
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
         setSize(resizeWidth(200), resizeHeight(300));
@@ -83,6 +85,14 @@ public class ClientePlaylists extends JPanel implements MouseListener, ActionLis
         panelCriarPlaylist.setBounds(0,0,frameCriarPlaylist.getWidth(),frameCriarPlaylist.getHeight());
         frameCriarPlaylist.add(panelCriarPlaylist);
 
+        frameCriarPlaylist.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                frame.setEnabled(true);
+            }
+        });
+
         ////////////////////////////////////////////////////////////
 
         //////////////Criaçao da frame PlaylistAI/////////////////////////////////
@@ -100,6 +110,13 @@ public class ClientePlaylists extends JPanel implements MouseListener, ActionLis
         panelPlaylistAI.getBtnCriar().addActionListener(this);
         framePlaylistAI.add(panelPlaylistAI);
         framePlaylistAI.setVisible(false);
+        framePlaylistAI.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                frame.setEnabled(true);
+            }
+        });
 
         ////////////////////////////////////////////////////////////////////////////
 
@@ -161,6 +178,7 @@ public class ClientePlaylists extends JPanel implements MouseListener, ActionLis
         if (clicked==btnCriarPlaylist){
             frameCriarPlaylist.setLocationRelativeTo(null);
             frameCriarPlaylist.setVisible(true);
+            frame.setEnabled(false);
         }
         else if(clicked==panelCriarPlaylist.getBtnCriar()) {
 
@@ -174,6 +192,7 @@ public class ClientePlaylists extends JPanel implements MouseListener, ActionLis
                     utilizadorAtual.addPlaylist(playlist);
                     printPlaylists(utilizadorAtual.getPlaylistsProprias());
                     panelCriarPlaylist.getTxtNome().setText("");
+                    frame.setEnabled(true);
                     frameCriarPlaylist.dispatchEvent(new WindowEvent(frameCriarPlaylist, WindowEvent.WINDOW_CLOSING));
                     tabelaCliente.setPanelPlaylists(this);
                     tabelaCliente.addPlaylistPopMenu(playlist);
@@ -188,6 +207,7 @@ public class ClientePlaylists extends JPanel implements MouseListener, ActionLis
                     utilizadorAtual.addPlaylist(playlist);
                     printPlaylists(utilizadorAtual.getPlaylistsProprias());
                     panelCriarPlaylist.getTxtNome().setText("");
+                    frame.setEnabled(true);
                     frameCriarPlaylist.dispatchEvent(new WindowEvent(frameCriarPlaylist, WindowEvent.WINDOW_CLOSING));
                     tabelaCliente.setPanelPlaylists(this);
                     tabelaCliente.addPlaylistPopMenu(playlist);
@@ -200,9 +220,11 @@ public class ClientePlaylists extends JPanel implements MouseListener, ActionLis
             }
         }
         else if (clicked==panelCriarPlaylist.getBtnCancelar()){
+            frame.setEnabled(true);
             frameCriarPlaylist.dispatchEvent(new WindowEvent(frameCriarPlaylist,WindowEvent.WINDOW_CLOSING));
         }
         else if(clicked==btnCriadorAI){
+            frame.setEnabled(false);
             framePlaylistAI.setLocationRelativeTo(null);
             framePlaylistAI.setVisible(true);
         }
@@ -219,21 +241,25 @@ public class ClientePlaylists extends JPanel implements MouseListener, ActionLis
                 } else {
                     if (Integer.valueOf(panelPlaylistAI.getTxtNumeroMusicas().getText()) > 0) {
                         Playlist playlistAI = utilizadorAtual.criaPlaylistAI(panelPlaylistAI.getTxtNomePlaylist().getText(), Integer.valueOf(panelPlaylistAI.getTxtNumeroMusicas().getText()), comboGenero, selectedVisibilidade);
-                        if (!utilizadorAtual.verificarQtdMusicas(playlistAI, Integer.valueOf(panelPlaylistAI.getTxtNumeroMusicas().getText()))) {
-                            JOptionPane.showMessageDialog(panelPlaylistAI, "Quantidade de músicas insuficientes. A Playlist foi criada com " + playlistAI.getMusicas().size() + " músicas");
+                        if (playlistAI.getMusicas().size() > 0) {
+                            if (!utilizadorAtual.verificarQtdMusicas(playlistAI, Integer.valueOf(panelPlaylistAI.getTxtNumeroMusicas().getText()))) {
+                                JOptionPane.showMessageDialog(panelPlaylistAI, "Quantidade de músicas insuficientes. A Playlist foi criada com " + playlistAI.getMusicas().size() + " músicas");
+                            }
+                            utilizadorAtual.addPlaylist(playlistAI);
+                            rockstar.addPlaylist(playlistAI);
+                            printPlaylists(utilizadorAtual.getPlaylistsProprias());
+                            tabelaCliente.setPanelPlaylists(this);
+                            panelPlaylistAI.getTxtNomePlaylist().setText("");
+                            panelPlaylistAI.getTxtNumeroMusicas().setText("");
+                            tabelaCliente.addPlaylistPopMenu(playlistAI);
+                            tabelaCliente.getMenuBiblioteca11().add(new JMenuItem(playlistAI.getNome()));
+                            tabelaCliente.getMenuBiblioteca1().add(tabelaCliente.getMenuBiblioteca11().get(tabelaCliente.getMenuBiblioteca11().size() - 1));
+                            tabelaCliente.updateActionsListeners();
+                            frame.setEnabled(true);
+                            framePlaylistAI.dispatchEvent(new WindowEvent(framePlaylistAI, WindowEvent.WINDOW_CLOSING));
                         }
-                        utilizadorAtual.addPlaylist(playlistAI);
-                        rockstar.addPlaylist(playlistAI);
-                        printPlaylists(utilizadorAtual.getPlaylistsProprias());
-                        tabelaCliente.setPanelPlaylists(this);
-                        panelPlaylistAI.getTxtNomePlaylist().setText("");
-                        panelPlaylistAI.getTxtNumeroMusicas().setText("");
-                        tabelaCliente.addPlaylistPopMenu(playlistAI);
-                        tabelaCliente.getMenuBiblioteca11().add(new JMenuItem(playlistAI.getNome()));
-                        tabelaCliente.getMenuBiblioteca1().add(tabelaCliente.getMenuBiblioteca11().get(tabelaCliente.getMenuBiblioteca11().size() - 1));
-                        tabelaCliente.updateActionsListeners();
-                        framePlaylistAI.dispatchEvent(new WindowEvent(framePlaylistAI, WindowEvent.WINDOW_CLOSING));
-                    } else JOptionPane.showMessageDialog(panelPlaylistAI, "Insira um número de músicas válido");
+                        else JOptionPane.showMessageDialog(frame,"Não tem músicas deste género");
+                    }else JOptionPane.showMessageDialog(panelPlaylistAI, "Insira um número de músicas válido");
                 }
             }
             catch(NumberFormatException j){
@@ -241,6 +267,7 @@ public class ClientePlaylists extends JPanel implements MouseListener, ActionLis
             }
         }
         else if(clicked==panelPlaylistAI.getBtnCancelar()){
+            frame.setEnabled(true);
             framePlaylistAI.dispatchEvent(new WindowEvent(framePlaylistAI,WindowEvent.WINDOW_CLOSING));
         }
     }

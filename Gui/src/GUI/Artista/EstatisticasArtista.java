@@ -8,6 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 public class EstatisticasArtista extends JPanel {
@@ -19,9 +21,11 @@ public class EstatisticasArtista extends JPanel {
     private JButton btnTops;
     private JDialog frmTops;
     private JPanel panelTopsMusicas,panelTopsArtistas, panelTops;
-    public EstatisticasArtista(RockstarInc rockstar, Artista utilizadorAtual){
+    private JFrame frame;
+    public EstatisticasArtista(RockstarInc rockstar, Artista utilizadorAtual, JFrame frame){
         this.rockstar=rockstar;
         this.utilizadorAtual=utilizadorAtual;
+        this.frame=frame;
 
         mudarCorRGB(this,155,223,243);
         setLayout(null);
@@ -49,6 +53,7 @@ public class EstatisticasArtista extends JPanel {
 
         updateEstatisticas();
 
+        frmTops=new JDialog();
         btnTops=new JButton("Ver Tops");
         btnTops.setBounds(scroll.getX()+resizeWidth(40),scroll.getY()+scroll.getHeight()+resizeHeight(15),resizeWidth(100),resizeHeight(30));
         btnTops.setFont(font);
@@ -60,6 +65,14 @@ public class EstatisticasArtista extends JPanel {
             }
         });
         add(btnTops);
+
+        frmTops.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                frame.setEnabled(true);
+            }
+        });
 
     }
 
@@ -107,12 +120,12 @@ public class EstatisticasArtista extends JPanel {
     }
 
     private void setFrmTops(){
-        frmTops=new JDialog();
         frmTops.setLayout(null);
         frmTops.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frmTops.setSize(resizeWidth(414),resizeHeight(240));
         frmTops.setLocationRelativeTo(null);
-        //frmTops.setResizable(false);
+        frmTops.setResizable(false);
+        frame.setEnabled(false);
 
         panelTops=new JPanel();
         panelTops.setLayout(null);
@@ -152,8 +165,10 @@ public class EstatisticasArtista extends JPanel {
         for (int i=0;i<topArtistas.size();i++){
             panelTopsArtistas.add(new JLabel("  "+(i+1)+" - "+topArtistas.get(i).getNome()+" - "+topArtistas.get(i).getVendasTotal()));
             panelTopsArtistas.add(Box.createRigidArea(new Dimension(0,3)));
-            panelTopsMusicas.add(new JLabel("  "+(i+1)+" - "+topMusicas.get(i).getTitulo()+" - "+topMusicas.get(i).getVendas()));
-            panelTopsMusicas.add(Box.createRigidArea(new Dimension(0,3)));
+        }
+        for(int i=0;i<topMusicas.size();i++) {
+            panelTopsMusicas.add(new JLabel("  " + (i + 1) + " - " + topMusicas.get(i).getTitulo() + " - " + topMusicas.get(i).getVendas()));
+            panelTopsMusicas.add(Box.createRigidArea(new Dimension(0, 3)));
         }
 
         panelTops.add(scrollTopArtistas);

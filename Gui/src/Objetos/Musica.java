@@ -95,11 +95,12 @@ public class Musica implements Serializable {
             totalRatings += rating.getAvaliacao();
         }
         if (totalRatings > 0) {
-            return (double) (totalRatings / listaRatings.size());
+            return (double)totalRatings / listaRatings.size();
         } else {
             return 0;
         }
     }
+
 
     public int getVendas() {
         return vendas;

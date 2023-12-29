@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class InterfaceCliente extends JPanel implements ActionListener {
@@ -36,7 +37,7 @@ public class InterfaceCliente extends JPanel implements ActionListener {
         mudarCorRGB(this,51,153,153);
         setLayout(null);
 
-        panelPlaylists=new ClientePlaylists(rockstar,utilizadorAtual);
+        panelPlaylists=new ClientePlaylists(rockstar,utilizadorAtual,frame);
         panelPlaylists.setBounds(resizeWidth(10),resizeHeight(50),resizeWidth(200),resizeHeight(500));
         add(panelPlaylists);
 
@@ -50,7 +51,7 @@ public class InterfaceCliente extends JPanel implements ActionListener {
         panelCarrinho.setBounds(resizeWidth(725),panelPlaylists.getY(),resizeWidth(200),resizeHeight(320));
         add(panelCarrinho);
 
-        tabelaCliente=new TabelaCliente( rockstar, utilizadorAtual,panelPlaylists,this);
+        tabelaCliente=new TabelaCliente( rockstar, utilizadorAtual,panelPlaylists,this,frame);
         panelPlaylists.setTabelaCliente(tabelaCliente);
         tabelaCliente.setBounds(lblTabela.getX(),panelPlaylists.getY(),resizeWidth(465),panelPlaylists.getHeight());
         add(tabelaCliente);
@@ -89,15 +90,15 @@ public class InterfaceCliente extends JPanel implements ActionListener {
 
         btnAlterarVisibilidade=new JButton();
         btnAlterarVisibilidade.setFont(font);
-        btnAlterarVisibilidade.setBounds(btnRemoverPlaylist.getX()-resizeWidth(170),btnRemoverPlaylist.getY(),resizeWidth(120),btnRemoverPlaylist.getHeight());
+        btnAlterarVisibilidade.setBounds(btnRemoverPlaylist.getX()-resizeWidth(190),btnRemoverPlaylist.getY(),resizeWidth(120),btnRemoverPlaylist.getHeight());
         btnAlterarVisibilidade.setBorder(BorderFactory.createLineBorder(Color.black));
         btnAlterarVisibilidade.addActionListener(this);
         btnAlterarVisibilidade.setVisible(false);
         add(btnAlterarVisibilidade);
 
-        lblAlterarVisibilidade=new JLabel("Alterar visibilidade para:");
+        lblAlterarVisibilidade=new JLabel("Visibilidade da Playlist:");
         lblAlterarVisibilidade.setFont(font);
-        lblAlterarVisibilidade.setBounds(btnAlterarVisibilidade.getX()-resizeWidth(148),btnRemoverPlaylist.getY(),resizeWidth(140),resizeHeight(30));
+        lblAlterarVisibilidade.setBounds(btnAlterarVisibilidade.getX()-resizeWidth(140),btnRemoverPlaylist.getY(),resizeWidth(140),resizeHeight(30));
         lblAlterarVisibilidade.setVisible(false);
         add(lblAlterarVisibilidade);
 
@@ -120,6 +121,14 @@ public class InterfaceCliente extends JPanel implements ActionListener {
         frmCarregamento.setLayout(null);
         frmCarregamento.setBounds(resizeWidth(1000),resizeHeight(150),resizeWidth(240),resizeHeight(180));
         frmCarregamento.setResizable(false);
+
+        frmCarregamento.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                frame.setEnabled(true);
+            }
+        });
 
         panelCarregamento=new JPanel();
         panelCarregamento.setLayout(null);
@@ -161,6 +170,7 @@ public class InterfaceCliente extends JPanel implements ActionListener {
         btnCancelar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                frame.setEnabled(true);
                 frmCarregamento.dispatchEvent(new WindowEvent(frmCarregamento,WindowEvent.WINDOW_CLOSING));
             }
         });
@@ -200,6 +210,7 @@ public class InterfaceCliente extends JPanel implements ActionListener {
         Object clicked=e.getSource();
 
         if(clicked==btnCarregar){
+            frame.setEnabled(false);
             frmCarregamento.setBounds(resizeWidth(1000),resizeHeight(150),resizeWidth(240),resizeHeight(180));
             frmCarregamento.setVisible(true);
         }
@@ -247,11 +258,11 @@ public class InterfaceCliente extends JPanel implements ActionListener {
         }
         else if(clicked==btnAlterarVisibilidade){
             if(btnAlterarVisibilidade.getText().equals("Privada")){
-                tabelaCliente.getPlaylist().setVisibilidade(false);
+                tabelaCliente.getPlaylist().setVisibilidade(true);
                 btnAlterarVisibilidade.setText("Pública");
             }
             else{
-                tabelaCliente.getPlaylist().setVisibilidade(true);
+                tabelaCliente.getPlaylist().setVisibilidade(false);
                 btnAlterarVisibilidade.setText("Privada");
             }
         }

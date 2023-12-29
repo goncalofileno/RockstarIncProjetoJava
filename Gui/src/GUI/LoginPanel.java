@@ -21,6 +21,11 @@ public class LoginPanel extends JPanel implements MouseListener, ActionListener 
     private LoginPin loginPin;
     private Utilizador utilizadorAtual;
 
+    /**
+     *Construtor para criar a JPanel inicial da aplicação que contem como elementos principais duas caixas de texto para inserir o username e a password do utilizador
+     * e um botão para validar os dados inseridos, e um outro botão para abrir um JPanel de registo para um novo utilizador
+     */
+
     public LoginPanel(RockstarInc rockstar, JFrame frame){
         this.rockstar=rockstar;
         this.frame=frame;
@@ -39,7 +44,6 @@ public class LoginPanel extends JPanel implements MouseListener, ActionListener 
         lblUsername.setFont(font);
         lblPass=new JLabel("          Pass: ");
         lblPass.setFont(font);
-
 
         txtPass =new JPasswordField(18);
         txtPass.setFont(font);
@@ -177,6 +181,7 @@ public class LoginPanel extends JPanel implements MouseListener, ActionListener 
                         setPanelClienteVisible(rockstar,(Cliente)utilizadorAtual);
                     }
                     else {
+                        frame.setEnabled(false);
                         setFramePinArtistaVisible((Artista)utilizadorAtual, frame);
                     }
                 }
@@ -209,7 +214,6 @@ public class LoginPanel extends JPanel implements MouseListener, ActionListener 
     private void setFramePinArtistaVisible(Artista artista, JFrame frame){
         framePinArtista =new JFrame("PIN");
         framePinArtista.setSize(resizeWidth(250),resizeHeight(200));
-        framePinArtista.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         framePinArtista.setLayout(null);
         framePinArtista.setLocationRelativeTo(null);
         framePinArtista.setResizable(false);
@@ -219,6 +223,14 @@ public class LoginPanel extends JPanel implements MouseListener, ActionListener 
         framePinArtista.setVisible(true);
         txtUsername.setText("");
         txtPass.setText("");
+        framePinArtista.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                frame.setEnabled(true);
+            }
+        });
+        framePinArtista.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
 
     public JButton getBtnLogin() {
