@@ -126,8 +126,8 @@ public class EstatisticasArtista extends JPanel {
 
         scrollTopArtistas=new JScrollPane(panelTopsArtistas);
         scrollTopMusicas=new JScrollPane(panelTopsMusicas);
-        scrollTopMusicas.setBounds(resizeWidth(10),resizeHeight(40),resizeWidth(165),resizeHeight(290));
-        scrollTopArtistas.setBounds(resizeWidth(185),scrollTopMusicas.getY(),scrollTopMusicas.getWidth(),scrollTopMusicas.getHeight());
+        scrollTopMusicas.setBounds(resizeWidth(10),resizeHeight(40),resizeWidth(165),resizeHeight(260));
+        scrollTopArtistas.setBounds(resizeWidth(185),scrollTopMusicas.getY(),resizeWidth(140),scrollTopMusicas.getHeight());
 
         Font font = new Font("SansSerif", Font.BOLD, 12);
 
@@ -135,12 +135,11 @@ public class EstatisticasArtista extends JPanel {
         ArrayList<Artista> topArtistas=rockstar.getTopArtistasVendidos();
 
         for (int i=0;i<topArtistas.size();i++){
-            panelTopsArtistas.add(new JLabel((i+1)+" - "+topArtistas.get(i).getNome()+" - "+topArtistas.get(i).getVendasTotal()));
+            panelTopsArtistas.add(new JLabel("  "+(i+1)+" - "+topArtistas.get(i).getNome()+" - "+topArtistas.get(i).getVendasTotal()));
             panelTopsArtistas.add(Box.createRigidArea(new Dimension(0,3)));
-            panelTopsMusicas.add(new JLabel((i+1)+" - "+topMusicas.get(i).getTitulo()+" - "+topMusicas.get(i).getVendas()));
+            panelTopsMusicas.add(new JLabel("  "+(i+1)+" - "+topMusicas.get(i).getTitulo()+" - "+topMusicas.get(i).getVendas()));
             panelTopsMusicas.add(Box.createRigidArea(new Dimension(0,3)));
         }
-
 
         panelTops.add(scrollTopArtistas);
         panelTops.add(scrollTopMusicas);

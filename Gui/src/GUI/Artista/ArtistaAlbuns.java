@@ -74,7 +74,7 @@ public class ArtistaAlbuns extends JPanel implements ActionListener {
         panelAlbuns.setLayout(new BoxLayout(panelAlbuns,BoxLayout.Y_AXIS));
 
         printAlbuns(this.utilizadorAtual.getAlbuns());
-        System.out.println(this.utilizadorAtual.getAlbuns().get(0).getNome());
+        //System.out.println(this.utilizadorAtual.getAlbuns().get(0).getNome());
 
         scrollPaneAlbuns = new JScrollPane(panelAlbuns);
         scrollPaneAlbuns.setBounds(resizeWidth(10), lblAlbuns.getY() + resizeHeight(30), resizeWidth(175), resizeHeight(150));
@@ -222,6 +222,7 @@ public class ArtistaAlbuns extends JPanel implements ActionListener {
                     rockstar.addAlbum(new Album(txtNomeAlbum.getText(), comboGenero, utilizadorAtual));
                     printAlbuns(utilizadorAtual.getAlbuns());
                     estatisticasArtista.updateEstatisticas();
+                    tabelaArtista.setPanelAlbuns(this);
                     txtNomeAlbum.setText("");
                     frmCriarAlbum.dispatchEvent(new WindowEvent(frmCriarAlbum, WindowEvent.WINDOW_CLOSING));
                     updateComboAlbuns(utilizadorAtual.titulosAlbuns());
@@ -246,6 +247,7 @@ public class ArtistaAlbuns extends JPanel implements ActionListener {
                             rockstar.addMusica(new Musica(txtNomeMusica.getText(), utilizadorAtual, comboGenero, Double.valueOf(txtPreco.getText()),checkVisibilidade.isSelected()));
                             tabelaArtista.printMusicas(utilizadorAtual.getTotalMusicas());
                             estatisticasArtista.updateEstatisticas();
+                            interfaceArtista.setLblTabela("As suas Músicas:");
                             txtNomeMusica.setText("");
                             txtPreco.setText("");
                             frmCriarMusica.dispatchEvent(new WindowEvent(frmCriarMusica,WindowEvent.WINDOW_CLOSING));
@@ -254,6 +256,7 @@ public class ArtistaAlbuns extends JPanel implements ActionListener {
                             rockstar.addMusica(new Musica(txtNomeMusica.getText(), utilizadorAtual, comboGenero, Double.valueOf(txtPreco.getText()), utilizadorAtual.getAlbuns().get(cmbAlbum.getSelectedIndex()-1),checkVisibilidade.isSelected()));
                             tabelaArtista.printMusicas(utilizadorAtual.getAlbuns().get(cmbAlbum.getSelectedIndex()-1).getMusicas());
                             estatisticasArtista.updateEstatisticas();
+                            interfaceArtista.setLblTabela("Album: "+utilizadorAtual.getAlbuns().get(cmbAlbum.getSelectedIndex()-1).getNome());
                             txtNomeMusica.setText("");
                             txtPreco.setText("");
                             frmCriarMusica.dispatchEvent(new WindowEvent(frmCriarMusica,WindowEvent.WINDOW_CLOSING));

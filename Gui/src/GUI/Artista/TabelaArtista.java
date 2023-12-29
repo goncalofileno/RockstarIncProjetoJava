@@ -347,6 +347,8 @@ public class TabelaArtista extends JPanel implements ActionListener, MouseListen
         this.album = album;
     }
 
+
+
     public void setFrameTitulo(){
         frmTitulo.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frmTitulo.setLayout(null);
