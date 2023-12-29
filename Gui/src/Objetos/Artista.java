@@ -1,8 +1,9 @@
 package Objetos;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Artista extends Utilizador {
+public class Artista extends Utilizador implements Serializable {
     ///////////////////////////////////ATRIBUTOS////////////////////////////////////////////////////////////////////////
     private String pin;
     private ArrayList<Album> albuns;
@@ -91,48 +92,30 @@ public class Artista extends Utilizador {
         return titulos;
     }
 
-    public ArrayList<Musica> getTop5MusicasVendidas(){
-        ArrayList<Musica> totalMusicas=new ArrayList<>();
-        totalMusicas.addAll(getTotalMusicas());
-
-        boolean verificar=false;
-        for (int i=0;i<totalMusicas.size()-1;i++){
-           if(totalMusicas.get(i).getVendas()<totalMusicas.get(i+1).getVendas() ) {
-               verificar=true;
-               Musica aux=totalMusicas.get(i);
-               totalMusicas.set(i,totalMusicas.get(i+1));
-               totalMusicas.set(i+1,aux);
-           }
-           if((i==totalMusicas.size()-2)&& verificar==true){
-               verificar=false;
-               i=-1;
-           }
-        }
-
-        ArrayList<Musica> top5=new ArrayList<>();
-
-        for (int i=0;i<5;i++){
-            top5.add(totalMusicas.get(i));
-        }
-        return top5;
+    public void removeMusicaSingles(Musica musica){
+        singles.remove(musica);
     }
 
     public ArrayList<Musica> getTotalMusicas(){
         ArrayList<Musica> totalMusicas=new ArrayList<>();
-        for (int i=1;i<albuns.size();i++){
-            for(int j=0;j<albuns.get(i).getMusicas().size();j++) {
-               totalMusicas.add(albuns.get(i).getMusicas().get(j));
-            }
+
+        for (int i=0;i<albuns.size();i++){
+            totalMusicas.addAll(albuns.get(i).getMusicas());
+            //for(int j=0;j<albuns.get(i).getMusicas().size();j++) {
+              // totalMusicas.add(albuns.get(i).getMusicas().get(j));
+           // }
         }
 
-        for(int i=0;i<singles.size();i++){
-            totalMusicas.add(singles.get(i));
-        }
+        totalMusicas.addAll(singles);
+        //for(int i=0;i<singles.size();i++){
+        //    totalMusicas.add(singles.get(i));
+        //}
       return totalMusicas;
     }
 
     public int getVendasTotal(){
-        ArrayList<Musica> musicasTotal=getTotalMusicas();
+        ArrayList<Musica> musicasTotal=new ArrayList<>();
+        musicasTotal.addAll(getTotalMusicas());
         int vendasTotal=0;
         for (int i=0;i<musicasTotal.size();i++){
             vendasTotal+=musicasTotal.get(i).getVendas();

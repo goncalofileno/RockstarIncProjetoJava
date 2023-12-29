@@ -1,9 +1,10 @@
 package Objetos;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Album extends GrupoDeMusicas{
+public class Album extends GrupoDeMusicas implements Serializable {
     ///////////////////////////////////ATRIBUTOS////////////////////////////////////////////////////////////////////////
     private String genero;
     private Artista artista;
@@ -36,5 +37,20 @@ public class Album extends GrupoDeMusicas{
 
     public String getGenero() {
         return genero;
+    }
+    public boolean addMusica(Musica musica) {
+        if(!musica.verificarExistenciaAlbum()) {
+            if (getMusicas().contains(musica)) {
+                return false;
+            } else {
+                getMusicas().add(musica);
+                musica.setAlbum(this);
+                musica.getCompositor().removeMusicaSingles(musica);
+                return true;
+            }
+        }
+        else{
+            return false;
+        }
     }
 }

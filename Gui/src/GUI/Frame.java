@@ -7,6 +7,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.*;
 
 public class Frame extends JFrame implements ActionListener{
     private LoginPanel panelLogin;
@@ -18,7 +21,35 @@ public class Frame extends JFrame implements ActionListener{
 
     public Frame(){
         super("Rockstar");
-        rockstar=new RockstarInc();
+
+        File fileRockstar=new File("rockstar.dat");
+
+        try{
+            //ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileRockstar));
+            //oos.writeObject(new RockstarInc());
+            //oos.close();
+            ObjectInputStream ois=new ObjectInputStream(new FileInputStream(fileRockstar));
+            this.rockstar=(RockstarInc) ois.readObject();
+        }
+        catch (IOException e){
+        }
+        catch(ClassNotFoundException e){
+        }
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                try {
+                    ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileRockstar));
+                    oos.writeObject(rockstar);
+                    oos.close();
+                }
+                catch (IOException u){
+                }
+            }
+        });
+
         setLayout(null);
         setSize((resizeWidth(500)),resizeHeight(350));
         setLocationRelativeTo(null);

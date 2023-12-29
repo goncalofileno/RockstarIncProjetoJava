@@ -1,8 +1,9 @@
 package Objetos;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Preco {
+public class Preco implements Serializable {
     //////////////////////////////////////////ATRIBUTOS/////////////////////////////////////////////////////////////////
     private double valor;
     private LocalDate dataPreco;

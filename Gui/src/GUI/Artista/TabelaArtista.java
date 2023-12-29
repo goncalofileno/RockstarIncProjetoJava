@@ -20,6 +20,8 @@ public class TabelaArtista extends JPanel implements ActionListener, MouseListen
     private InterfaceArtista interfaceArtista;
     private Album album;
     private JPopupMenu popmenuArtista;
+    private JMenuItem menuArtista4;
+    private ArrayList<JMenuItem> menuArtista41;
     private Musica musicaSelecionada;
     private JDialog frmTitulo,frmPreco;
     private JPanel panelTitulo,panelPreco;
@@ -142,9 +144,16 @@ public class TabelaArtista extends JPanel implements ActionListener, MouseListen
             }
         });
 
+        menuArtista4=new JMenu("Adicionar a Album");
+
+        menuArtista41 = new ArrayList<>();
+
+        updatePopMenuArtista();
+
         popmenuArtista.add(menuArtista1);
         popmenuArtista.add(menuArtista2);
         popmenuArtista.add(menuArtista3);
+        popmenuArtista.add(menuArtista4);
         popmenuArtista.setSize(resizeWidth(0),resizeHeight(0));
         add(popmenuArtista);
 
@@ -317,6 +326,7 @@ public class TabelaArtista extends JPanel implements ActionListener, MouseListen
 
                 int r = table.rowAtPoint(e.getPoint());
                 table.setRowSelectionInterval(r, r);
+                musicaSelecionada = rockstar.musicaSelecionada(utilizadorAtual.getUsername(), table.getModel().getValueAt(row, 0).toString());
 
             }
         }
@@ -347,7 +357,29 @@ public class TabelaArtista extends JPanel implements ActionListener, MouseListen
         this.album = album;
     }
 
+    public void updatePopMenuArtista(){
+        menuArtista4.removeAll();
+        menuArtista41.removeAll(menuArtista41);
+        for (int i = 0; i < utilizadorAtual.getAlbuns().size(); i++) {
+            menuArtista41.add(new JMenuItem(utilizadorAtual.getAlbuns().get(i).getNome()));
 
+            Album album=utilizadorAtual.getAlbuns().get(i);
+            menuArtista4.add(menuArtista41.get(i));
+            menuArtista41.get(i).addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if(album.addMusica(musicaSelecionada)){
+                        printMusicas(utilizadorAtual.getTotalMusicas());
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(interfaceArtista,"Esta música já tem um álbum atribuido");
+                    }
+
+                }
+            });
+
+        }
+    }
 
     public void setFrameTitulo(){
         frmTitulo.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);

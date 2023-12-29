@@ -1,9 +1,10 @@
 package Objetos;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Compra {
+public class Compra implements Serializable {
     ///////////////////////////////////ATRIBUTOS////////////////////////////////////////////////////////////////////////
     private Cliente cliente;
     private ArrayList<Musica> listaMusicas;

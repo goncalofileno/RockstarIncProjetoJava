@@ -1,8 +1,9 @@
 package Objetos;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Rating {
+public class Rating implements Serializable {
     //////////////////////////////////////////ATRIBUTOS/////////////////////////////////////////////////////////////////
     private Cliente cliente;
     private Musica musica;

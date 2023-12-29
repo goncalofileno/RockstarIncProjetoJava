@@ -1,8 +1,9 @@
 package Objetos;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public abstract class Utilizador {
+public abstract class Utilizador implements Serializable {
     //////////////////////////////////////////ATRIBUTOS/////////////////////////////////////////////////////////////////
     private String username,pass,nome;
     private LocalDate dataRegisto;

@@ -1,8 +1,10 @@
 package Objetos;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Random;
 
-public class Cliente extends Utilizador {
+public class Cliente extends Utilizador implements Serializable {
     ///////////////////////////////////ATRIBUTOS////////////////////////////////////////////////////////////////////////
     private ArrayList<Musica> carrinhoDeCompras;
     private ArrayList<Musica> biblioteca;
@@ -105,11 +107,22 @@ public class Cliente extends Utilizador {
      * genero, até não encontrar mais ou até o tamanho ser atingido.
      */
     public Playlist criaPlaylistAI(String nome, int quantidade, String genero, boolean visibilidade) {
+        Random random = new Random();
+
+        Playlist playlistGenero = new Playlist(nome, visibilidade);
         Playlist playlistAI = new Playlist(nome, visibilidade);
+
+
         for (Musica musica : biblioteca) {
-            if (musica.getGenero().equals(genero) && (playlistAI.getMusicas().size() < quantidade)) {
-                playlistAI.addMusica(musica);
+            if (musica.getGenero().equals(genero)) {
+                playlistGenero.addMusica(musica);
             }
+        }
+
+        while(playlistAI.getMusicas().size()<quantidade && playlistGenero.getMusicas().size()>0){
+            int i = random.nextInt((playlistGenero.getMusicas().size()));
+            playlistAI.addMusica(playlistGenero.getMusicas().get(i));
+            playlistGenero.getMusicas().remove(i);
         }
         return playlistAI;
     }

@@ -1,8 +1,9 @@
 package Objetos;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Playlist extends GrupoDeMusicas{
+public class Playlist extends GrupoDeMusicas implements Serializable {
     //////////////////////////////////////////ATRIBUTOS/////////////////////////////////////////////////////////////////
     private boolean visibilidade;
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -28,6 +29,16 @@ public class Playlist extends GrupoDeMusicas{
 
     public void setVisibilidade(boolean visibilidade) {
         this.visibilidade = visibilidade;
+    }
+
+    public boolean addMusica(Musica musica) {
+        if (getMusicas().contains(musica)){
+            return false;
+        }
+        else {
+            getMusicas().add(musica);
+            return true;
+        }
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }

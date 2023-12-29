@@ -1,10 +1,11 @@
 package Objetos;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class RockstarInc {
+public class RockstarInc implements Serializable {
 
     ///////////////////////////////////ATRIBUTOS////////////////////////////////////////////////////////////////////////
     private ArrayList<Artista> artistasList;
@@ -240,7 +241,7 @@ public class RockstarInc {
         return musicasVisiveis;
     }
 
-    public int getTotalUtil(){
+    public int getTotalUtilizadores(){
         int i = 0, j = 0;
         for(Cliente cliente: clientesList){
             i = i + 1;
@@ -251,7 +252,7 @@ public class RockstarInc {
 
         return i+j;
     }
-    public int getTotalMusi(){
+    public int getTotalMusicas(){
         int i = 0;
         for(Musica musica: musicasList){
             i = i + 1;
@@ -331,6 +332,32 @@ public class RockstarInc {
             }
             return top5Artistas;
         }
+
+    public ArrayList<Musica> getTop5MusicasVendidas(){
+        ArrayList<Musica> totalMusicas=new ArrayList<>();
+        totalMusicas.addAll(musicasList);
+
+        boolean verificar=false;
+        for (int i=0;i<totalMusicas.size()-1;i++){
+            if(totalMusicas.get(i).getVendas()<totalMusicas.get(i+1).getVendas() ) {
+                verificar=true;
+                Musica aux=totalMusicas.get(i);
+                totalMusicas.set(i,totalMusicas.get(i+1));
+                totalMusicas.set(i+1,aux);
+            }
+            if((i==totalMusicas.size()-2)&& verificar==true){
+                verificar=false;
+                i=-1;
+            }
+        }
+
+        ArrayList<Musica> top5=new ArrayList<>();
+
+        for (int i=0;i<5;i++){
+            top5.add(totalMusicas.get(i));
+        }
+        return top5;
+    }
     }
 
 

@@ -221,6 +221,7 @@ public class ArtistaAlbuns extends JPanel implements ActionListener {
                     String comboGenero = (String) cmbGenero.getSelectedItem();
                     rockstar.addAlbum(new Album(txtNomeAlbum.getText(), comboGenero, utilizadorAtual));
                     printAlbuns(utilizadorAtual.getAlbuns());
+                    tabelaArtista.updatePopMenuArtista();
                     estatisticasArtista.updateEstatisticas();
                     tabelaArtista.setPanelAlbuns(this);
                     txtNomeAlbum.setText("");

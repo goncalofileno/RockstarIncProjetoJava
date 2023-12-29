@@ -1,9 +1,10 @@
 package Objetos;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Musica {
+public class Musica implements Serializable {
     ///////////////////////////////////ATRIBUTOS////////////////////////////////////////////////////////////////////////
     private String titulo;
     private Artista compositor;
@@ -55,10 +56,10 @@ public class Musica {
         this.dataAdicionada = LocalDate.now();
         this.estadoAtividade = estadoAtividade;
 
-        this.album = album;
         this.vendas = 0;
         this.faturacao = 0.00;
-        this.album.addMusica(this);
+        album.addMusica(this);
+        this.album = album;
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -175,5 +176,18 @@ public class Musica {
 
     public Album getAlbum() {
         return album;
+    }
+
+    public void setAlbum(Album album) {
+        this.album = album;
+    }
+
+    public boolean verificarExistenciaAlbum(){
+        if(album==null){
+            return false;
+        }
+        else{
+            return true;
+        }
     }
 }
